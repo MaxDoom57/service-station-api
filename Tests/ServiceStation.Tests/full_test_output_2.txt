@@ -1,0 +1,8 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Shared -> E:\Interwave Solutions\Service station\Shared\bin\Debug\net8.0\Shared.dll
+  Domain -> E:\Interwave Solutions\Service station\Domain\bin\Debug\net8.0\Domain.dll
+  Application -> E:\Interwave Solutions\Service station\Application\bin\Debug\net8.0\Application.dll
+  Infrastructure -> E:\Interwave Solutions\Service station\Infrastructure\bin\Debug\net8.0\Infrastructure.dll
+  ServiceStationApi -> E:\Interwave Solutions\Service station\Api\bin\Debug\net8.0\ServiceStationApi.dll
+E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\FullSystemTests.cs(24,11): error CS8954: Source file can only contain one file-scoped namespace declaration. [E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ServiceStation.Tests.csproj]

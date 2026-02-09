@@ -1,0 +1,90 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Shared -> E:\Interwave Solutions\Service station\Shared\bin\Debug\net8.0\Shared.dll
+  Domain -> E:\Interwave Solutions\Service station\Domain\bin\Debug\net8.0\Domain.dll
+  Application -> E:\Interwave Solutions\Service station\Application\bin\Debug\net8.0\Application.dll
+  Infrastructure -> E:\Interwave Solutions\Service station\Infrastructure\bin\Debug\net8.0\Infrastructure.dll
+  ServiceStationApi -> E:\Interwave Solutions\Service station\Api\bin\Debug\net8.0\ServiceStationApi.dll
+  ServiceStation.Tests -> E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\bin\Debug\net8.0\ServiceStation.Tests.dll
+Test run for E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\bin\Debug\net8.0\ServiceStation.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\bin\Debug\net8.0\ServiceStation.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.23)
+[xUnit.net 00:00:00.10]   Discovering: ServiceStation.Tests
+[xUnit.net 00:00:00.13]   Discovered:  ServiceStation.Tests
+[xUnit.net 00:00:00.14]   Starting:    ServiceStation.Tests
+info: Microsoft.EntityFrameworkCore.Update[30100]
+      Saved 1 entities to in-memory store.
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+[xUnit.net 00:00:01.63]   Finished:    ServiceStation.Tests
+  Passed ServiceStation.Tests.FullSystemTests.RunAllGetEndpoints_AndReportEmptyData [1 s]
+  Standard Output Messages:
+ Testing /api/ssms/v0.1/accessLevel...
+ [FAILED] /api/ssms/v0.1/accessLevel: Status InternalServerError
+ [ERROR_DETAILS] {"message":"User not found","type":"System.Exception","stackTrace":"   at Infrastructure.Services.CommonLookupService.GetAccessLevelAsync(String userId) in E:\\Interwave Solutions\\Service station\\Infrastructure\\Services\\CommonLookupService.cs:line 333\r\n   at Api.Controllers.AuthController.GetAccessLevel() in E:\\Interwave Solutions\\Service station\\Api\\Controllers\\AuthControllerr.cs:line 90","innerMessage":null,"innerStack":null}
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/items...
+ [SUCCESS] /api/ssms/v0.1/items: Status OK
+ [CONTENT] /api/ssms/v0.1/items: IsEmpty=True
+ [EMPTY_DATA_FOUND] /api/ssms/v0.1/items
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/vehicletype...
+ [SUCCESS] /api/ssms/v0.1/vehicletype: Status OK
+ [CONTENT] /api/ssms/v0.1/vehicletype: IsEmpty=True
+ [EMPTY_DATA_FOUND] /api/ssms/v0.1/vehicletype
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/CustomerAccount...
+ [SUCCESS] /api/ssms/v0.1/CustomerAccount: Status OK
+ [CONTENT] /api/ssms/v0.1/CustomerAccount: IsEmpty=True
+ [EMPTY_DATA_FOUND] /api/ssms/v0.1/CustomerAccount
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/PaymentTerm...
+ [SUCCESS] /api/ssms/v0.1/PaymentTerm: Status OK
+ [CONTENT] /api/ssms/v0.1/PaymentTerm: IsEmpty=True
+ [EMPTY_DATA_FOUND] /api/ssms/v0.1/PaymentTerm
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/SalesAccount...
+ [SUCCESS] /api/ssms/v0.1/SalesAccount: Status OK
+ [CONTENT] /api/ssms/v0.1/SalesAccount: IsEmpty=True
+ [EMPTY_DATA_FOUND] /api/ssms/v0.1/SalesAccount
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/InvoiceDetails...
+ [SUCCESS] /api/ssms/v0.1/InvoiceDetails: Status OK
+ [CONTENT] /api/ssms/v0.1/InvoiceDetails: IsEmpty=False
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/Customer...
+ [SUCCESS] /api/ssms/v0.1/Customer: Status OK
+ [CONTENT] /api/ssms/v0.1/Customer: IsEmpty=True
+ [EMPTY_DATA_FOUND] /api/ssms/v0.1/Customer
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/bay...
+ [SUCCESS] /api/ssms/v0.1/bay: Status OK
+ [CONTENT] /api/ssms/v0.1/bay: IsEmpty=True
+ [EMPTY_DATA_FOUND] /api/ssms/v0.1/bay
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/baycontrol/available...
+ [SUCCESS] /api/ssms/v0.1/baycontrol/available: Status OK
+ [CONTENT] /api/ssms/v0.1/baycontrol/available: IsEmpty=True
+ [EMPTY_DATA_FOUND] /api/ssms/v0.1/baycontrol/available
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/reservation...
+ [SUCCESS] /api/ssms/v0.1/reservation: Status OK
+ [CONTENT] /api/ssms/v0.1/reservation: IsEmpty=True
+ [EMPTY_DATA_FOUND] /api/ssms/v0.1/reservation
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/serviceorder...
+ [SUCCESS] /api/ssms/v0.1/serviceorder: Status OK
+ [CONTENT] /api/ssms/v0.1/serviceorder: IsEmpty=True
+ [EMPTY_DATA_FOUND] /api/ssms/v0.1/serviceorder
+ --------------------------------------------------
+
+
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 2.1529 Seconds

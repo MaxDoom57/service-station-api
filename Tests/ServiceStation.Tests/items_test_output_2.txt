@@ -1,0 +1,56 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Domain -> E:\Interwave Solutions\Service station\Domain\bin\Debug\net8.0\Domain.dll
+  Shared -> E:\Interwave Solutions\Service station\Shared\bin\Debug\net8.0\Shared.dll
+  Application -> E:\Interwave Solutions\Service station\Application\bin\Debug\net8.0\Application.dll
+  Infrastructure -> E:\Interwave Solutions\Service station\Infrastructure\bin\Debug\net8.0\Infrastructure.dll
+  ServiceStationApi -> E:\Interwave Solutions\Service station\Api\bin\Debug\net8.0\ServiceStationApi.dll
+E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ItemsEndpointsTests.cs(211,27): warning CS8604: Possible null reference argument for parameter 'source' in 'JsonElement Enumerable.FirstOrDefault<JsonElement>(IEnumerable<JsonElement> source, Func<JsonElement, bool> predicate)'. [E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ServiceStation.Tests.csproj]
+E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ItemsEndpointsTests.cs(217,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ServiceStation.Tests.csproj]
+E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ItemsEndpointsTests.cs(227,25): warning CS8604: Possible null reference argument for parameter 'collection' in 'void Assert.Contains<JsonElement>(IEnumerable<JsonElement> collection, Predicate<JsonElement> filter)'. [E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ServiceStation.Tests.csproj]
+E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ItemsEndpointsTests.cs(266,25): warning CS8604: Possible null reference argument for parameter 'collection' in 'void Assert.NotEmpty(IEnumerable collection)'. [E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ServiceStation.Tests.csproj]
+E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ItemsEndpointsTests.cs(305,28): warning CS8604: Possible null reference argument for parameter 'source' in 'bool Enumerable.Any<JsonElement>(IEnumerable<JsonElement> source, Func<JsonElement, bool> predicate)'. [E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ServiceStation.Tests.csproj]
+  ServiceStation.Tests -> E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\bin\Debug\net8.0\ServiceStation.Tests.dll
+Test run for E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\bin\Debug\net8.0\ServiceStation.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\bin\Debug\net8.0\ServiceStation.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.23)
+[xUnit.net 00:00:00.26]   Discovering: ServiceStation.Tests
+[xUnit.net 00:00:00.29]   Discovered:  ServiceStation.Tests
+[xUnit.net 00:00:00.30]   Starting:    ServiceStation.Tests
+info: Microsoft.EntityFrameworkCore.Update[30100]
+      Saved 1 entities to in-memory store.
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+[xUnit.net 00:00:01.78]       Assert.Equal() Failure: Values differ
+[xUnit.net 00:00:01.78]       Expected: Created
+[xUnit.net 00:00:01.78]       Actual:   BadRequest
+[xUnit.net 00:00:01.78]       Stack Trace:
+[xUnit.net 00:00:01.78]         E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ItemsEndpointsTests.cs(151,0): at ServiceStation.Tests.ItemsEndpointsTests.TestAllItemsEndpoints_Flow()
+[xUnit.net 00:00:01.78]         --- End of stack trace from previous location ---
+[xUnit.net 00:00:01.78]       Output:
+[xUnit.net 00:00:01.78]         Login Successful. Token acquired.
+[xUnit.net 00:00:01.78]         POST /items Status: BadRequest
+[xUnit.net 00:00:01.78]         Relational-specific methods can only be used when the context is using a relational database provider.
+[xUnit.net 00:00:01.78]   Finished:    ServiceStation.Tests
+  Failed ServiceStation.Tests.ItemsEndpointsTests.TestAllItemsEndpoints_Flow [1 s]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: Created
+Actual:   BadRequest
+  Stack Trace:
+     at ServiceStation.Tests.ItemsEndpointsTests.TestAllItemsEndpoints_Flow() in E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\ItemsEndpointsTests.cs:line 151
+--- End of stack trace from previous location ---
+  Standard Output Messages:
+ Login Successful. Token acquired.
+ POST /items Status: BadRequest
+ Relational-specific methods can only be used when the context is using a relational database provider.
+
+
+
+Total tests: 1
+     Failed: 1
+ Total time: 2.2765 Seconds
