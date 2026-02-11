@@ -33,7 +33,6 @@ builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<CommonLookupService>();
 builder.Services.AddScoped<InvoiceService>();
 builder.Services.AddScoped<IValidationService, ValidationService>();
-builder.Services.AddScoped<ItemService>();
 builder.Services.AddScoped<StockService>();
 builder.Services.AddScoped<PurchaseOrderService>();
 builder.Services.AddScoped<ReportService>();
@@ -51,14 +50,6 @@ builder.Services.AddScoped<OrderManagementService>();
 
 
 builder.Services.AddMemoryCache();
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(7060, listenoptions =>
-    {
-        listenoptions.UseHttps();
-
-    });
-});
 
 
 // DB Context
@@ -96,10 +87,17 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+    options.ListenAnyIP(int.Parse(port));
+});
+
+
+
 var app = builder.Build();
 
 // Middleware order
-app.UseAuthentication();
 app.UseMiddleware<Api.Middlewares.JwtSessionMiddleware>();
 
 if (app.Environment.IsDevelopment())
@@ -109,7 +107,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 // Controllers

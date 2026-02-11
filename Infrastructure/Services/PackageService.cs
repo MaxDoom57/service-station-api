@@ -30,7 +30,7 @@ namespace Infrastructure.Services
             // Assuming we filter by Current Company and ConCd='OrdTyp' and only active
             
             return await db.CdMas
-                .Where(x => x.CKy == _userContext.CompanyKey && x.ConCd == "OrdTyp" && !x.fInAct)
+                .Where(x => x.ConCd == "OrdTyp" && !x.fInAct)
                 .Select(x => new PackageDto
                 {
                     CdKy = x.CdKy,
@@ -46,7 +46,7 @@ namespace Infrastructure.Services
             using var db = await _factory.CreateDbContextAsync();
             
             // Validation: Check if Code exists
-            if (await db.CdMas.AnyAsync(x => x.CKy == _userContext.CompanyKey && x.ConCd == "OrdTyp" && x.Code == dto.Code && !x.fInAct))
+            if (await db.CdMas.AnyAsync(x => x.ConCd == "OrdTyp" && x.Code == dto.Code && !x.fInAct))
                  return (false, "Package Code already exists");
                  
             var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
@@ -60,7 +60,7 @@ namespace Infrastructure.Services
             // If I look at existing records (conceptually), they share the same ConKy.
             // I'll try to find an existing record with ConCd="OrdTyp" to copy its ConKy.
             
-            var existingOrdTyp = await db.CdMas.FirstOrDefaultAsync(x => x.ConCd == "OrdTyp" && x.CKy == _userContext.CompanyKey);
+            var existingOrdTyp = await db.CdMas.FirstOrDefaultAsync(x => x.ConCd == "OrdTyp");
             short conKy = existingOrdTyp?.ConKy ?? 1; // Fallback to 1 if not string. Ideally should fail or look up properly.
             
             // Or maybe ConKy IS related to "OrdTyp" key itself if "OrdTyp" is a concept. 

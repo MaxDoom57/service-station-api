@@ -46,11 +46,11 @@ namespace Domain.Entities
         public int CdInt2 { get; set; }
         public int CdInt3 { get; set; }
 
-        public float CdNo1 { get; set; }
-        public float CdNo2 { get; set; }
-        public float CdNo3 { get; set; }
-        public float CdNo4 { get; set; }
-        public float CdNo5 { get; set; }
+        public double CdNo1 { get; set; }
+        public double CdNo2 { get; set; }
+        public double CdNo3 { get; set; }
+        public double CdNo4 { get; set; }
+        public double CdNo5 { get; set; }
 
         public DateTime? CdDt1 { get; set; }
         public DateTime? CdDt2 { get; set; }
@@ -63,6 +63,6 @@ namespace Domain.Entities
         public int EntUsrKy { get; set; }
         public DateTime? EntDtm { get; set; }
 
-        public int CdInt4 { get; set; }
+        //public int CdInt4 { get; set; }
     }
 }
