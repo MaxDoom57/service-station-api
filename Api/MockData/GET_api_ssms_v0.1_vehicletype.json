@@ -1,0 +1,9 @@
+﻿[
+  { "CdKy": 1, "CdNm": "Car" },
+  { "CdKy": 2, "CdNm": "Van" },
+  { "CdKy": 3, "CdNm": "SUV" },
+  { "CdKy": 4, "CdNm": "Lorry" },
+  { "CdKy": 5, "CdNm": "Bus" },
+  { "CdKy": 6, "CdNm": "Motorbike" },
+  { "CdKy": 7, "CdNm": "Three Wheeler" }
+]

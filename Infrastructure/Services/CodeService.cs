@@ -109,12 +109,11 @@ namespace Infrastructure.Services
                     FROM CdMas
                     WHERE Code = @Code
                       AND ConKy = @ConKy
-                      AND CKy = @CKy
+
                 ";
 
                 chkCmd.Parameters.Add(new SqlParameter("@Code", dto.Code.Trim()));
                 chkCmd.Parameters.Add(new SqlParameter("@ConKy", conKy));
-                chkCmd.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
 
                 int exists = Convert.ToInt32(await chkCmd.ExecuteScalarAsync());
                 if (exists > 0)
@@ -172,13 +171,11 @@ namespace Infrastructure.Services
                     FROM CdMas
                     WHERE Code = @Code
                       AND ConKy = @ConKy
-                      AND CKy = @CKy
                       AND CdKy <> @CdKy
                 ";
 
                 chkCmd.Parameters.Add(new SqlParameter("@Code", dto.Code.Trim()));
                 chkCmd.Parameters.Add(new SqlParameter("@ConKy", conKy));
-                chkCmd.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
                 chkCmd.Parameters.Add(new SqlParameter("@CdKy", cdKy));
 
                 int exists = Convert.ToInt32(await chkCmd.ExecuteScalarAsync());

@@ -71,6 +71,9 @@ namespace Infrastructure.Context
         public DbSet<ServiceOrder> ServiceOrder { get; set; }
         public DbSet<ServiceOrderDetail> ServiceOrderDetail { get; set; }
         public DbSet<ServiceOrderApproval> ServiceOrderApproval { get; set; }
+        public DbSet<CalendarMas> CalendarMas { get; set; }
+        public DbSet<ApiRequestLog> ApiRequestLogs { get; set; }
+        public DbSet<BayWorker> BayWorkers { get; set; }
 
         //Report views
         public DbSet<VewSlsDtlsRpt> VewSlsDtlsRpt { get; set; }
@@ -159,6 +162,12 @@ namespace Infrastructure.Context
             modelBuilder.Entity<AccAdr>()
                 .ToTable("AccAdr")
                 .HasNoKey();
+
+            modelBuilder.Entity<CdMas>(entity =>
+            {
+                entity.ToTable("CdMas", tb => tb.UseSqlOutputClause(false));
+                entity.HasKey(e => e.CdKy);
+            });
 
             modelBuilder.Entity<vewCdMas>()
                 .ToTable("vewCdMas")
@@ -400,6 +409,18 @@ namespace Infrastructure.Context
             modelBuilder.Entity<ServiceOrderApproval>()
                 .ToTable("ServiceOrderApproval")
                 .HasKey(x => x.ApprovalKy);
+
+            modelBuilder.Entity<CalendarMas>()
+                .ToTable("CalendarMas")
+                .HasKey(x => x.CalKy);
+
+            modelBuilder.Entity<ApiRequestLog>()
+                .ToTable("ApiRequestLog")
+                .HasKey(x => x.LogKy);
+
+            modelBuilder.Entity<BayWorker>()
+                .ToTable("BayWorker")
+                .HasKey(x => x.BayWorkerKy);
         }
     }
 }

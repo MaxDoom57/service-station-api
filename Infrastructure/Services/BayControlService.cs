@@ -33,7 +33,7 @@ namespace Infrastructure.Services
 
             // Get All Active Bays
             var allBays = await db.Bays
-                .Where(b => b.CKy == _userContext.CompanyKey && !b.fInAct)
+                .Where(b => !b.fInAct)
                 .ToListAsync();
 
             var availableBays = new List<AvailableBayDto>();
@@ -42,7 +42,7 @@ namespace Infrastructure.Services
             {
                 // Check BayControl (Real-time)
                 var control = await db.BayControls
-                    .FirstOrDefaultAsync(c => c.BayKy == bay.BayKy && c.CKy == _userContext.CompanyKey);
+                    .FirstOrDefaultAsync(c => c.BayKy == bay.BayKy);
                 
                 bool isPhysicallyOccupied = control != null && control.IsBayOccupied;
 
@@ -79,7 +79,7 @@ namespace Infrastructure.Services
                                 from c in bc.DefaultIfEmpty()
                                 join v in db.Vehicles on c.CurrentVehicleKy equals v.VehicleKy into bv
                                 from v in bv.DefaultIfEmpty()
-                                where b.CKy == _userContext.CompanyKey && !b.fInAct
+                                where !b.fInAct
                                 select new BayStatusDto
                                 {
                                     BayKy = b.BayKy,
@@ -181,7 +181,7 @@ namespace Infrastructure.Services
         {
              using var db = await _factory.CreateDbContextAsync();
              return await db.Bays
-                 .Where(b => b.CKy == _userContext.CompanyKey && !b.fInAct && b.IsReservationAvailable)
+                 .Where(b => !b.fInAct && b.IsReservationAvailable)
                  .Select(b => new BayDto 
                  {
                      BayKy = b.BayKy,
@@ -196,7 +196,7 @@ namespace Infrastructure.Services
         public async Task<List<ReservationDto>> GetReservationsAsync(string? status, DateTime? date)
         {
             using var db = await _factory.CreateDbContextAsync();
-            var query = db.BayReservations.Where(r => r.CKy == _userContext.CompanyKey && !r.fInAct);
+            var query = db.BayReservations.Where(r => !r.fInAct);
 
             if (!string.IsNullOrEmpty(status))
                 query = query.Where(r => r.ResStatus == status);

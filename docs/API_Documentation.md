@@ -681,6 +681,27 @@ Base Path: `/api/ssms/v0.1/order`
 
 ---
 
+## 2.12 Calendar Management
+Base Path: `/api/ssms/v0.1/calendar`
+
+### GET `/unavailable-dates`
+**Description**: Get a list of dates that are unavailable for reservation (e.g., holidays, closed days).
+**Response**: List of unavailable dates and descriptions.
+```json
+[
+  {
+    "date": "2026-12-25T00:00:00",
+    "description": "Christmas Day"
+  },
+  {
+    "date": "2026-01-01T00:00:00",
+    "description": "New Year"
+  }
+]
+```
+
+---
+
 ## Status Codes Reference
 
 | Code | Description |

@@ -275,11 +275,9 @@ public class CustomerService
             // Check existence
             using var checkCmd = conn.CreateCommand();
             checkCmd.Transaction = tx;
-            checkCmd.CommandText = "SELECT COUNT(*) FROM AccMas WHERE AccCd = @AccCd AND CKy = @CKy";
+            checkCmd.CommandText = "SELECT COUNT(*) FROM AccMas WHERE AccCd = @AccCd";
 
             checkCmd.Parameters.Add(new SqlParameter("@AccCd", accCd));
-            checkCmd.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
-
             var countObj = await checkCmd.ExecuteScalarAsync();
             int count = Convert.ToInt32(countObj);
 
@@ -349,10 +347,10 @@ public class CustomerService
                             EMail   = @EMail,
                             EntUsrKy = @EntUsrKy,
                             EntDtm   = @EntDtm
-                        WHERE AdrKy = @AdrKy AND CKy = @CKy;";
+                        WHERE AdrKy = @AdrKy;";
 
             cmd.Parameters.Add(new SqlParameter("@AdrKy", dto.AdrKy));
-            cmd.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+            //cmd.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
             cmd.Parameters.Add(new SqlParameter("@AdrNm", dto.AdrNm ?? (object)DBNull.Value));
             cmd.Parameters.Add(new SqlParameter("@FstNm", dto.FstNm ?? (object)DBNull.Value));
             cmd.Parameters.Add(new SqlParameter("@MidNm", dto.MidNm ?? (object)DBNull.Value));

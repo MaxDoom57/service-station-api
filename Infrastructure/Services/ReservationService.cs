@@ -91,6 +91,17 @@ namespace Infrastructure.Services
                 // Or I can insert directly since BayControlService logic for "Pending" allows insertion check.
                 // But I should duplicate the logic or use internal helper to avoid circular DI or context issues if I used Service directly. Used Db here.
 
+                // Check if Date is Unavailable (Holiday/Event)
+                var bookingDate = dto.BookingFrom.Date;
+                var unavailableDate = await db.CalendarMas
+                    .FirstOrDefaultAsync(c => c.CalDt != null && c.CalDt.Value.Date == bookingDate && !c.fInAct); // Check if CalDt matches Booking Date
+
+                if (unavailableDate != null)
+                {
+                    await transaction.RollbackAsync();
+                    return (false, $"Selected date is unavailable: {unavailableDate.CalDesc}", 0);
+                }
+
                 // Overlap Check
                 bool overlap = await db.BayReservations.AnyAsync(r => 
                     r.BayKy == dto.BayKy && !r.fInAct && r.ResStatus != "Cancelled" &&

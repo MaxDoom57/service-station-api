@@ -163,52 +163,27 @@ namespace Infrastructure.Services
         {
             using var db = await _factory.CreateDbContextAsync();
 
-            // 1. Get Active Packages
-            var packages = await db.CdMas
-                .Where(x => x.CKy == _userContext.CompanyKey && x.ConCd == "OrdTyp" && !x.fInAct)
-                .Select(x => new
+            var result = await db.CdMas
+                .Where(p => p.CKy == _userContext.CompanyKey && p.ConCd == "OrdTyp" && !p.fInAct)
+                .Select(p => new PackageDetailDto
                 {
-                    x.CdKy,
-                    x.Code,
-                    x.CdNm,
-                    x.ConCd
+                    CdKy = p.CdKy,
+                    Code = p.Code,
+                    CdNm = p.CdNm,
+                    ConCd = p.ConCd,
+                    Items = db.ItmMas
+                        .Where(i => i.ItmTypKy == p.CdKy && i.CKy == _userContext.CompanyKey && !i.fInAct)
+                        .Select(i => new PackageItemDto
+                        {
+                            ItmKy = i.ItmKy,
+                            ItmCd = i.ItmCd,
+                            ItmNm = i.ItmNm,
+                            Des = i.Des,
+                            // Casting handled safely
+                            SlsPri = (decimal?)i.SlsPri 
+                        }).ToList()
                 })
                 .ToListAsync();
-
-            if (!packages.Any()) return new List<PackageDetailDto>();
-
-            var packageKeys = packages.Select(p => (short)p.CdKy).ToList();
-
-            // 2. Get Items for these packages
-            var items = await db.ItmMas
-                .Where(x => x.CKy == _userContext.CompanyKey && packageKeys.Contains(x.ItmTypKy) && !x.fInAct)
-                .Select(x => new 
-                {
-                    x.ItmTypKy,
-                    x.ItmKy,
-                    x.ItmCd,
-                    x.ItmNm,
-                    x.Des,
-                    x.SlsPri
-                })
-                .ToListAsync();
-
-            // 3. Map
-            var result = packages.Select(p => new PackageDetailDto
-            {
-                CdKy = p.CdKy,
-                Code = p.Code,
-                CdNm = p.CdNm,
-                ConCd = p.ConCd,
-                Items = items.Where(i => i.ItmTypKy == p.CdKy).Select(i => new PackageItemDto
-                {
-                    ItmKy = i.ItmKy,
-                    ItmCd = i.ItmCd,
-                    ItmNm = i.ItmNm,
-                    Des = i.Des,
-                    SlsPri = (decimal?)i.SlsPri // Casting handled safely as SlsPri in Entity is decimal, anonymous type preserves it
-                }).ToList()
-            }).ToList();
 
             return result;
         }

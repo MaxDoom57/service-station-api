@@ -1,0 +1,5 @@
+﻿[
+  { "VehicleKy": 1, "VehicleId": "CAB-1234", "Type": "Car", "Owner": "John Doe" },
+  { "VehicleKy": 2, "VehicleId": "WP-KA-4567", "Type": "Van", "Owner": "Jane Smith" },
+  { "VehicleKy": 3, "VehicleId": "LH-8901", "Type": "Lorry", "Owner": "ABC Logistics" }
+]

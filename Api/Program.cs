@@ -46,6 +46,7 @@ builder.Services.AddScoped<BayService>();
 builder.Services.AddScoped<BayControlService>();
 builder.Services.AddScoped<ReservationService>();
 builder.Services.AddScoped<ServiceOrderService>();
+builder.Services.AddScoped<BayWorkerService>();
 builder.Services.AddScoped<OrderManagementService>();
 
 
@@ -87,11 +88,11 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-    options.ListenAnyIP(int.Parse(port));
-});
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+//    options.ListenAnyIP(int.Parse(port));
+//});
 
 
 
@@ -99,6 +100,10 @@ var app = builder.Build();
 
 // Middleware order
 app.UseMiddleware<Api.Middlewares.JwtSessionMiddleware>();
+// Add the mock response middleware early in the pipeline to short-circuit if mock mode is on
+app.UseMiddleware<Api.Middlewares.MockResponseMiddleware>();
+app.UseMiddleware<Infrastructure.Middleware.RequestLoggingMiddleware>();
+
 
 if (app.Environment.IsDevelopment())
 {

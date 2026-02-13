@@ -27,7 +27,7 @@ namespace Infrastructure.Services
             using var db = await _factory.CreateDbContextAsync();
             Console.WriteLine("CKY===========================" + _userContext.CompanyKey);
             return await db.Bays
-                .Where(x => x.CKy == _userContext.CompanyKey && !x.fInAct)
+                .Where(x => !x.fInAct)
                 .Select(x => new BayDto
                 {
                     BayKy = x.BayKy,
@@ -43,7 +43,7 @@ namespace Infrastructure.Services
         {
             using var db = await _factory.CreateDbContextAsync();
             
-            if (await db.Bays.AnyAsync(x => x.CKy == _userContext.CompanyKey && x.BayCd == dto.BayCd && !x.fInAct))
+            if (await db.Bays.AnyAsync(x => x.BayCd == dto.BayCd && !x.fInAct))
                  return (false, "Bay Code already exists");
                  
             var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
@@ -72,7 +72,7 @@ namespace Infrastructure.Services
             var bay = await db.Bays.FindAsync(dto.BayKy);
             
             if (bay == null) return (false, "Bay not found");
-            if (bay.CKy != _userContext.CompanyKey) return (false, "Unauthorized access to this Bay");
+            //if (bay.CKy != _userContext.CompanyKey) return (false, "Unauthorized access to this Bay");
 
             bay.BayCd = dto.BayCd;
             bay.BayNm = dto.BayNm;
@@ -89,7 +89,7 @@ namespace Infrastructure.Services
             var bay = await db.Bays.FindAsync(bayKy);
              
             if (bay == null) return (false, "Bay not found");
-            if (bay.CKy != _userContext.CompanyKey) return (false, "Unauthorized access to this Bay");
+            //if (bay.CKy != _userContext.CompanyKey) return (false, "Unauthorized access to this Bay");
 
             bay.fInAct = true;
             await db.SaveChangesAsync();

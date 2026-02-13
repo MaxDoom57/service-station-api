@@ -1,0 +1,8 @@
+﻿[
+  { "ItmKy": 1, "ItmCd": "ITM001", "ItmNm": "Oil Filter - Toyota", "Active": true, "Price": 1500.00 },
+  { "ItmKy": 2, "ItmCd": "ITM002", "ItmNm": "Brake Pad - Nissan", "Active": true, "Price": 4500.00 },
+  { "ItmKy": 3, "ItmCd": "ITM003", "ItmNm": "Engine Oil 4L", "Active": true, "Price": 8500.00 },
+  { "ItmKy": 4, "ItmCd": "ITM004", "ItmNm": "Coolant 1L", "Active": true, "Price": 1200.00 },
+  { "ItmKy": 5, "ItmCd": "ITM005", "ItmNm": "Wiper Blades", "Active": true, "Price": 2500.00 },
+  { "ItmKy": 6, "ItmCd": "ITM006", "ItmNm": "Car Wash Shampoo", "Active": true, "Price": 800.00 }
+]

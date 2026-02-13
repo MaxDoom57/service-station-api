@@ -1,0 +1,5 @@
+﻿[
+  { "CusKy": 1, "CusCd": "C001", "CusNm": "John Doe", "Mobile": "0771234567" },
+  { "CusKy": 2, "CusCd": "C002", "CusNm": "Jane Smith", "Mobile": "0719876543" },
+  { "CusKy": 3, "CusCd": "C003", "CusNm": "ABC Logistics", "Mobile": "0112345678" }
+]
