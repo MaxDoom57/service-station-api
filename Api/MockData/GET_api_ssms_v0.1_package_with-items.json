@@ -1,1 +1,62 @@
-﻿[{ "PkgKy": 1, "PkgNm": "Full Service", "Items": [] }]
+﻿[
+  { 
+    "PkgKy": 362, 
+    "PkgCd": "PKG-FULSERVICE", 
+    "PkgNm": "Full service package", 
+    "Items": [
+      { "ItmKy": 1201, "ItmNm": "Oil Change", "Price": 5000.00 },
+      { "ItmKy": 1202, "ItmNm": "Brake Check", "Price": 3500.00 },
+      { "ItmKy": 1203, "ItmNm": "Engine Tune", "Price": 6500.00 },
+      { "ItmKy": 1204, "ItmNm": "Wheel Align", "Price": 4000.00 },
+      { "ItmKy": 1205, "ItmNm": "Battery Test", "Price": 2500.00 }
+    ]
+  },
+  { 
+    "PkgKy": 363, 
+    "PkgCd": "PKG-BASIC", 
+    "PkgNm": "Basic service package", 
+    "Items": [
+      { "ItmKy": 1206, "ItmNm": "Oil Change", "Price": 3500.00 },
+      { "ItmKy": 1207, "ItmNm": "Air Filter", "Price": 2500.00 },
+      { "ItmKy": 1208, "ItmNm": "Brake Check", "Price": 1800.00 },
+      { "ItmKy": 1209, "ItmNm": "Coolant Topup", "Price": 1500.00 },
+      { "ItmKy": 1210, "ItmNm": "Tyre Check", "Price": 1000.00 }
+    ]
+  },
+  { 
+    "PkgKy": 364, 
+    "PkgCd": "PKG-PREMIUM", 
+    "PkgNm": "Premium service package", 
+    "Items": [
+      { "ItmKy": 1211, "ItmNm": "Syn Oil", "Price": 7000.00 },
+      { "ItmKy": 1212, "ItmNm": "Brake Service", "Price": 6000.00 },
+      { "ItmKy": 1213, "ItmNm": "AC Service", "Price": 5500.00 },
+      { "ItmKy": 1214, "ItmNm": "Wheel Balance", "Price": 3500.00 },
+      { "ItmKy": 1215, "ItmNm": "Battery Test", "Price": 2500.00 }
+    ]
+  },
+  { 
+    "PkgKy": 365, 
+    "PkgCd": "PKG-ENGINECARE", 
+    "PkgNm": "Engine care package", 
+    "Items": [
+      { "ItmKy": 1216, "ItmNm": "Diagnostics", "Price": 8000.00 },
+      { "ItmKy": 1217, "ItmNm": "Fuel Clean", "Price": 6000.00 },
+      { "ItmKy": 1218, "ItmNm": "Spark Plug", "Price": 3500.00 },
+      { "ItmKy": 1219, "ItmNm": "Timing Check", "Price": 5000.00 },
+      { "ItmKy": 1220, "ItmNm": "Oil Flush", "Price": 4500.00 }
+    ]
+  },
+  { 
+    "PkgKy": 366, 
+    "PkgCd": "PKG-INSPECTION", 
+    "PkgNm": "Full inspection package", 
+    "Items": [
+      { "ItmKy": 1221, "ItmNm": "Full Inspect", "Price": 3500.00 },
+      { "ItmKy": 1222, "ItmNm": "Brake Inspect", "Price": 2500.00 },
+      { "ItmKy": 1223, "ItmNm": "Suspension", "Price": 3000.00 },
+      { "ItmKy": 1224, "ItmNm": "Lights Check", "Price": 1800.00 },
+      { "ItmKy": 1225, "ItmNm": "Emission Test", "Price": 2000.00 }
+    ]
+  }
+]

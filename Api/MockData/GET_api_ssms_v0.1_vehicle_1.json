@@ -1,1 +1,4 @@
-﻿{ "VehicleKy": 1, "VehicleId": "CAB-1234" }
+﻿{
+    "VehicleKy": 1,
+    "VehicleId": "CAB-1234"
+}

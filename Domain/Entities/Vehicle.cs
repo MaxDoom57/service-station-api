@@ -12,11 +12,11 @@ namespace Domain.Entities
         [MaxLength(20)]
         public string VehicleId { get; set; } // Vehicle Number
 
-        public int OwnerAccountKy { get; set; }
+        public int? OwnerAccountKy { get; set; }
 
-        public bool fInAct { get; set; }
+        public bool? fInAct { get; set; }
 
-        public int VehicleTypKy { get; set; }
+        public int? VehicleTypKy { get; set; }
 
         [MaxLength(20)]
         public string? FuelTyp { get; set; } // Petrol or Diesel

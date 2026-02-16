@@ -1,1 +1,6 @@
-﻿{ "TrnKy": 1, "TrnNo": "INV-001", "Date": "2026-02-13", "Amount": 1000 }
+﻿{
+    "TrnKy": 1,
+    "TrnNo": "INV-001",
+    "Date": "2026-02-13",
+    "Amount": 1000
+}

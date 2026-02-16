@@ -57,6 +57,20 @@ namespace Api.Controllers
             }
         }
 
+        [HttpGet("details")]
+        public async Task<IActionResult> GetAllVehiclesDetailed()
+        {
+            try
+            {
+                var result = await _service.GetAllVehiclesDetailedAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("{vehicleKy}")]
         public async Task<IActionResult> GetVehicleDetails(int vehicleKy)
         {

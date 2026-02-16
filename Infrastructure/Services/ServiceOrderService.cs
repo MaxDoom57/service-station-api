@@ -39,7 +39,7 @@ namespace Infrastructure.Services
                 // Assuming Vehicle Exists? Prompt says "create... with vehicle details". 
                 // If it doesn't exist, we should probably fail or auto-create (but validation is better).
                 // I'll search for it.
-                var vehicle = await db.Vehicles.FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId && !v.fInAct);
+                var vehicle = await db.Vehicles.FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId && v.fInAct != true);
                 if (vehicle == null) return (false, "Vehicle not found", 0);
 
                 // Update Vehicle Info
@@ -48,12 +48,13 @@ namespace Infrastructure.Services
                 // Damage note is stored in ServiceOrder primarily, but could be on Vehicle description? 
                 // Requirement says "in serviceOrder with given details". So DamageNote goes to ServiceOrder.
 
-                // 2. Handle Customer
+                // 3. Handle Customer
                 // We have vehicle.OwnerAccountKy. We can check if it matches provided Name? 
                 // Or just trust the Vehicle Owner Link. 
                 // Prompt: "create serviceOrder with customer details(name, id...)"
                 // I'll link to the Vehicle's Owner Account.
-                int accKy = vehicle.OwnerAccountKy;
+                if (!vehicle.OwnerAccountKy.HasValue) return (false, "Vehicle has no linked owner", 0);
+                int accKy = vehicle.OwnerAccountKy.Value;
 
                 // 3. Create ServiceOrder Master
                 var order = new ServiceOrder
@@ -118,24 +119,31 @@ namespace Infrastructure.Services
              using var db = await _factory.CreateDbContextAsync();
              var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey) ?? 0;
 
-             var item = new ServiceOrderDetail
+             try
              {
-                 ServiceOrdKy = dto.ServiceOrdKy,
-                 ItemKy = null, // Custom item
-                 ItemName = dto.ItemName,
-                 Price = dto.Price,
-                 EstimatedTime = dto.EstimatedTime,
-                 StatusWait = 1,
-                 StatusInProgress = 0,
-                 StatusFinish = 0,
-                 IsApproved = false, // Pending Approval
-                 EntUsrKy = userKey,
-                 EntDtm = DateTime.Now
-             };
+                 var item = new ServiceOrderDetail
+                 {
+                     ServiceOrdKy = dto.ServiceOrdKy,
+                     ItemKy = null, // Custom item
+                     ItemName = dto.ItemName,
+                     Price = dto.Price,
+                     EstimatedTime = dto.EstimatedTime,
+                     StatusWait = 1,
+                     StatusInProgress = 0,
+                     StatusFinish = 0,
+                     IsApproved = false, // Pending Approval
+                     EntUsrKy = userKey,
+                     EntDtm = DateTime.Now
+                 };
 
-             db.ServiceOrderDetail.Add(item);
-             await db.SaveChangesAsync();
-             return (true, "Item added, pending approval");
+                 db.ServiceOrderDetail.Add(item);
+                 await db.SaveChangesAsync();
+                 return (true, "Item added, pending approval");
+             }
+             catch (Exception ex)
+             {
+                 return (false, "Error adding item: " + ex.Message);
+             }
         }
 
         public async Task<(bool success, string message)> ApproveServiceItemAsync(ApproveServiceItemDto dto)
@@ -144,28 +152,35 @@ namespace Infrastructure.Services
             var item = await db.ServiceOrderDetail.FindAsync(dto.ServiceOrdDetKy);
             if (item == null) return (false, "Item not found");
 
-            if (!dto.IsApproved)
+            try
             {
-                db.ServiceOrderDetail.Remove(item); // Or mark inactive? Hard delete for pending items is often okay.
+                if (!dto.IsApproved)
+                {
+                    db.ServiceOrderDetail.Remove(item); // Or mark inactive? Hard delete for pending items is often okay.
+                    await db.SaveChangesAsync();
+                    return (true, "Item rejected/removed");
+                }
+
+                item.IsApproved = true;
+
+                // Save Approval Info
+                var approval = new ServiceOrderApproval
+                {
+                    ServiceOrdDetKy = dto.ServiceOrdDetKy,
+                    CustName = dto.CustName,
+                    IpAddress = dto.IpAddress,
+                    Device = dto.Device,
+                    ApprovedDtm = DateTime.Now
+                };
+                db.ServiceOrderApproval.Add(approval);
+                
                 await db.SaveChangesAsync();
-                return (true, "Item rejected/removed");
+                return (true, "Item approved");
             }
-
-            item.IsApproved = true;
-
-            // Save Approval Info
-            var approval = new ServiceOrderApproval
+            catch (Exception ex)
             {
-                ServiceOrdDetKy = dto.ServiceOrdDetKy,
-                CustName = dto.CustName,
-                IpAddress = dto.IpAddress,
-                Device = dto.Device,
-                ApprovedDtm = DateTime.Now
-            };
-            db.ServiceOrderApproval.Add(approval);
-            
-            await db.SaveChangesAsync();
-            return (true, "Item approved");
+                return (false, "Error approving item: " + ex.Message);
+            }
         }
 
         public async Task<(bool success, string message)> UpdateItemStatusAsync(UpdateItemStatusDto dto)
@@ -174,27 +189,36 @@ namespace Infrastructure.Services
             var item = await db.ServiceOrderDetail.FindAsync(dto.ServiceOrdDetKy);
             if (item == null) return (false, "Item not found");
 
-            // Reset
-            item.StatusWait = 0;
-            item.StatusInProgress = 0;
-            item.StatusFinish = 0;
+            try
+            {
+                // Reset
+                item.StatusWait = 0;
+                item.StatusInProgress = 0;
+                item.StatusFinish = 0;
 
-            if (dto.Status == "Wait") item.StatusWait = 1;
-            else if (dto.Status == "InProgress") item.StatusInProgress = 1;
-            else if (dto.Status == "Finish") item.StatusFinish = 1;
-            else return (false, "Invalid status");
+                if (dto.Status == "Wait") item.StatusWait = 1;
+                else if (dto.Status == "InProgress") item.StatusInProgress = 1;
+                else if (dto.Status == "Finish") item.StatusFinish = 1;
+                else return (false, "Invalid status");
 
-            await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
-            // Update Master Status Logic
-            await UpdateMasterStatus(db, item.ServiceOrdKy);
+                // Update Master Status Logic
+                await UpdateMasterStatus(db, item.ServiceOrdKy);
 
-            return (true, "Status updated");
+                return (true, "Status updated");
+            }
+            catch (Exception ex)
+            {
+                return (false, "Error updating status: " + ex.Message);
+            }
         }
 
         private async Task UpdateMasterStatus(DynamicDbContext db, int ordKy)
         {
             var order = await db.ServiceOrder.FindAsync(ordKy);
+            if (order == null) return; // Handle orphan items gracefully
+
             var items = await db.ServiceOrderDetail.Where(x => x.ServiceOrdKy == ordKy).ToListAsync();
 
             // Logic:
@@ -213,7 +237,7 @@ namespace Infrastructure.Services
             }
             else if (anyProgress || anyFinish) // If any is finish but NOT ALL, it's still ongoing logically? Prompt: "if any ... is progress or finish, service state is ongoing". Yes. Because "whole items have finish state" is the ONLY condition for Master Finish. So partial finish = Ongoing.
             {
-                order.Status = "Ongoing";
+                order.Status = "InProgress";
             }
             else
             {
@@ -227,7 +251,7 @@ namespace Infrastructure.Services
         {
             using var db = await _factory.CreateDbContextAsync();
             var orders = await db.ServiceOrder
-                .Where(x => x.CKy == _userContext.CompanyKey && !x.fInAct)
+                .Where(x => !x.fInAct)
                 .ToListAsync();
 
             var result = new List<ServiceOrderDto>();

@@ -1,1 +1,8 @@
-﻿[{ "PkgKy": 1, "PkgNm": "Full Service" }]
+﻿[
+  { "PkgKy": 362, "PkgCd": "PKG-FULSERVICE", "PkgNm": "Full service package", "Active": true },
+  { "PkgKy": 363, "PkgCd": "PKG-BASIC", "PkgNm": "Basic service package", "Active": true },
+  { "PkgKy": 364, "PkgCd": "PKG-PREMIUM", "PkgNm": "Premium service package", "Active": true },
+  { "PkgKy": 365, "PkgCd": "PKG-ENGINECARE", "PkgNm": "Engine care package", "Active": true },
+  { "PkgKy": 366, "PkgCd": "PKG-INSPECTION", "PkgNm": "Full inspection package", "Active": true },
+  { "PkgKy": 367, "PkgCd": "PKG-MAINTENANCE", "PkgNm": "Complete maintenance package", "Active": true }
+]

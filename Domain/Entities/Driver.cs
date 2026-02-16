@@ -21,7 +21,7 @@ namespace Domain.Entities
         [MaxLength(30)]
         public string? LicenseNo { get; set; }
 
-        public bool fInAct { get; set; }
+        public bool? fInAct { get; set; }
 
         public int? EntUsrKy { get; set; }
         public DateTime? EntDtm { get; set; }

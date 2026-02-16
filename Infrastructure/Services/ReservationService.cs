@@ -40,7 +40,7 @@ namespace Infrastructure.Services
                 // 1. Handle Vehicle (Get Existiing or Register New)
                 int vehicleKy = 0;
                 var existingVehicle = await db.Vehicles
-                    .FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId && !v.fInAct);
+                    .FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId && v.fInAct != true);
 
                 if (existingVehicle != null)
                 {
@@ -229,11 +229,9 @@ namespace Infrastructure.Services
                         join p in db.CdMas on r.PackageKy equals p.CdKy into pkg
                         from p in pkg.DefaultIfEmpty()
                         join b in db.Bays on br.BayKy equals b.BayKy
-                        // Join Owner details
-                        // Vehicle has OwnerAccountKy. Link 'Account' table? And 'AccAdr'?
-                        // Lets do simple fetch first.
-                        join acc in db.Account on v.OwnerAccountKy equals acc.AccKy
-                        // join adr ... (VehicleService has logic to get Owner Name. I'll rely on Account Name)
+                        // Left join Account
+                        join acc in db.Account on v.OwnerAccountKy equals (int?)acc.AccKy into accGroup
+                        from acc in accGroup.DefaultIfEmpty()
                         where r.CKy == _userContext.CompanyKey && !r.fInAct
                         select new { r, br, v, p, b, acc };
 
@@ -249,7 +247,7 @@ namespace Infrastructure.Services
                 VehicleKy = x.r.VehicleKy,
                 VehicleId = x.v.VehicleId,
                 VehicleType = "", // Can fetch
-                OwnerName = x.acc.AccNm,
+                OwnerName = x.acc != null ? x.acc.AccNm : "Unknown",
                 OwnerPhone = "", // Need Address link
                 PackageKy = x.r.PackageKy,
                 PackageName = x.p != null ? x.p.CdNm : "Unknown",

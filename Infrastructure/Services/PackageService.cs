@@ -172,7 +172,7 @@ namespace Infrastructure.Services
                     CdNm = p.CdNm,
                     ConCd = p.ConCd,
                     Items = db.ItmMas
-                        .Where(i => i.ItmTypKy == p.CdKy && i.CKy == _userContext.CompanyKey && !i.fInAct)
+                        .Where(i => i.ItmTypKy == p.CdKy && !i.fInAct)
                         .Select(i => new PackageItemDto
                         {
                             ItmKy = i.ItmKy,

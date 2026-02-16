@@ -123,11 +123,11 @@ namespace Infrastructure.Context
                 .HasNoKey();
 
             modelBuilder.Entity<AdrMas>()
-                .ToTable("Address")
+                .ToTable("Address", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.AdrKy);
 
             modelBuilder.Entity<Account>()
-                .ToTable("AccMas")
+                .ToTable("AccMas", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.AccKy);
 
             modelBuilder.Entity<OrdMas>()
@@ -160,8 +160,8 @@ namespace Infrastructure.Context
                 .HasKey(x => x.ObjKy);
 
             modelBuilder.Entity<AccAdr>()
-                .ToTable("AccAdr")
-                .HasNoKey();
+                .ToTable("AccAdr", tb => tb.UseSqlOutputClause(false))
+                .HasKey(x => new { x.AccKy, x.AdrKy });
 
             modelBuilder.Entity<CdMas>(entity =>
             {
@@ -371,15 +371,15 @@ namespace Infrastructure.Context
                 .HasKey(x => x.TempServiceKy);
 
             modelBuilder.Entity<Vehicle>()
-                .ToTable("Vehicle")
+                .ToTable("Vehicle", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.VehicleKy);
 
             modelBuilder.Entity<Driver>()
-                .ToTable("Driver")
+                .ToTable("Driver", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.DriverKy);
 
             modelBuilder.Entity<VehicleDriver>()
-                .ToTable("VehicleDriver")
+                .ToTable("VehicleDriver", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.VehicleDriverKy);
 
             modelBuilder.Entity<Bay>()
@@ -399,15 +399,15 @@ namespace Infrastructure.Context
                 .HasKey(x => x.ResKy);
 
             modelBuilder.Entity<ServiceOrder>()
-                .ToTable("ServiceOrder")
+                .ToTable("ServiceOrder", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.ServiceOrdKy);
 
             modelBuilder.Entity<ServiceOrderDetail>()
-                .ToTable("ServiceOrderDetail")
+                .ToTable("ServiceOrderDetail", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.ServiceOrdDetKy);
 
             modelBuilder.Entity<ServiceOrderApproval>()
-                .ToTable("ServiceOrderApproval")
+                .ToTable("ServiceOrderApproval", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.ApprovalKy);
 
             modelBuilder.Entity<CalendarMas>()
