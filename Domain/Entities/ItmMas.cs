@@ -56,6 +56,7 @@ namespace Domain.Entities
 
         public bool fCtrlItm { get; set; }
         public bool fSrlNo { get; set; }
+        [NotMapped]
         public bool fChkStk { get; set; }
 
         public short BUKy { get; set; }
@@ -71,7 +72,7 @@ namespace Domain.Entities
         public double? OnOrdQty { get; set; }
         public double? ResrvQty { get; set; }
 
-        [Column(TypeName = "real")]
+        [NotMapped]
         public float DisPer { get; set; }
 
         [Column(TypeName = "money")]
@@ -83,7 +84,7 @@ namespace Domain.Entities
         [Column(TypeName = "money")]
         public decimal SlsPri2 { get; set; }
 
-        [Column(TypeName = "real")]
+        [NotMapped]
         public float DisAmt { get; set; }
 
         public double Qty { get; set; }
@@ -93,8 +94,11 @@ namespace Domain.Entities
         [Column(TypeName = "text")]
         public string? ItmRem { get; set; }
 
+        [NotMapped]
         public int Rac1Ky { get; set; }
+        [NotMapped]
         public int Rac2Ky { get; set; }
+        [NotMapped]
         public int SupAdrKy { get; set; }
 
         [MaxLength(2)]
@@ -103,7 +107,7 @@ namespace Domain.Entities
         public int? EntUsrKy { get; set; }
         public DateTime? EntDtm { get; set; }
 
-        [Column(TypeName = "real")]
+        [NotMapped]
         public float PrftMrgn { get; set; }
     }
 }
