@@ -13,7 +13,7 @@ namespace Application.DTOs.Items
 
         public string? partNo { get; set; }   
         public required string itemName { get; set; }  
-        public string? description { get; set; } 
+        public string? time { get; set; } 
 
         public short? itmCat1Ky { get; set; }  
         public short? itmCat2Ky { get; set; } 

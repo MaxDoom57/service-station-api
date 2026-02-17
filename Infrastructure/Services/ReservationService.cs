@@ -146,77 +146,98 @@ namespace Infrastructure.Services
         public async Task<(bool success, string message)> UpdateReservationAsync(int resKy, CreateFullReservationDto dto)
         {
              using var db = await _factory.CreateDbContextAsync();
-             var res = await db.ReservationMas.FindAsync(resKy);
-             if (res == null || res.fInAct) return (false, "Reservation not found");
-
-             // Update simple fields
-             res.PackageKy = dto.PackageKy;
-             res.Remarks = dto.Remarks;
-             // Vehicle update? complicated. Assume vehicle doesn't change for a reservation usually.
-             
-             // Update Bay Reservation Slot?
-             var bayRes = await db.BayReservations.FirstOrDefaultAsync(r => r.ReservationMasKy == resKy && !r.fInAct);
-             if (bayRes != null)
+             try
              {
-                 // Check if times changed, validate overlap again
-                 if (bayRes.FromDtm != dto.BookingFrom || bayRes.ToDtm != dto.BookingTo || bayRes.BayKy != dto.BayKy)
-                 {
-                    bool overlap = await db.BayReservations.AnyAsync(r => 
-                        r.ReservationMasKy != resKy && // Exclude self
-                        r.BayKy == dto.BayKy && !r.fInAct && r.ResStatus != "Cancelled" &&
-                        ((dto.BookingFrom >= r.FromDtm && dto.BookingFrom < r.ToDtm) ||
-                         (dto.BookingTo > r.FromDtm && dto.BookingTo <= r.ToDtm) ||
-                         (dto.BookingFrom <= r.FromDtm && dto.BookingTo >= r.ToDtm)));
-                    
-                    if (overlap) return (false, "New slot is unavailable");
+                 var res = await db.ReservationMas.FindAsync(resKy);
+                 if (res == null || res.fInAct) return (false, "Reservation not found");
 
-                    bayRes.BayKy = dto.BayKy;
-                    bayRes.FromDtm = dto.BookingFrom;
-                    bayRes.ToDtm = dto.BookingTo;
+                 // Update simple fields
+                 res.PackageKy = dto.PackageKy;
+                 res.Remarks = dto.Remarks;
+                 // Vehicle update? complicated. Assume vehicle doesn't change for a reservation usually.
+                 
+                 // Update Bay Reservation Slot?
+                 var bayRes = await db.BayReservations.FirstOrDefaultAsync(r => r.ReservationMasKy == resKy && !r.fInAct);
+                 if (bayRes != null)
+                 {
+                     // Check if times changed, validate overlap again
+                     if (bayRes.FromDtm != dto.BookingFrom || bayRes.ToDtm != dto.BookingTo || bayRes.BayKy != dto.BayKy)
+                     {
+                        bool overlap = await db.BayReservations.AnyAsync(r => 
+                            r.ReservationMasKy != resKy && // Exclude self
+                            r.BayKy == dto.BayKy && !r.fInAct && r.ResStatus != "Cancelled" &&
+                            ((dto.BookingFrom >= r.FromDtm && dto.BookingFrom < r.ToDtm) ||
+                             (dto.BookingTo > r.FromDtm && dto.BookingTo <= r.ToDtm) ||
+                             (dto.BookingFrom <= r.FromDtm && dto.BookingTo >= r.ToDtm)));
+                        
+                        if (overlap) return (false, "New slot is unavailable");
+
+                        bayRes.BayKy = dto.BayKy;
+                        bayRes.FromDtm = dto.BookingFrom;
+                        bayRes.ToDtm = dto.BookingTo;
+                     }
                  }
+                 
+                 await db.SaveChangesAsync();
+                 return (true, "Reservation updated");
              }
-             
-             await db.SaveChangesAsync();
-             return (true, "Reservation updated");
+             catch (Exception ex)
+             {
+                 return (false, "Error updating reservation: " + ex.Message);
+             }
         }
 
         public async Task<(bool success, string message)> DeleteReservationAsync(int resKy)
         {
              using var db = await _factory.CreateDbContextAsync();
-             var res = await db.ReservationMas.FindAsync(resKy);
-             if (res == null) return (false, "Not found");
-
-             res.fInAct = true;
-             
-             var bayRes = await db.BayReservations.FirstOrDefaultAsync(r => r.ReservationMasKy == resKy && !r.fInAct);
-             if (bayRes != null)
+             try
              {
-                 bayRes.fInAct = true;
-                 bayRes.ResStatus = "Cancelled";
-             }
+                 var res = await db.ReservationMas.FindAsync(resKy);
+                 if (res == null) return (false, "Not found");
 
-             await db.SaveChangesAsync();
-             return (true, "Reservation deleted");
+                 res.fInAct = true;
+                 
+                 var bayRes = await db.BayReservations.FirstOrDefaultAsync(r => r.ReservationMasKy == resKy && !r.fInAct);
+                 if (bayRes != null)
+                 {
+                     bayRes.fInAct = true;
+                     bayRes.ResStatus = "Cancelled";
+                 }
+
+                 await db.SaveChangesAsync();
+                 return (true, "Reservation deleted");
+             }
+             catch (Exception ex)
+             {
+                 return (false, "Error deleting reservation: " + ex.Message);
+             }
         }
 
         public async Task<(bool success, string message)> ApproveReservationAsync(int resKy, bool approve)
         {
              using var db = await _factory.CreateDbContextAsync();
-             var res = await db.ReservationMas.FindAsync(resKy);
-             if (res == null) return (false, "Not found");
-             
-             string status = approve ? "Approved" : "Cancelled"; // Or Rejected
-
-             res.ResStatus = status;
-
-             var bayRes = await db.BayReservations.FirstOrDefaultAsync(r => r.ReservationMasKy == resKy && !r.fInAct);
-             if (bayRes != null)
+             try
              {
-                 bayRes.ResStatus = status;
-             }
+                 var res = await db.ReservationMas.FindAsync(resKy);
+                 if (res == null) return (false, "Not found");
+                 
+                 string status = approve ? "Approved" : "Cancelled"; // Or Rejected
 
-             await db.SaveChangesAsync();
-             return (true, $"Reservation {status}");
+                 res.ResStatus = status;
+
+                 var bayRes = await db.BayReservations.FirstOrDefaultAsync(r => r.ReservationMasKy == resKy && !r.fInAct);
+                 if (bayRes != null)
+                 {
+                     bayRes.ResStatus = status;
+                 }
+
+                 await db.SaveChangesAsync();
+                 return (true, $"Reservation {status}");
+             }
+             catch (Exception ex)
+             {
+                 return (false, "Error processing approval: " + ex.Message);
+             }
         }
 
         public async Task<List<ReservationDetailDto>> GetReservationsAsync(string? vehicleId, DateTime? date)
@@ -232,7 +253,7 @@ namespace Infrastructure.Services
                         // Left join Account
                         join acc in db.Account on v.OwnerAccountKy equals (int?)acc.AccKy into accGroup
                         from acc in accGroup.DefaultIfEmpty()
-                        where r.CKy == _userContext.CompanyKey && !r.fInAct
+                        where !r.fInAct
                         select new { r, br, v, p, b, acc };
 
             if (!string.IsNullOrEmpty(vehicleId))

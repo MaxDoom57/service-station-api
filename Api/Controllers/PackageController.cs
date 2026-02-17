@@ -36,10 +36,17 @@ namespace Api.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Invalid details");
 
-            var result = await _service.AddPackageAsync(dto);
-            if (!result.success) return BadRequest(result.message);
-            
-            return CreatedAtAction(nameof(GetPackages), new { message = result.message });
+            try
+            {
+                var result = await _service.AddPackageAsync(dto);
+                if (!result.success) return BadRequest(result.message);
+                
+                return CreatedAtAction(nameof(GetPackages), new { message = result.message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
@@ -47,19 +54,33 @@ namespace Api.Controllers
         {
              if (!ModelState.IsValid) return BadRequest("Invalid details");
 
-            var result = await _service.UpdatePackageAsync(dto);
-            if (!result.success) return BadRequest(result.message);
+            try
+            {
+                var result = await _service.UpdatePackageAsync(dto);
+                if (!result.success) return BadRequest(result.message);
 
-            return Ok(result.message);
+                return Ok(result.message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{cdKy}")]
         public async Task<IActionResult> DeletePackage(int cdKy)
         {
-            var result = await _service.DeletePackageAsync(cdKy);
-            if (!result.success) return BadRequest(result.message);
+            try
+            {
+                var result = await _service.DeletePackageAsync(cdKy);
+                if (!result.success) return BadRequest(result.message);
 
-            return Ok(result.message);
+                return Ok(result.message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpGet("{cdKy}")]
         public async Task<IActionResult> GetPackageDetails(int cdKy)

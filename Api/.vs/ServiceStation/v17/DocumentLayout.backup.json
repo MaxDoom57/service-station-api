@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "E:\\Interwave Solutions\\Service station\\Api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\interwave solutions\\service station\\infrastructure\\services\\serviceorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\interwave solutions\\service station\\infrastructure\\services\\itemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|e:\\interwave solutions\\service station\\api\\controllers\\serviceordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|solutionrelative:controllers\\serviceordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|e:\\interwave solutions\\service station\\api\\controllers\\itemscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|solutionrelative:controllers\\itemscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,28 +22,29 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ServiceOrderController.cs",
-              "DocumentMoniker": "E:\\Interwave Solutions\\Service station\\Api\\Controllers\\ServiceOrderController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ServiceOrderController.cs",
-              "ToolTip": "E:\\Interwave Solutions\\Service station\\Api\\Controllers\\ServiceOrderController.cs",
-              "RelativeToolTip": "Controllers\\ServiceOrderController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABYAAAA/AAAAAAAAAA==",
+              "Title": "ItemsController.cs",
+              "DocumentMoniker": "E:\\Interwave Solutions\\Service station\\Api\\Controllers\\ItemsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ItemsController.cs",
+              "ToolTip": "E:\\Interwave Solutions\\Service station\\Api\\Controllers\\ItemsController.cs",
+              "RelativeToolTip": "Controllers\\ItemsController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-16T08:54:22.969Z",
+              "WhenOpened": "2026-02-17T07:42:13.127Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ServiceOrderService.cs",
-              "DocumentMoniker": "E:\\Interwave Solutions\\Service station\\Infrastructure\\Services\\ServiceOrderService.cs",
-              "RelativeDocumentMoniker": "..\\Infrastructure\\Services\\ServiceOrderService.cs",
-              "ToolTip": "E:\\Interwave Solutions\\Service station\\Infrastructure\\Services\\ServiceOrderService.cs",
-              "RelativeToolTip": "..\\Infrastructure\\Services\\ServiceOrderService.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAApwBwAAABFAAAAAAAAAA==",
+              "Title": "ItemService.cs",
+              "DocumentMoniker": "E:\\Interwave Solutions\\Service station\\Infrastructure\\Services\\ItemService.cs",
+              "RelativeDocumentMoniker": "..\\Infrastructure\\Services\\ItemService.cs",
+              "ToolTip": "E:\\Interwave Solutions\\Service station\\Infrastructure\\Services\\ItemService.cs",
+              "RelativeToolTip": "..\\Infrastructure\\Services\\ItemService.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAApwCEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-16T08:54:33.027Z",
+              "WhenOpened": "2026-02-17T07:42:19.905Z",
+              "IsPinned": true,
               "EditorCaption": ""
             }
           ]

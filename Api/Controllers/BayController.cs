@@ -36,30 +36,51 @@ namespace Api.Controllers
         {
             if (!ModelState.IsValid) return BadRequest("Invalid details");
 
-            var result = await _service.AddBayAsync(dto);
-            if (!result.success) return BadRequest(result.message);
-            
-            return CreatedAtAction(nameof(GetBays), new { message = result.message });
+            try
+            {
+                var result = await _service.AddBayAsync(dto);
+                if (!result.success) return BadRequest(result.message);
+                
+                return CreatedAtAction(nameof(GetBays), new { message = result.message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateBay([FromBody] UpdateBayDto dto)
         {
              if (!ModelState.IsValid) return BadRequest("Invalid details");
-
-            var result = await _service.UpdateBayAsync(dto);
-            if (!result.success) return BadRequest(result.message);
-
-            return Ok(result.message);
+ 
+             try
+             {
+                var result = await _service.UpdateBayAsync(dto);
+                if (!result.success) return BadRequest(result.message);
+    
+                return Ok(result.message);
+             }
+             catch (Exception ex)
+             {
+                 return BadRequest(ex.Message);
+             }
         }
 
         [HttpDelete("{bayKy}")]
         public async Task<IActionResult> DeleteBay(int bayKy)
         {
-            var result = await _service.DeleteBayAsync(bayKy);
-            if (!result.success) return BadRequest(result.message);
-
-            return Ok(result.message);
+            try
+            {
+                var result = await _service.DeleteBayAsync(bayKy);
+                if (!result.success) return BadRequest(result.message);
+    
+                return Ok(result.message);
+            }
+            catch (Exception ex)
+            {
+                 return BadRequest(ex.Message);
+            }
         }
     }
 }

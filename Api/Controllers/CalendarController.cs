@@ -20,19 +20,26 @@ namespace Api.Controllers
         [HttpGet("unavailable-dates")]
         public async Task<IActionResult> GetUnavailableDates()
         {
-            using var db = await _factory.CreateDbContextAsync();
-            var today = DateTime.Today;
+            try
+            {
+                using var db = await _factory.CreateDbContextAsync();
+                var today = DateTime.Today;
 
-            var dates = await db.CalendarMas
-                .Where(c => c.CalDt >= today && !c.fInAct)
-                .Select(c => new 
-                {
-                    Date = c.CalDt,
-                    Description = c.CalDesc
-                })
-                .ToListAsync();
+                var dates = await db.CalendarMas
+                    .Where(c => c.CalDt >= today && !c.fInAct)
+                    .Select(c => new 
+                    {
+                        Date = c.CalDt,
+                        Description = c.CalDesc
+                    })
+                    .ToListAsync();
 
-            return Ok(dates);
+                return Ok(dates);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

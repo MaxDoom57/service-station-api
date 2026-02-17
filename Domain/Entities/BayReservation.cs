@@ -11,7 +11,6 @@ namespace Domain.Entities
 
         public int BayKy { get; set; } // FK to Bay
         
-        [NotMapped]  // This field is not in BayReservation table - used only in application logic
         public int? ReservationMasKy { get; set; } // FK to ReservationMas (optional)
         
         public int? VehicleKy { get; set; } // FK to Vehicle

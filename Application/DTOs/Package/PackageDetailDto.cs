@@ -5,7 +5,7 @@ namespace Application.DTOs.Package
         public int ItmKy { get; set; }
         public string ItmCd { get; set; }
         public string? ItmNm { get; set; }
-        public string? Des { get; set; }
+        public string? Time { get; set; }
         public decimal? SlsPri { get; set; }
     }
 

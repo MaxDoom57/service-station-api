@@ -56,6 +56,10 @@ namespace Infrastructure.Services
                 if (!vehicle.OwnerAccountKy.HasValue) return (false, "Vehicle has no linked owner", 0);
                 int accKy = vehicle.OwnerAccountKy.Value;
 
+                // Validate Package Key
+                if (!await db.CdMas.AnyAsync(c => c.CdKy == dto.PackageKy))
+                    return (false, "Invalid Package Key", 0);
+
                 // 3. Create ServiceOrder Master
                 var order = new ServiceOrder
                 {
@@ -80,7 +84,7 @@ namespace Infrastructure.Services
                 // 4. Add Package Items to Details
                 // Fetch items for package
                 var pkgItems = await db.ItmMas
-                    .Where(x => x.CKy == _userContext.CompanyKey && x.ItmTypKy == dto.PackageKy && !x.fInAct)
+                    .Where(x => x.ItmTypKy == dto.PackageKy && !x.fInAct)
                     .ToListAsync();
 
                 foreach (var item in pkgItems)
@@ -118,6 +122,10 @@ namespace Infrastructure.Services
         {
              using var db = await _factory.CreateDbContextAsync();
              var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey) ?? 0;
+
+             // Validate Service Order Exists
+             var orderExists = await db.ServiceOrder.AnyAsync(o => o.ServiceOrdKy == dto.ServiceOrdKy);
+             if (!orderExists) return (false, "Service Order not found");
 
              try
              {

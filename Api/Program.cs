@@ -31,7 +31,6 @@ builder.Services.AddScoped<PaymentTermService>();
 builder.Services.AddScoped<InvoiceDetailsService>();
 builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<CommonLookupService>();
-builder.Services.AddScoped<InvoiceService>();
 builder.Services.AddScoped<IValidationService, ValidationService>();
 builder.Services.AddScoped<StockService>();
 builder.Services.AddScoped<PurchaseOrderService>();

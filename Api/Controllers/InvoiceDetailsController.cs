@@ -19,8 +19,15 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDetails()
         {
-            var result = await _service.GetDetailsAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetDetailsAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

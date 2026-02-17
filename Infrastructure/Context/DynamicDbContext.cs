@@ -131,11 +131,11 @@ namespace Infrastructure.Context
                 .HasKey(x => x.AccKy);
 
             modelBuilder.Entity<OrdMas>()
-                .ToTable("OrdMas")
+                .ToTable("OrdMas", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.OrdKy);
 
             modelBuilder.Entity<OrdDet>()
-                .ToTable("OrdDet")
+                .ToTable("OrdDet", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.OrdDetKy);
 
             modelBuilder.Entity<Units>()

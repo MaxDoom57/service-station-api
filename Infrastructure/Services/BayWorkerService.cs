@@ -14,11 +14,13 @@ namespace Infrastructure.Services
     {
         private readonly IDynamicDbContextFactory _factory;
         private readonly IUserRequestContext _userContext;
+        private readonly IUserKeyService _userKeyService;
 
-        public BayWorkerService(IDynamicDbContextFactory factory, IUserRequestContext userContext)
+        public BayWorkerService(IDynamicDbContextFactory factory, IUserRequestContext userContext, IUserKeyService userKeyService)
         {
             _factory = factory;
             _userContext = userContext;
+            _userKeyService = userKeyService;
         }
 
         public async Task<(bool success, string message, int workerKy)> AddWorkerToBayAsync(CreateBayWorkerDto dto)
@@ -41,6 +43,8 @@ namespace Infrastructure.Services
                 if (existing != null)
                     return (false, "Worker is already assigned to this bay", existing.BayWorkerKy);
 
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey) ?? 1;
+
                 var worker = new BayWorker
                 {
                     BayKy = dto.BayKy,
@@ -48,7 +52,7 @@ namespace Infrastructure.Services
                     Remarks = dto.Remarks,
                     fInAct = false,
                     EntDtm = DateTime.Now,
-                    EntUsrKy = _userContext.UserId != null ? int.Parse(_userContext.UserId) : 1,
+                    EntUsrKy = userKey,
                     CKy = _userContext.CompanyKey
                 };
 

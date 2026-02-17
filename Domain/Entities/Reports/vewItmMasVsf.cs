@@ -11,6 +11,8 @@ namespace Domain.Entities.Reports
         public int Edited { get; set; }
 
         public int ItmKy { get; set; }
+        
+        public string? Des { get; set; }
 
         public string ItmCd { get; set; } = null!;
 

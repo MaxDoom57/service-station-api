@@ -11,6 +11,7 @@ namespace Application.DTOs.Items
         public int CKy { get; set; }
         public int ItmKy { get; set; }
         public short ItmTypKy { get; set; }
+        public string? Time { get; set; }
         public string? BseItmCd { get; set; }
         public string ItmCd { get; set; }
         public string? PartNo { get; set; }

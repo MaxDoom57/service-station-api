@@ -281,17 +281,24 @@ namespace Infrastructure.Services
         {
             using var db = await _factory.CreateDbContextAsync();
             
-            var order = await db.OrdMas.FindAsync(ordKy);
-            if (order == null)
-                return (false, "Order not found");
+            try
+            {
+                var order = await db.OrdMas.FindAsync(ordKy);
+                if (order == null)
+                    return (false, "Order not found");
 
-            if (order.CKy != _userContext.CompanyKey)
-                return (false, "Unauthorized");
+                if (order.CKy != _userContext.CompanyKey)
+                    return (false, "Unauthorized");
 
-            order.fInAct = true;
-            await db.SaveChangesAsync();
+                order.fInAct = true;
+                await db.SaveChangesAsync();
 
-            return (true, "Order deleted successfully");
+                return (true, "Order deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return (false, "Error: " + ex.Message);
+            }
         }
 
         public async Task<List<OrderListDto>> GetAllOrdersAsync()

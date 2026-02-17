@@ -36,10 +36,44 @@ namespace Infrastructure.Services
         //--------------------------------------------------
         // GET ITEMS DETAILS
         //--------------------------------------------------
-        public async Task<List<Item>> GetAllItemsAsync()
+        public async Task<List<ItemDto>> GetAllItemsAsync()
         {
             using var db = await _factory.CreateDbContextAsync();
-            return await db.Items.ToListAsync();
+            
+            // Join Items view with ItmMas table to get Des (Time)
+            var query = from v in db.Items
+                        join m in db.ItmMas on v.ItmKy equals m.ItmKy into mGroup
+                        from m in mGroup.DefaultIfEmpty()
+                        select new ItemDto
+                        {
+                            CKy = v.CKy,
+                            ItmKy = v.ItmKy,
+                            ItmTypKy = v.ItmTypKy,
+                            BseItmCd = v.BseItmCd,
+                            ItmCd = v.ItmCd,
+                            PartNo = v.PartNo,
+                            ItmNm = v.ItmNm,
+                            ItmTypCd = v.ItmTypCd,
+                            ItmTyp = v.ItmTyp,
+                            ItmCat1Ky = v.ItmCat1Ky,
+                            ItmCat2Ky = v.ItmCat2Ky,
+                            ItmCat3Ky = v.ItmCat3Ky,
+                            CosPri = v.CosPri,
+                            SlsPri = v.SlsPri,
+                            SlsPri2 = v.SlsPri2,
+                            UnitKy = v.UnitKy,
+                            Unit = v.Unit,
+                            ItmPrp1Ky = v.ItmPrp1Ky,
+                            ItmPrp2Ky = v.ItmPrp2Ky,
+                            BUKy = v.BUKy,
+                            Wrnty = v.Wrnty,
+                            fSrlNo = v.fSrlNo,
+                            ItmRem = v.ItmRem,
+                            ItmCat4Ky = v.ItmCat4Ky,
+                            Time = m != null ? m.Des : null
+                        };
+
+            return await query.ToListAsync();
         }
 
         public async Task<List<ItemsWithoutFInActDTO>> GetItemsWithoutFInActAsync()
@@ -55,6 +89,7 @@ namespace Infrastructure.Services
                     CKy = _userContext.CompanyKey,     // if not in view, use context
                     ItmKy = x.ItmKy,
                     ItmTypKy = x.ItmTypKy,
+                    Time = x.Des,
                     BseItmCd = null,                  // not available in vewItmMasVsf
                     ItmCd = x.ItmCd,
                     PartNo = x.PartNo,
@@ -154,7 +189,7 @@ namespace Infrastructure.Services
                     cmdInsert.Parameters.Add(new SqlParameter("@ItmTyp", dto.itemType));
                     cmdInsert.Parameters.Add(new SqlParameter("@PartNo", (object?)dto.partNo ?? DBNull.Value));
                     cmdInsert.Parameters.Add(new SqlParameter("@ItmNm", dto.itemName));
-                    cmdInsert.Parameters.Add(new SqlParameter("@Des", (object?)dto.description ?? DBNull.Value));
+                    cmdInsert.Parameters.Add(new SqlParameter("@Des", (object?)dto.time ?? DBNull.Value));
                     cmdInsert.Parameters.Add(new SqlParameter("@LocKy", locKy));
                     cmdInsert.Parameters.Add(new SqlParameter("@ItmCat1Ky", (object?)dto.itmCat1Ky ?? DBNull.Value));
                     cmdInsert.Parameters.Add(new SqlParameter("@ItmCat2Ky", (object?)dto.itmCat2Ky ?? DBNull.Value));
@@ -205,7 +240,7 @@ namespace Infrastructure.Services
                         ItmTyp = dto.itemType,
                         PartNo = dto.partNo,
                         ItmNm = dto.itemName,
-                        Des = dto.description,
+                        Des = dto.time,
                         ItmCat1Ky = dto.itmCat1Ky ?? 0,
                         ItmCat2Ky = dto.itmCat2Ky ?? 0,
                         ItmCat3Ky = dto.itmCat3Ky ?? 0,
@@ -325,7 +360,7 @@ namespace Infrastructure.Services
                 cmd.Parameters.Add(new SqlParameter("@ItmTyp", dto.itemType ?? (object)DBNull.Value));
                 cmd.Parameters.Add(new SqlParameter("@PartNo", dto.partNo ?? (object)DBNull.Value));
                 cmd.Parameters.Add(new SqlParameter("@ItmNm", dto.itemName ?? (object)DBNull.Value));
-                cmd.Parameters.Add(new SqlParameter("@Des", dto.description ?? (object)DBNull.Value));
+                cmd.Parameters.Add(new SqlParameter("@Des", dto.time ?? (object)DBNull.Value));
 
                 cmd.Parameters.Add(new SqlParameter("@ItmCat1Ky", dto.itmCat1Ky ?? (object)DBNull.Value));
                 cmd.Parameters.Add(new SqlParameter("@ItmCat2Ky", dto.itmCat2Ky ?? (object)DBNull.Value));
