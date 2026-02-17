@@ -1,1 +1,7 @@
-﻿[]
+﻿[
+  { "ResKy": 501, "VehicleNo": "WP-CAB-1234", "Date": "2026-02-20", "Time": "10:00 AM", "Status": "Pending" },
+  { "ResKy": 502, "VehicleNo": "CP-KV-9999", "Date": "2026-02-21", "Time": "02:00 PM", "Status": "Approved" },
+  { "ResKy": 503, "VehicleNo": "WP-KA-4567", "Date": "2026-02-22", "Time": "09:00 AM", "Status": "Pending" },
+  { "ResKy": 504, "VehicleNo": "NW-BC-1111", "Date": "2026-02-23", "Time": "11:30 AM", "Status": "Approved" },
+  { "ResKy": 505, "VehicleNo": "SP-GH-2222", "Date": "2026-02-24", "Time": "04:00 PM", "Status": "Rejected" }
+]

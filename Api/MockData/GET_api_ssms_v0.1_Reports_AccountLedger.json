@@ -1,1 +1,7 @@
-﻿[]
+﻿[
+  { "Date": "2026-02-01", "Description": "Transaction A", "Amount": 5000.00, "Reference": "REF001" },
+  { "Date": "2026-02-02", "Description": "Transaction B", "Amount": 3500.00, "Reference": "REF002" },
+  { "Date": "2026-02-03", "Description": "Transaction C", "Amount": 1200.00, "Reference": "REF003" },
+  { "Date": "2026-02-04", "Description": "Transaction D", "Amount": 8500.00, "Reference": "REF004" },
+  { "Date": "2026-02-05", "Description": "Transaction E", "Amount": 2000.00, "Reference": "REF005" }
+]

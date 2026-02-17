@@ -1,1 +1,7 @@
-﻿[{ "BayKy": 1, "Status": "Available" }]
+﻿[
+  { "BayKy": 1, "BayNm": "Washing Bay 1", "Status": "Occupied", "VehicleNo": "WP-CAB-1234" },
+  { "BayKy": 2, "BayNm": "Washing Bay 2", "Status": "Available", "VehicleNo": null },
+  { "BayKy": 3, "BayNm": "Oil Change Bay", "Status": "Occupied", "VehicleNo": "CP-KV-9999" },
+  { "BayKy": 4, "BayNm": "Repair Bay 1", "Status": "Available", "VehicleNo": null },
+  { "BayKy": 5, "BayNm": "Repair Bay 2", "Status": "Maintenance", "VehicleNo": null }
+]

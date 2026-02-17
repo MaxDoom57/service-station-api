@@ -1,1 +1,7 @@
-﻿[{ "CdKy": 1, "CdNm": "Cat1" }]
+﻿[
+  { "CdKy": 10, "CdNm": "Lubricants" },
+  { "CdKy": 11, "CdNm": "Spare Parts" },
+  { "CdKy": 12, "CdNm": "Filters" },
+  { "CdKy": 13, "CdNm": "Tyres" },
+  { "CdKy": 14, "CdNm": "Accessories" }
+]

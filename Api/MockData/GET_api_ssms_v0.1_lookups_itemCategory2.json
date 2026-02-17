@@ -1,1 +1,7 @@
-﻿[{ "CdKy": 1, "CdNm": "Cat2" }]
+﻿[
+  { "CdKy": 20, "CdNm": "Synthetic" },
+  { "CdKy": 21, "CdNm": "Mineral" },
+  { "CdKy": 22, "CdNm": "Semi-Synthetic" },
+  { "CdKy": 23, "CdNm": "Brake Fluid" },
+  { "CdKy": 24, "CdNm": "Transmission Fluid" }
+]

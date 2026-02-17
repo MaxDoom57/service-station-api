@@ -1,1 +1,7 @@
-﻿[{ "UsrKy": 1, "UsrId": "Admin" }]
+﻿[
+  { "UsrKy": 101, "UsrId": "admin", "UsrNm": "System Admin", "Role": "Admin" },
+  { "UsrKy": 102, "UsrId": "mgr01", "UsrNm": "Manager One", "Role": "Manager" },
+  { "UsrKy": 103, "UsrId": "tech01", "UsrNm": "Kamal Perera", "Role": "Technician" },
+  { "UsrKy": 104, "UsrId": "tech02", "UsrNm": "Sunil Silva", "Role": "Technician" },
+  { "UsrKy": 105, "UsrId": "cashier", "UsrNm": "Nimal Fernando", "Role": "Cashier" }
+]

@@ -1,1 +1,7 @@
-﻿[{ "PmtTrmKy": 1, "PmtTrmNm": "Cash" }]
+﻿[
+  { "PmtTrmKy": 1, "PmtTrmNm": "Cash" },
+  { "PmtTrmKy": 2, "PmtTrmNm": "Credit Card" },
+  { "PmtTrmKy": 3, "PmtTrmNm": "Cheque" },
+  { "PmtTrmKy": 4, "PmtTrmNm": "Bank Transfer" },
+  { "PmtTrmKy": 5, "PmtTrmNm": "Credit (30 Days)" }
+]

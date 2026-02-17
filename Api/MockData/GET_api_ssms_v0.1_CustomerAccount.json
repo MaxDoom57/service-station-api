@@ -1,1 +1,7 @@
-﻿[{ "AccKy": 1, "AccNm": "Customer Account 1" }]
+﻿[
+  { "AccKy": 1, "AccNm": "John Doe Account", "Balance": 0.00 },
+  { "AccKy": 2, "AccNm": "Jane Smith Account", "Balance": 1500.00 },
+  { "AccKy": 3, "AccNm": "ABC Logistics Corp", "Balance": 50000.00 },
+  { "AccKy": 4, "AccNm": "Sunil Traders Credit", "Balance": 12000.00 },
+  { "AccKy": 5, "AccNm": "City Transport", "Balance": 2500.50 }
+]

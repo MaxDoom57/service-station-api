@@ -1,1 +1,7 @@
-﻿[{ "AccKy": 1, "AccNm": "Sales Account 1" }]
+﻿[
+  { "AccKy": 801, "AccNm": "General Sales" },
+  { "AccKy": 802, "AccNm": "Service Revenue" },
+  { "AccKy": 803, "AccNm": "Spare Parts Sales" },
+  { "AccKy": 804, "AccNm": "Lubricant Sales" },
+  { "AccKy": 805, "AccNm": "Other Income" }
+]
