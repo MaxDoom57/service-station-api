@@ -32,15 +32,26 @@ namespace Infrastructure.Services
                 var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey) ?? 0;
 
                 // Generate Order Number
-                var maxOrdNo = await db.OrdMas
-                    .Where(o => o.CKy == _userContext.CompanyKey)
-                    .MaxAsync(o => (int?)o.OrdNo) ?? 0;
+                int nextOrdNo = 1;
+                var ordNoLst = await db.OrdNoLst.FirstOrDefaultAsync(x => x.OurCd == "SLSORD");
+                if (ordNoLst != null)
+                {
+                    nextOrdNo = ordNoLst.LstOrdNo + 1;
+                    ordNoLst.LstOrdNo = nextOrdNo;
+                }
+                else
+                {
+                    var maxOrdNo = await db.OrdMas
+                        .Where(o => o.CKy == _userContext.CompanyKey)
+                        .MaxAsync(o => (int?)o.OrdNo) ?? 0;
+                    nextOrdNo = maxOrdNo + 1;
+                }
 
                 var order = new OrdMas
                 {
                     CKy = (short)_userContext.CompanyKey,
                     LocKy = dto.LocKy,
-                    OrdNo = maxOrdNo + 1,
+                    OrdNo = nextOrdNo,
                     OrdTyp = dto.OrdTyp,
                     OrdTypKy = dto.OrdTypKy,
                     Adrky = dto.Adrky,

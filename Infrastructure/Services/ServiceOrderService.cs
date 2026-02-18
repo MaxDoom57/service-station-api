@@ -107,6 +107,11 @@ namespace Infrastructure.Services
                 }
 
                 await db.SaveChangesAsync();
+
+                // Sync to OrdMas/OrdDet
+                await CreateOrdMasAndDetSync(db, order, userKey);
+                await db.SaveChangesAsync();
+
                 await transaction.CommitAsync();
 
                 return (true, "Service Order Created", order.ServiceOrdKy);
@@ -183,6 +188,11 @@ namespace Infrastructure.Services
                 db.ServiceOrderApproval.Add(approval);
                 
                 await db.SaveChangesAsync();
+
+                // Sync Sync to OrdDet
+                await CreateOrdDetSync(db, item, (od) => db.OrdDet.Add(od));
+                await db.SaveChangesAsync();
+
                 return (true, "Item approved");
             }
             catch (Exception ex)
@@ -320,6 +330,143 @@ namespace Infrastructure.Services
                         Status = i.StatusInProgress == 1 ? "InProgress" : (i.StatusFinish == 1 ? "Finish" : "Wait")
                     }).ToList()
                 };
+        }
+        // ---------------------------------------------------------
+        // Sync Logic for OrdMas / OrdDet
+        // ---------------------------------------------------------
+
+        private async Task CreateOrdMasAndDetSync(DynamicDbContext db, ServiceOrder so, int userKey)
+        {
+            // 1. Resolve Address
+            var accAdr = await db.AccAdr.FirstOrDefaultAsync(x => x.AccKy == so.AccKy);
+            int adrKy = accAdr?.AdrKy ?? 1;
+
+            // 2. Resolve OrdTypKy ("SLSORD")
+            var ordTypCd = await db.CdMas.FirstOrDefaultAsync(c => c.Code == "SLSORD" && c.ConCd == "OrdTyp");
+            short ordTypKy = (short)(ordTypCd?.CdKy ?? 1);
+
+            // 3. Get Next OrdNo from OrdNoLst (NOT TrnNoLst)
+            int nextOrdNo = 1;
+            // Use OrdNoLst table as requested
+            var ordNoLst = await db.OrdNoLst.FirstOrDefaultAsync(x => x.OurCd == "SLSORD");
+            if (ordNoLst != null)
+            {
+                nextOrdNo = ordNoLst.LstOrdNo + 1;
+                ordNoLst.LstOrdNo = nextOrdNo; // Update Last No
+            }
+            else
+            {
+                // Optional: Create new entry or fallback
+                // If the user provided the table data, it assumes it exists. 
+                // We'll proceed with 1 if not found.
+            }
+
+            // 4. Create OrdMas
+            var ordMas = new OrdMas
+            {
+                CKy = (short)so.CKy,
+                LocKy = 1,
+                OrdNo = nextOrdNo,
+                OrdTyp = "SLSORD",
+                OrdTypKy = ordTypKy,
+                Adrky = adrKy,
+                AccKy = so.AccKy,
+                PmtTrmKy = 1,
+                SlsPri = 0, 
+                fInAct = false,
+                fApr = 1,
+                fInv = false,
+                fFinish = false,
+                Des = (!string.IsNullOrEmpty(so.Remarks) ? so.Remarks : "Service Order " + so.ServiceOrdNo),
+                DocNo = so.ServiceOrdNo, // Link to SO
+                YurRef = so.ServiceOrdNo,
+                EntUsrKy = userKey,
+                OrdDt = so.EntDtm,
+                EntDtm = DateTime.Now,
+                OrdFrqKy = 1,
+                OrdStsKy = 1,
+                BUKy = 1,
+                SKy = 1
+            };
+
+            db.OrdMas.Add(ordMas);
+            await db.SaveChangesAsync(); // Generates OrdKy and updates OrdNoLst
+
+            // 5. Create OrdDets
+            var details = await db.ServiceOrderDetail.Where(x => x.ServiceOrdKy == so.ServiceOrdKy).ToListAsync();
+            double liNo = 1;
+            foreach (var d in details)
+            {
+                await CreateOrdDetLogic(db, d, ordMas.OrdKy, userKey, liNo++);
+            }
+        }
+
+        private async Task CreateOrdDetSync(DynamicDbContext db, ServiceOrderDetail item, Action<OrdDet> addAction)
+        {
+            var so = await db.ServiceOrder.FindAsync(item.ServiceOrdKy);
+            if (so == null) return;
+
+            var ordMas = await db.OrdMas.FirstOrDefaultAsync(x => x.DocNo == so.ServiceOrdNo && x.OrdTyp == "SLSORD");
+            if (ordMas != null)
+            {
+                await CreateOrdDetLogic(db, item, ordMas.OrdKy, item.EntUsrKy, null);
+            }
+        }
+
+        private async Task CreateOrdDetLogic(DynamicDbContext db, ServiceOrderDetail item, int ordKy, int userKey, double? explicitLiNo)
+        {
+            // Resolve Item Codes
+            string itmCd = "CUSTOM";
+            string des = item.ItemName;
+            
+            if (item.ItemKy.HasValue)
+            {
+                var itm = await db.ItmMas.FindAsync(item.ItemKy.Value);
+                if (itm != null) itmCd = itm.ItmCd;
+            }
+
+            // Resolve LiNo
+            double liNoToUse;
+            if (explicitLiNo.HasValue)
+            {
+                liNoToUse = explicitLiNo.Value;
+            }
+            else
+            {
+                var maxLiNo = await db.OrdDet.Where(x => x.Ordky == ordKy).MaxAsync(x => (double?)x.LiNo) ?? 0;
+                liNoToUse = maxLiNo + 1;
+            }
+
+            var det = new OrdDet
+            {
+                Ordky = ordKy,
+                LiNo = liNoToUse,
+                ItmKy = item.ItemKy,
+                ItmCd = itmCd,
+                Des = des,
+                Status = "A",
+                EstQty = 1,
+                OrdQty = 1,
+                DlvQty = 0,
+                BulkQty = 0,
+                EstPri = item.Price,
+                OrdPri = item.Price,
+                SlsPri = item.Price,
+                DisPer = 0,
+                DisAmt = 0,
+                fApr = 1,
+                fVirtItm = false,
+                EntUsrKy = userKey,
+                EntDtm = DateTime.Now,
+                AdrKy = 1, 
+                BUKy = 1,
+                CdKy1 = 1,
+                Amt1 = 0,
+                Amt2 = 0,
+                MatAmt = 0, LabAmt = 0, PltAmt = 0, SubConAmt = 0
+            };
+
+            db.OrdDet.Add(det);
         }
     }
 }

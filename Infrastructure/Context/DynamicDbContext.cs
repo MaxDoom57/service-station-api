@@ -74,6 +74,7 @@ namespace Infrastructure.Context
         public DbSet<CalendarMas> CalendarMas { get; set; }
         public DbSet<ApiRequestLog> ApiRequestLogs { get; set; }
         public DbSet<BayWorker> BayWorkers { get; set; }
+        public DbSet<OrdNoLst> OrdNoLst { get; set; }
 
         //Report views
         public DbSet<VewSlsDtlsRpt> VewSlsDtlsRpt { get; set; }
@@ -421,6 +422,10 @@ namespace Infrastructure.Context
             modelBuilder.Entity<BayWorker>()
                 .ToTable("BayWorker")
                 .HasKey(x => x.BayWorkerKy);
+
+            modelBuilder.Entity<OrdNoLst>()
+                .ToTable("OrdNoLst")
+                .HasKey(x => x.OrdNoLstKy);
         }
     }
 }
