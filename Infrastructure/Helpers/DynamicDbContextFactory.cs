@@ -2,9 +2,7 @@
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Domain.Entities;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Helpers
@@ -27,53 +25,71 @@ namespace Infrastructure.Helpers
 
         public async Task<DynamicDbContext> CreateDbContextAsync()
         {
-            // Step 1: Validate
-            if (_userContext.CompanyKey <= 0 || _userContext.ProjectKey <= 0) 
+            // Validate session
+            if (_userContext.CompanyKey <= 0 || _userContext.ProjectKey <= 0)
                 throw new Exception("Invalid session data.");
 
-            Console.WriteLine("Session data valid........");
-            // Step 2: Get credentials for this tenant
             var creds = await _mainDb.DbCredentials
                 .FirstOrDefaultAsync(x =>
                     x.CKy == _userContext.CompanyKey &&
-                    x.PrjKy == _userContext.ProjectKey
-                    );
+                    x.PrjKy == _userContext.ProjectKey);
 
             if (creds == null)
                 throw new Exception("Database credentials not found.");
 
+            if (string.IsNullOrWhiteSpace(creds.DbServer) ||
+                string.IsNullOrWhiteSpace(creds.DbName))
+            {
+                throw new Exception("Server or database name missing.");
+            }
+
+
             string connString;
 
-            // Step 3: Choose authentication mode
             bool hasSqlAuth =
                 !string.IsNullOrWhiteSpace(creds.DbUser) &&
                 !string.IsNullOrWhiteSpace(creds.DbPassword);
 
             if (hasSqlAuth)
             {
-                // SQL Login Authentication
+                // SQL Authentication
                 connString =
                     $"Server={creds.DbServer};" +
                     $"Database={creds.DbName};" +
                     $"User ID={creds.DbUser};" +
                     $"Password={creds.DbPassword};" +
-                    "TrustServerCertificate=True;";
+                    "Encrypt=False;" +
+                    "TrustServerCertificate=True;" +
+                    "MultipleActiveResultSets=True;" +
+                    "Connection Timeout=30;";
             }
             else
             {
-                // Windows Authentication
+                // No username/password provided
+                // Build connection string WITHOUT auth fields
                 connString =
                     $"Server={creds.DbServer};" +
                     $"Database={creds.DbName};" +
-                    "Trusted_Connection=True;" +
                     "Encrypt=False;" +
-                    "TrustServerCertificate=True;";
+                    "TrustServerCertificate=True;" +
+                    "MultipleActiveResultSets=True;" +
+                    "Connection Timeout=30;";
             }
-            Console.WriteLine($"Connection String: {connString}");
 
-            // Step 4: Build dynamic context
             var builder = new DbContextOptionsBuilder<DynamicDbContext>();
-            builder.UseSqlServer(connString);
+
+            builder.UseSqlServer(connString, options =>
+            {
+                options.EnableRetryOnFailure(
+                    maxRetryCount: 3,
+                    maxRetryDelay: TimeSpan.FromSeconds(5),
+                    errorNumbersToAdd: null);
+            });
+
+#if DEBUG
+            builder.EnableDetailedErrors();
+            builder.EnableSensitiveDataLogging();
+#endif
 
             return new DynamicDbContext(builder.Options);
         }
