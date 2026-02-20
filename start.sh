@@ -7,20 +7,22 @@ curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cl
 chmod +x /usr/local/bin/cloudflared
 echo "cloudflared installed: $(cloudflared --version)"
 
-echo "=== Connecting to Cloudflare tunnel ==="
-cloudflared tunnel --no-autoupdate run \
-  --token "$CF_TUNNEL_TOKEN" &
+echo "=== Starting cloudflared TCP proxy ==="
+cloudflared access tcp \
+  --hostname db.eposmart.com \
+  --url localhost:1434 \
+  --id "$CF_CLIENT_ID" \
+  --secret "$CF_CLIENT_SECRET" &
 
 CF_PID=$!
 echo "cloudflared PID: $CF_PID"
 
-echo "=== Waiting 15s for tunnel to establish ==="
-sleep 15
+sleep 10
 
 if ! kill -0 $CF_PID 2>/dev/null; then
-  echo "ERROR: cloudflared tunnel failed to connect"
+  echo "ERROR: cloudflared failed"
   exit 1
 fi
 
-echo "=== Tunnel established, starting API ==="
+echo "=== Tunnel ready, starting API ==="
 exec dotnet ServiceStationApi.dll --urls "http://0.0.0.0:${PORT:-8080}"
