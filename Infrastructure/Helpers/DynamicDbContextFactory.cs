@@ -46,18 +46,14 @@ namespace Infrastructure.Helpers
 
             string connString;
 
-            bool hasSqlAuth =
-                !string.IsNullOrWhiteSpace(creds.DbUser) &&
-                !string.IsNullOrWhiteSpace(creds.DbPassword);
-
-            if (hasSqlAuth)
+            if (!string.IsNullOrWhiteSpace(creds.DbUser))
             {
                 // SQL Authentication
                 connString =
                     $"Server={creds.DbServer};" +
                     $"Database={creds.DbName};" +
                     $"User ID={creds.DbUser};" +
-                    $"Password={creds.DbPassword};" +
+                    $"Password={creds.DbPassword ?? ""};" +
                     "Encrypt=False;" +
                     "TrustServerCertificate=True;" +
                     "MultipleActiveResultSets=True;" +
@@ -65,11 +61,11 @@ namespace Infrastructure.Helpers
             }
             else
             {
-                // No username/password provided
-                // Build connection string WITHOUT auth fields
+                // Integrated Security (Windows Authentication)
                 connString =
                     $"Server={creds.DbServer};" +
                     $"Database={creds.DbName};" +
+                    "Integrated Security=True;" +
                     "Encrypt=False;" +
                     "TrustServerCertificate=True;" +
                     "MultipleActiveResultSets=True;" +

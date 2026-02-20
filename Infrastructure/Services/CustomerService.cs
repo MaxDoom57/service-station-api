@@ -5,8 +5,13 @@ using Infrastructure.Context;
 using Infrastructure.Services;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Data.Common;
+using System.Diagnostics;
+using System.Diagnostics;
 using System.Net;
+using System.Net.Sockets;
+using System.Net.Sockets;
 using System.Security.Cryptography;
 
 public class CustomerService
@@ -16,52 +21,209 @@ public class CustomerService
     private readonly CommonLookupService _lookup;
     private readonly IUserKeyService _userKeyService;
     private readonly IValidationService _validator;
+    private readonly ILogger<CustomerService> _logger;  // ← added
 
     public CustomerService(
-        IDynamicDbContextFactory factory, 
-        IUserRequestContext userContext, 
+        IDynamicDbContextFactory factory,
+        IUserRequestContext userContext,
         CommonLookupService lookup,
         IUserKeyService userKeyService,
-        IValidationService validator)
+        IValidationService validator,
+        ILogger<CustomerService> logger)  // ← added
     {
         _factory = factory;
         _userContext = userContext;
         _lookup = lookup;
         _userKeyService = userKeyService;
         _validator = validator;
+        _logger = logger;  // ← added
     }
 
     // Get all active customers
+    //public async Task<List<CustomerDto>> GetCustomersAsync()
+    //{
+    //    using var db = await _factory.CreateDbContextAsync();
+
+    //    var result = await (
+    //        from c in db.Customers
+    //        join a in db.Addresses on c.AdrKy equals a.AdrKy into adr
+    //        from a in adr.DefaultIfEmpty() // LEFT JOIN
+    //        where c.fInAct == false
+    //        select new CustomerDto
+    //        {
+    //            AccTyp = c.AccTyp,
+    //            AccNm = c.AccNm,
+    //            AccKy = c.AccKy,
+    //            AdrNm = c.AdrNm,
+    //            AdrCd = c.AdrCd,
+    //            AdrKy = c.AdrKy,
+    //            NIC = c.NIC,
+    //            Address = c.Address,
+    //            Town = c.Town,
+    //            City = c.City,
+    //            TP1 = c.TP1,
+
+    //            // GPSLoc = a.GPSLoc -- Column missing in DB
+    //        }
+    //    ).ToListAsync();
+
+    //    return result;
+    //}
+
+
     public async Task<List<CustomerDto>> GetCustomersAsync()
     {
-        using var db = await _factory.CreateDbContextAsync();
+        var methodName = nameof(GetCustomersAsync);
+        _logger.LogInformation("[{Method}] Started at {Time}", methodName, DateTime.UtcNow);
 
-        var result = await (
-            from c in db.Customers
-            join a in db.Addresses on c.AdrKy equals a.AdrKy into adr
-            from a in adr.DefaultIfEmpty() // LEFT JOIN
-            where c.fInAct == false
-            select new CustomerDto
+        var stopwatch = Stopwatch.StartNew();
+
+        try
+        {
+            // Step 1: Create DbContext
+            _logger.LogInformation("[{Method}] Creating DbContext via factory...", methodName);
+            using var db = await _factory.CreateDbContextAsync();
+            _logger.LogInformation("[{Method}] DbContext created. Provider: {Provider}", methodName, db.Database.ProviderName);
+
+            // Step 2: Log masked connection string
+            var connStr = db.Database.GetConnectionString() ?? "NULL";
+            var maskedConn = MaskConnectionString(connStr);
+            _logger.LogInformation("[{Method}] Connection string: {ConnStr}", methodName, maskedConn);
+
+            // Step 3: Test raw TCP before attempting SQL connection
+            _logger.LogInformation("[{Method}] Testing TCP connectivity...", methodName);
+            await TestTcpConnectionAsync(connStr, methodName);
+
+            // Step 4: Open connection explicitly to isolate handshake errors
+            _logger.LogInformation("[{Method}] Opening database connection...", methodName);
+            var connStopwatch = Stopwatch.StartNew();
+            await db.Database.OpenConnectionAsync();
+            connStopwatch.Stop();
+            _logger.LogInformation("[{Method}] Connection opened successfully in {Ms}ms", methodName, connStopwatch.ElapsedMilliseconds);
+
+            // Step 5: Execute query
+            _logger.LogInformation("[{Method}] Executing customer query...", methodName);
+            var queryStopwatch = Stopwatch.StartNew();
+
+            var result = await (
+                from c in db.Customers
+                join a in db.Addresses on c.AdrKy equals a.AdrKy into adr
+                from a in adr.DefaultIfEmpty()
+                where c.fInAct == false
+                select new CustomerDto
+                {
+                    AccTyp = c.AccTyp,
+                    AccNm = c.AccNm,
+                    AccKy = c.AccKy,
+                    AdrNm = c.AdrNm,
+                    AdrCd = c.AdrCd,
+                    AdrKy = c.AdrKy,
+                    NIC = c.NIC,
+                    Address = c.Address,
+                    Town = c.Town,
+                    City = c.City,
+                    TP1 = c.TP1,
+                }
+            ).ToListAsync();
+
+            queryStopwatch.Stop();
+            _logger.LogInformation("[{Method}] Query completed in {Ms}ms. Rows returned: {Count}",
+                methodName, queryStopwatch.ElapsedMilliseconds, result.Count);
+
+            stopwatch.Stop();
+            _logger.LogInformation("[{Method}] Finished successfully. Total time: {Ms}ms", methodName, stopwatch.ElapsedMilliseconds);
+
+            return result;
+        }
+        catch (SqlException ex)
+        {
+            stopwatch.Stop();
+            _logger.LogError("[{Method}] SqlException after {Ms}ms", methodName, stopwatch.ElapsedMilliseconds);
+            _logger.LogError("[{Method}] Error Number : {Number}", methodName, ex.Number);
+            _logger.LogError("[{Method}] Error State  : {State}", methodName, ex.State);
+            _logger.LogError("[{Method}] Error Class  : {Class}", methodName, ex.Class);
+            _logger.LogError("[{Method}] Server       : {Server}", methodName, ex.Server);
+            _logger.LogError("[{Method}] Message      : {Message}", methodName, ex.Message);
+
+            var inner = ex.InnerException;
+            int depth = 1;
+            while (inner != null)
             {
-                AccTyp = c.AccTyp,
-                AccNm = c.AccNm,
-                AccKy = c.AccKy,
-                AdrNm = c.AdrNm,
-                AdrCd = c.AdrCd,
-                AdrKy = c.AdrKy,
-                NIC = c.NIC,
-                Address = c.Address,
-                Town = c.Town,
-                City = c.City,
-                TP1 = c.TP1,
-
-                // GPSLoc = a.GPSLoc -- Column missing in DB
+                _logger.LogError("[{Method}] InnerException[{Depth}] {Type}: {Message}",
+                    methodName, depth, inner.GetType().Name, inner.Message);
+                inner = inner.InnerException;
+                depth++;
             }
-        ).ToListAsync();
+            throw;
+        }
+        catch (Exception ex)
+        {
+            stopwatch.Stop();
+            _logger.LogError("[{Method}] Unexpected {ExType} after {Ms}ms: {Message}",
+                methodName, ex.GetType().Name, stopwatch.ElapsedMilliseconds, ex.Message);
 
-        return result;
+            var inner = ex.InnerException;
+            int depth = 1;
+            while (inner != null)
+            {
+                _logger.LogError("[{Method}] InnerException[{Depth}] {Type}: {Message}",
+                    methodName, depth, inner.GetType().Name, inner.Message);
+                inner = inner.InnerException;
+                depth++;
+            }
+            throw;
+        }
     }
 
+    // -------------------------------------------------------
+    // Helpers — add these inside the CustomerService class
+    // -------------------------------------------------------
+
+    private async Task TestTcpConnectionAsync(string connectionString, string callerMethod)
+    {
+        try
+        {
+            var builder = new SqlConnectionStringBuilder(connectionString);
+            var host = builder.DataSource;
+            var port = 1433;
+
+            if (host.Contains(','))
+            {
+                var parts = host.Split(',');
+                host = parts[0].Trim();
+                port = int.TryParse(parts[1].Trim(), out var p) ? p : 1433;
+            }
+
+            _logger.LogInformation("[{Method}] TCP test → Host: {Host}, Port: {Port}", callerMethod, host, port);
+
+            using var tcp = new TcpClient();
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            await tcp.ConnectAsync(host, port, cts.Token);
+
+            _logger.LogInformation("[{Method}] TCP connection to {Host}:{Port} succeeded", callerMethod, host, port);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("[{Method}] TCP connection FAILED — {Type}: {Message}",
+                callerMethod, ex.GetType().Name, ex.Message);
+            // Don't rethrow — let the SQL connection attempt log its own specific error
+        }
+    }
+
+    private static string MaskConnectionString(string connStr)
+    {
+        try
+        {
+            var builder = new SqlConnectionStringBuilder(connStr);
+            if (!string.IsNullOrEmpty(builder.Password))
+                builder.Password = "***";
+            return builder.ToString();
+        }
+        catch
+        {
+            return "[unable to parse connection string]";
+        }
+    }
 
 
     // Add new customer address
