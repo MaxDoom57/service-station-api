@@ -1,4 +1,4 @@
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Services;
 using Infrastructure.Context;
 using Infrastructure.Helpers;
@@ -48,8 +48,21 @@ builder.Services.AddScoped<ServiceOrderService>();
 builder.Services.AddScoped<BayWorkerService>();
 builder.Services.AddScoped<OrderManagementService>();
 
-
 builder.Services.AddMemoryCache();
+
+
+// CORS Policy (Allow Frontend Only)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("https://vehicle-service-web-eight.vercel.app")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();  // Uncomment if using cookies
+        });
+});
 
 
 // DB Context
@@ -65,15 +78,14 @@ builder.Services.AddAuthentication("Bearer")
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateIssuerSigningKey = true,
-            ValidateLifetime = true, // important for expiration
-            ClockSkew = TimeSpan.Zero, // remove 5-minute grace period
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
 
-        // Detect expired tokens
         options.Events = new JwtBearerEvents
         {
             OnAuthenticationFailed = context =>
@@ -87,22 +99,12 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
-//builder.WebHost.ConfigureKestrel(options =>
-//{
-//    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-//    options.ListenAnyIP(int.Parse(port));
-//});
-
-
-
 var app = builder.Build();
 
 // Middleware order
 app.UseMiddleware<Api.Middlewares.JwtSessionMiddleware>();
-// Add the mock response middleware early in the pipeline to short-circuit if mock mode is on
 app.UseMiddleware<Api.Middlewares.MockResponseMiddleware>();
 app.UseMiddleware<Infrastructure.Middleware.RequestLoggingMiddleware>();
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -111,6 +113,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// ✅ Enable CORS here (BEFORE Authentication)
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 

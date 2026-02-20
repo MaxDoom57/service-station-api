@@ -27,9 +27,6 @@ namespace Infrastructure.Helpers
 
         public async Task<DynamicDbContext> CreateDbContextAsync()
         {
-            Console.WriteLine("Creating DynamicDbContext in DynamicDbContextFactory........");
-            Console.WriteLine($"user session cky {_userContext.CompanyKey}");
-            Console.WriteLine($"user session pky {_userContext.ProjectKey}");
             // Step 1: Validate
             if (_userContext.CompanyKey <= 0 || _userContext.ProjectKey <= 0) 
                 throw new Exception("Invalid session data.");
@@ -41,7 +38,6 @@ namespace Infrastructure.Helpers
                     x.CKy == _userContext.CompanyKey &&
                     x.PrjKy == _userContext.ProjectKey
                     );
-            Console.WriteLine("Got credentials........");
 
             if (creds == null)
                 throw new Exception("Database credentials not found.");
