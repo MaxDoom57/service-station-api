@@ -25,7 +25,6 @@ namespace Infrastructure.Helpers
 
         public async Task<DynamicDbContext> CreateDbContextAsync()
         {
-            // Validate session
             if (_userContext.CompanyKey <= 0 || _userContext.ProjectKey <= 0)
                 throw new Exception("Invalid session data.");
 
@@ -39,16 +38,11 @@ namespace Infrastructure.Helpers
 
             if (string.IsNullOrWhiteSpace(creds.DbServer) ||
                 string.IsNullOrWhiteSpace(creds.DbName))
-            {
                 throw new Exception("Server or database name missing.");
-            }
-
 
             string connString;
-
             if (!string.IsNullOrWhiteSpace(creds.DbUser))
             {
-                // SQL Authentication
                 connString =
                     $"Server={creds.DbServer};" +
                     $"Database={creds.DbName};" +
@@ -57,11 +51,10 @@ namespace Infrastructure.Helpers
                     "Encrypt=False;" +
                     "TrustServerCertificate=True;" +
                     "MultipleActiveResultSets=True;" +
-                    "Connection Timeout=30;";
+                    "Connection Timeout=60;";
             }
             else
             {
-                // Integrated Security (Windows Authentication)
                 connString =
                     $"Server={creds.DbServer};" +
                     $"Database={creds.DbName};" +
@@ -69,25 +62,109 @@ namespace Infrastructure.Helpers
                     "Encrypt=False;" +
                     "TrustServerCertificate=True;" +
                     "MultipleActiveResultSets=True;" +
-                    "Connection Timeout=30;";
+                    "Connection Timeout=60;";
             }
 
-            var builder = new DbContextOptionsBuilder<DynamicDbContext>();
+            // LOG the connection attempt (mask password)
+            var displayConn = connString
+                .Replace(creds.DbPassword ?? "", "***");
+            Console.WriteLine($"[DynamicDb] Attempting connection: {displayConn}");
 
-            builder.UseSqlServer(connString, options =>
+            try
             {
-                options.EnableRetryOnFailure(
-                    maxRetryCount: 3,
-                    maxRetryDelay: TimeSpan.FromSeconds(5),
-                    errorNumbersToAdd: null);
-            });
+                var builder = new DbContextOptionsBuilder<DynamicDbContext>();
+                builder.UseSqlServer(connString, options =>
+                {
+                    options.EnableRetryOnFailure(
+                        maxRetryCount: 3,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null);
+                });
 
-#if DEBUG
-            builder.EnableDetailedErrors();
-            builder.EnableSensitiveDataLogging();
-#endif
+                var context = new DynamicDbContext(builder.Options);
 
-            return new DynamicDbContext(builder.Options);
+                // Force open connection immediately to catch errors here
+                await context.Database.OpenConnectionAsync();
+                Console.WriteLine("[DynamicDb] Connection successful!");
+
+                return context;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[DynamicDb] CONNECTION FAILED!");
+                Console.WriteLine($"[DynamicDb] Server: {creds.DbServer}");
+                Console.WriteLine($"[DynamicDb] Database: {creds.DbName}");
+                Console.WriteLine($"[DynamicDb] Error: {ex.Message}");
+                Console.WriteLine($"[DynamicDb] Inner: {ex.InnerException?.Message}");
+                throw;
+            }
         }
+
+        //        public async Task<DynamicDbContext> CreateDbContextAsync()
+        //        {
+        //            // Validate session
+        //            if (_userContext.CompanyKey <= 0 || _userContext.ProjectKey <= 0)
+        //                throw new Exception("Invalid session data.");
+
+        //            var creds = await _mainDb.DbCredentials
+        //                .FirstOrDefaultAsync(x =>
+        //                    x.CKy == _userContext.CompanyKey &&
+        //                    x.PrjKy == _userContext.ProjectKey);
+
+        //            if (creds == null)
+        //                throw new Exception("Database credentials not found.");
+
+        //            if (string.IsNullOrWhiteSpace(creds.DbServer) ||
+        //                string.IsNullOrWhiteSpace(creds.DbName))
+        //            {
+        //                throw new Exception("Server or database name missing.");
+        //            }
+
+
+        //            string connString;
+
+        //            if (!string.IsNullOrWhiteSpace(creds.DbUser))
+        //            {
+        //                // SQL Authentication
+        //                connString =
+        //                    $"Server={creds.DbServer};" +
+        //                    $"Database={creds.DbName};" +
+        //                    $"User ID={creds.DbUser};" +
+        //                    $"Password={creds.DbPassword ?? ""};" +
+        //                    "Encrypt=False;" +
+        //                    "TrustServerCertificate=True;" +
+        //                    "MultipleActiveResultSets=True;" +
+        //                    "Connection Timeout=30;";
+        //            }
+        //            else
+        //            {
+        //                // Integrated Security (Windows Authentication)
+        //                connString =
+        //                    $"Server={creds.DbServer};" +
+        //                    $"Database={creds.DbName};" +
+        //                    "Integrated Security=True;" +
+        //                    "Encrypt=False;" +
+        //                    "TrustServerCertificate=True;" +
+        //                    "MultipleActiveResultSets=True;" +
+        //                    "Connection Timeout=30;";
+        //            }
+
+        //            var builder = new DbContextOptionsBuilder<DynamicDbContext>();
+
+        //            builder.UseSqlServer(connString, options =>
+        //            {
+        //                options.EnableRetryOnFailure(
+        //                    maxRetryCount: 3,
+        //                    maxRetryDelay: TimeSpan.FromSeconds(5),
+        //                    errorNumbersToAdd: null);
+        //            });
+
+        //#if DEBUG
+        //            builder.EnableDetailedErrors();
+        //            builder.EnableSensitiveDataLogging();
+        //#endif
+
+        //            return new DynamicDbContext(builder.Options);
+        //        }
     }
 }
