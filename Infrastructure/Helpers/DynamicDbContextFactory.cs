@@ -48,7 +48,7 @@ namespace Infrastructure.Helpers
                     $"Database={creds.DbName};" +
                     $"User ID={creds.DbUser};" +
                     $"Password={creds.DbPassword ?? ""};" +
-                    "Encrypt=True;" +
+                    "Encrypt=False;" +
                     "TrustServerCertificate=True;" +
                     "MultipleActiveResultSets=True;" +
                     "Connection Timeout=60;";
@@ -59,7 +59,7 @@ namespace Infrastructure.Helpers
                     $"Server={creds.DbServer};" +
                     $"Database={creds.DbName};" +
                     "Integrated Security=True;" +
-                    "Encrypt=True;" +
+                    "Encrypt=False;" +
                     "TrustServerCertificate=True;" +
                     "MultipleActiveResultSets=True;" +
                     "Connection Timeout=60;";
