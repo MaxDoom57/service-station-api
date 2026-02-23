@@ -8,7 +8,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/agent-management")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize]
     public class AgentManagementController : ControllerBase
     {
         private readonly AgentTokenService _tokenService;
