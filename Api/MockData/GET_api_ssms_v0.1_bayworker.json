@@ -1,0 +1,29 @@
+﻿[
+  {
+    "BayWorkerKy": 1,
+    "BayKy": 1,
+    "BayNm": "Washing Bay 1",
+    "UsrKy": 101,
+    "UsrNm": "Kamal Perera",
+    "Remarks": "Shift A",
+    "IsActive": true
+  },
+  {
+    "BayWorkerKy": 2,
+    "BayKy": 1,
+    "BayNm": "Washing Bay 1",
+    "UsrKy": 102,
+    "UsrNm": "Sunil Silva",
+    "Remarks": "Shift A",
+    "IsActive": true
+  },
+  {
+    "BayWorkerKy": 3,
+    "BayKy": 2,
+    "BayNm": "Oil Change Bay",
+    "UsrKy": 103,
+    "UsrNm": "Nimal Fernando",
+    "Remarks": "Senior Technician",
+    "IsActive": true
+  }
+]

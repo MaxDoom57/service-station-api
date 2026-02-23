@@ -1,0 +1,6 @@
+﻿[
+  { "BayKy": 1, "BayNm": "Washing Bay 1", "IsActive": true, "Function": "Washing" },
+  { "BayKy": 2, "BayNm": "Washing Bay 2", "IsActive": true, "Function": "Washing" },
+  { "BayKy": 3, "BayNm": "Oil Change Bay", "IsActive": true, "Function": "Service" },
+  { "BayKy": 4, "BayNm": "Repair Bay 1", "IsActive": true, "Function": "Repair" }
+]
