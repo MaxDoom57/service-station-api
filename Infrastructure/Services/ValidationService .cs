@@ -1,60 +1,77 @@
 ﻿using Application.Interfaces;
-using Infrastructure.Context;
-using Microsoft.EntityFrameworkCore;
+using Shared.Constants;
 
 namespace Application.Services
 {
     public class ValidationService : IValidationService
     {
-        private readonly IDynamicDbContextFactory _factory;
+        private readonly IAgentJobDispatcher _dispatcher;
+        private readonly IUserRequestContext _userContext;
 
-        public ValidationService(IDynamicDbContextFactory factory)
+        public ValidationService(IAgentJobDispatcher dispatcher, IUserRequestContext userContext)
         {
-            _factory = factory;
+            _dispatcher  = dispatcher;
+            _userContext = userContext;
         }
 
         public async Task<bool> IsExistCompanyKey(int companyKey)
         {
-            using var db = await _factory.CreateDbContextAsync();
-            return await db.Company.AnyAsync(c => c.CKy == companyKey);
+            var result = await _dispatcher.DispatchAndWaitAsync(
+                companyKey: companyKey,
+                jobType:    AgentJobTypes.ValidateCompanyKey,
+                payload:    new { CompanyKey = companyKey });
+            return result.Success && result.Deserialize<bool>();
         }
 
         public async Task<bool> IsExistItemCode(string itemCode)
         {
-            using var db = await _factory.CreateDbContextAsync();
-            return await db.Items.AnyAsync(i => i.ItmCd == itemCode);
+            var result = await _dispatcher.DispatchAndWaitAsync(
+                companyKey: _userContext.CompanyKey,
+                jobType:    AgentJobTypes.ValidateItemCode,
+                payload:    new { ItemCode = itemCode });
+            return result.Success && result.Deserialize<bool>();
         }
 
         public async Task<bool> IsExistItemType(string itemType)
         {
-            using var db = await _factory.CreateDbContextAsync();
-            return await db.CdMas.AnyAsync(x => x.ConCd == "ItmTyp" && x.OurCd == itemType);
+            var result = await _dispatcher.DispatchAndWaitAsync(
+                companyKey: _userContext.CompanyKey,
+                jobType:    AgentJobTypes.ValidateItemType,
+                payload:    new { ItemType = itemType });
+            return result.Success && result.Deserialize<bool>();
         }
 
         public async Task<bool> IsValidUnitKey(short unitKey)
         {
-            using var db = await _factory.CreateDbContextAsync();
-            return await db.Units.AnyAsync(u => u.UnitKy == unitKey);
+            var result = await _dispatcher.DispatchAndWaitAsync(
+                companyKey: _userContext.CompanyKey,
+                jobType:    AgentJobTypes.ValidateUnitKey,
+                payload:    new { UnitKey = unitKey });
+            return result.Success && result.Deserialize<bool>();
         }
 
         public async Task<bool> IsValidUserKey(int userKey)
         {
-            using var db = await _factory.CreateDbContextAsync();
-            return await db.UsrMas.AnyAsync(u => u.UsrKy == userKey);
+            var result = await _dispatcher.DispatchAndWaitAsync(
+                companyKey: _userContext.CompanyKey,
+                jobType:    AgentJobTypes.ValidateUserKey,
+                payload:    new { UserKey = userKey });
+            return result.Success && result.Deserialize<bool>();
         }
 
         public async Task<bool> IsExistAdrNm(string adrNm)
         {
-            using var db = await _factory.CreateDbContextAsync();
-            return await db.Addresses.AnyAsync(u => u.AdrNm == adrNm);
+            var result = await _dispatcher.DispatchAndWaitAsync(
+                companyKey: _userContext.CompanyKey,
+                jobType:    AgentJobTypes.ValidateAdrNm,
+                payload:    new { AdrNm = adrNm });
+            return result.Success && result.Deserialize<bool>();
         }
 
-        public async Task<bool> IsValidTranDate (DateTime trnDt)
+        public async Task<bool> IsValidTranDate(DateTime trnDt)
         {
-            using var db = await _factory.CreateDbContextAsync();
-
             var currentDate = DateTime.UtcNow.Date.ToLocalTime();
-            return trnDt.Date >= currentDate.AddDays(1)  && trnDt.Date <= currentDate.AddDays(-60) ;
+            return trnDt.Date >= currentDate.AddDays(1) && trnDt.Date <= currentDate.AddDays(-60);
         }
     }
 }

@@ -1,32 +1,31 @@
 ﻿using Application.DTOs.Invoice;
 using Application.Interfaces;
-using Infrastructure.Context;
-using Microsoft.EntityFrameworkCore;
+using Shared.Constants;
 
 namespace Infrastructure.Services
 {
     public class PaymentTermService
     {
-        private readonly IDynamicDbContextFactory _factory;
+        private readonly IAgentJobDispatcher _dispatcher;
+        private readonly IUserRequestContext _userContext;
 
-        public PaymentTermService(IDynamicDbContextFactory factory)
+        public PaymentTermService(IAgentJobDispatcher dispatcher, IUserRequestContext userContext)
         {
-            _factory = factory;
+            _dispatcher  = dispatcher;
+            _userContext = userContext;
         }
 
         public async Task<List<PaymentTermDto>> GetAllAsync()
         {
-            using var db = await _factory.CreateDbContextAsync();
+            var result = await _dispatcher.DispatchAndWaitAsync(
+                companyKey: _userContext.CompanyKey,
+                jobType:    AgentJobTypes.GetPaymentTerms,
+                payload:    new { CompanyKey = _userContext.CompanyKey });
 
-            return await db.PaymentTerms
-                .Select(x => new PaymentTermDto
-                {
-                    PmtTrmKy = x.PmtTrmKy,
-                    PmtTrmCd = x.PmtTrmCd,
-                    PmtTrmNm = x.PmtTrmNm,
-                    PmtTrm = x.PmtTrm
-                })
-                .ToListAsync();
+            if (!result.Success)
+                throw new Exception(result.Error ?? "Agent error");
+
+            return result.Deserialize<List<PaymentTermDto>>() ?? new();
         }
     }
 }
