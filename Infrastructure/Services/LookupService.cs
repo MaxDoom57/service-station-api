@@ -1,78 +1,150 @@
 ﻿using Application.DTOs.Lookups;
 using Application.Interfaces;
-using Shared.Constants;
+using Domain.Entities;
+using Domain.Entities.Lookups;
+using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
     public class LookupService
     {
-        private readonly IAgentJobDispatcher _dispatcher;
+        private readonly IDynamicDbContextFactory _factory;
         private readonly IUserRequestContext _userContext;
 
         public LookupService(
-            IAgentJobDispatcher dispatcher,
+            IDynamicDbContextFactory factory,
             IUserRequestContext userContext)
         {
-            _dispatcher  = dispatcher;
+            _factory = factory;
             _userContext = userContext;
         }
 
+        // -------------------------------------------------------
+        // Item Category 1
+        // -------------------------------------------------------
         public async Task<List<ItemCategory1Dto>> GetItemCategory1Async()
         {
-            var result = await _dispatcher.DispatchAndWaitAsync(
-                companyKey: _userContext.CompanyKey,
-                jobType:    AgentJobTypes.GetItemCategory1,
-                payload:    new { CompanyKey = _userContext.CompanyKey });
+            using var db = await _factory.CreateDbContextAsync();
 
-            if (!result.Success) throw new Exception(result.Error ?? "Agent error");
-            return result.Deserialize<List<ItemCategory1Dto>>() ?? new();
+            return await db.Set<vewItmCat1Cd>()
+                .AsNoTracking()
+                .Where(x => x.CKy == _userContext.CompanyKey)
+                .OrderBy(x => x.ItmCat1Nm)
+                .Select(x => new ItemCategory1Dto
+                {
+                    ItmCat1Ky = x.ItmCat1Ky,   // NO CAST
+                    ItmCat1Cd = x.ItmCat1Cd,
+                    ItmCat1Nm = x.ItmCat1Nm,
+                    CKy = x.CKy
+                })
+                .ToListAsync();
         }
 
+        // -------------------------------------------------------
+        // Item Category 2
+        // -------------------------------------------------------
         public async Task<List<ItemCategory2Dto>> GetItemCategory2Async()
         {
-            var result = await _dispatcher.DispatchAndWaitAsync(
-                companyKey: _userContext.CompanyKey,
-                jobType:    AgentJobTypes.GetItemCategory2,
-                payload:    new { CompanyKey = _userContext.CompanyKey });
+            using var db = await _factory.CreateDbContextAsync();
 
-            if (!result.Success) throw new Exception(result.Error ?? "Agent error");
-            return result.Deserialize<List<ItemCategory2Dto>>() ?? new();
+            return await db.Set<vewItmCat2Cd>()
+                .AsNoTracking()
+                .Where(x => x.CKy == _userContext.CompanyKey)
+                .OrderBy(x => x.ItmCat2Nm)
+                .Select(x => new ItemCategory2Dto
+                {
+                    ItmCat2Ky = x.ItmCat2Ky,
+                    ItmCat2Cd = x.ItmCat2Cd,
+                    ItmCat2Nm = x.ItmCat2Nm,
+                    CKy = x.CKy,
+                    fUsrAcs = x.fUsrAcs
+                })
+                .ToListAsync();
         }
 
+        // -------------------------------------------------------
+        // Item Category 3
+        // -------------------------------------------------------
         public async Task<List<ItemCategory3Dto>> GetItemCategory3Async()
         {
-            var result = await _dispatcher.DispatchAndWaitAsync(
-                companyKey: _userContext.CompanyKey,
-                jobType:    AgentJobTypes.GetItemCategory3,
-                payload:    new { CompanyKey = _userContext.CompanyKey });
+            using var db = await _factory.CreateDbContextAsync();
 
-            if (!result.Success) throw new Exception(result.Error ?? "Agent error");
-            return result.Deserialize<List<ItemCategory3Dto>>() ?? new();
+            return await db.Set<vewItmCat3Cd>()
+                .AsNoTracking()
+                .Where(x => x.CKy == _userContext.CompanyKey)
+                .OrderBy(x => x.ItmCat3Nm)
+                .Select(x => new ItemCategory3Dto
+                {
+                    ItmCat3Ky = x.ItmCat3Ky,
+                    ItmCat3Cd = x.ItmCat3Cd,
+                    ItmCat3Nm = x.ItmCat3Nm,
+                    CKy = x.CKy
+                })
+                .ToListAsync();
         }
 
+        // -------------------------------------------------------
+        // Item Category 4
+        // -------------------------------------------------------
         public async Task<List<ItemCategory4Dto>> GetItemCategory4Async()
         {
-            var result = await _dispatcher.DispatchAndWaitAsync(
-                companyKey: _userContext.CompanyKey,
-                jobType:    AgentJobTypes.GetItemCategory4,
-                payload:    new { CompanyKey = _userContext.CompanyKey });
+            using var db = await _factory.CreateDbContextAsync();
 
-            if (!result.Success) throw new Exception(result.Error ?? "Agent error");
-            return result.Deserialize<List<ItemCategory4Dto>>() ?? new();
+            return await db.Set<vewItmCat4Cd>()
+                .AsNoTracking()
+                .Where(x => x.CKy == _userContext.CompanyKey)
+                .OrderBy(x => x.ItmCat4Nm)
+                .Select(x => new ItemCategory4Dto
+                {
+                    ItmCat4Ky = x.ItmCat4Ky,
+                    ItmCat4Cd = x.ItmCat4Cd,
+                    ItmCat4Nm = x.ItmCat4Nm,
+                    CKy = x.CKy
+                })
+                .ToListAsync();
         }
 
+        // -------------------------------------------------------
+        // TrnNo Last
+        // -------------------------------------------------------
         public async Task<int> GetLastTransactionNoAsync(GetLastTrnNoRequestDto request)
         {
             if (request == null || string.IsNullOrWhiteSpace(request.OurCd))
                 throw new ArgumentException("OurCd is required");
 
-            var result = await _dispatcher.DispatchAndWaitAsync(
-                companyKey: _userContext.CompanyKey,
-                jobType:    AgentJobTypes.GetLastTransactionNo,
-                payload:    new { OurCd = request.OurCd, CompanyKey = _userContext.CompanyKey });
+            using var db = await _factory.CreateDbContextAsync();
 
-            if (!result.Success) throw new Exception(result.Error ?? "Agent error");
-            return result.Deserialize<int>();
+            var record = await db.TrnNoLst
+                .Where(x =>
+                    x.OurCd == request.OurCd &&
+                    x.CKy == _userContext.CompanyKey &&
+                    x.fInAct == false)
+                .OrderByDescending(x => x.Period)
+                .FirstOrDefaultAsync();
+
+            // If record exists → return last transaction no
+            if (record != null)
+                return record.LstTrnNo;
+
+            // If not exists → create record and return 0
+            var newRecord = new TrnNoLst
+            {
+                fInAct = false,
+                Status = "A",
+                CKy = (short)_userContext.CompanyKey,
+                SKy = 0,
+                Period = DateTime.Now.Year,
+                OurCd = request.OurCd,
+                CdKy = 0,
+                LstTrnNo = 0,
+                LstDocNo = null
+            };
+
+            db.TrnNoLst.Add(newRecord);
+            await db.SaveChangesAsync();
+
+            return 0;
         }
     }
 }

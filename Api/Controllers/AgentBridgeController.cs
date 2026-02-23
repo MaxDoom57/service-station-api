@@ -9,7 +9,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/agent")]
-    [Authorize(Policy = "AgentOnly")]
+    [Authorize]
     public class AgentBridgeController : ControllerBase
     {
         private readonly MainDbContext _cloudDb;

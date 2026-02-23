@@ -1,31 +1,33 @@
 ﻿using Application.DTOs.Invoice;
 using Application.Interfaces;
-using Shared.Constants;
+using Domain.Entities;
+using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
     public class SalesAccountService
     {
-        private readonly IAgentJobDispatcher _dispatcher;
-        private readonly IUserRequestContext _userContext;
+        private readonly IDynamicDbContextFactory _factory;
 
-        public SalesAccountService(IAgentJobDispatcher dispatcher, IUserRequestContext userContext)
+        public SalesAccountService(IDynamicDbContextFactory factory)
         {
-            _dispatcher  = dispatcher;
-            _userContext = userContext;
+            _factory = factory;
         }
 
         public async Task<List<SalesAccountDto>> GetAllAsync()
         {
-            var result = await _dispatcher.DispatchAndWaitAsync(
-                companyKey: _userContext.CompanyKey,
-                jobType:    AgentJobTypes.GetSalesAccounts,
-                payload:    new { CompanyKey = _userContext.CompanyKey });
+            using var db = await _factory.CreateDbContextAsync();
 
-            if (!result.Success)
-                throw new Exception(result.Error ?? "Agent error");
-
-            return result.Deserialize<List<SalesAccountDto>>() ?? new();
+            return await db.SalesAccounts
+                .Where(x => x.AccTyp == "SALE")
+                .Select(x => new SalesAccountDto
+                {
+                    AccKy = x.AccKy,
+                    AccCd = x.AccCd,
+                    AccNm = x.AccNm
+                })
+                .ToListAsync();
         }
     }
 }

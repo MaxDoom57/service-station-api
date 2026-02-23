@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,10 +47,6 @@ builder.Services.AddScoped<ReservationService>();
 builder.Services.AddScoped<ServiceOrderService>();
 builder.Services.AddScoped<BayWorkerService>();
 builder.Services.AddScoped<OrderManagementService>();
-
-// Agent Job Infrastructure
-builder.Services.AddScoped<IAgentJobDispatcher, AgentJobDispatcher>();
-builder.Services.AddScoped<AgentTokenService>();
 
 builder.Services.AddMemoryCache();
 
@@ -104,14 +99,6 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
-// Authorization Policies
-builder.Services.AddAuthorization(options =>
-{
-    // Agent-only policy: JWT must carry role=agent claim
-    options.AddPolicy("AgentOnly", policy =>
-        policy.RequireClaim("role", "agent"));
-});
-
 var app = builder.Build();
 
 // Middleware order
@@ -127,7 +114,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// ✅ Enable CORS here (BEFORE Authentication)
+// Enable CORS here (BEFORE Authentication)
 app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
