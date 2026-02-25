@@ -11,10 +11,12 @@ namespace Infrastructure.Services
     public class CommonLookupService
     {
         private readonly IDynamicDbContextFactory _factory;
+        private readonly IUserRequestContext _userContext;
 
-        public CommonLookupService(IDynamicDbContextFactory factory)
+        public CommonLookupService(IDynamicDbContextFactory factory, IUserRequestContext userContext)
         {
             _factory = factory;
+            _userContext = userContext;
         }
 
         // Common reusable lookup for AccountType -> CdKy
@@ -55,14 +57,14 @@ namespace Infrastructure.Services
                 var newCdMas = new CdMas
                 {
                     CdKy = (short)(maxKy + 1),
-                    CKy = 2, // Default CKy for tests
+                    CKy = (short)_userContext.CompanyKey,
                     ConCd = "ItmTyp",
                     OurCd = itemType,
                     Code = itemType,
                     CdNm = itemType + " Name",
                     fInAct = false,
                     // valid defaults
-                    ConKy = 1, fApr = 1, CtrlCdKy=1, ObjKy=1, AcsLvlKy=1, SKy=1
+                    ConKy = 1, fApr = 1, CtrlCdKy = 1, ObjKy = 1, AcsLvlKy = 1, SKy = 1
                 };
                 db.CdMas.Add(newCdMas);
                 await db.SaveChangesAsync();

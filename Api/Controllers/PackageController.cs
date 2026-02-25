@@ -13,12 +13,12 @@ namespace Api.Controllers
     public class PackageController : ControllerBase
     {
         private readonly PackageService _service;
-        private readonly ILogger<PackageController> _logger;  // ← added
+        private readonly ILogger<PackageController> _logger;  
 
-        public PackageController(PackageService service, ILogger<PackageController> logger)  // ← added
+        public PackageController(PackageService service, ILogger<PackageController> logger)  
         {
             _service = service;
-            _logger = logger;  // ← added
+            _logger = logger;  
         }
 
         [HttpGet]
@@ -26,32 +26,22 @@ namespace Api.Controllers
         {
             var methodName = nameof(GetPackages);
             var stopwatch = Stopwatch.StartNew();
-            _logger.LogInformation("[{Method}] Started at {Time}", methodName, DateTime.UtcNow);
 
             try
             {
-                _logger.LogInformation("[{Method}] Calling PackageService.GetPackagesAsync...", methodName);
                 var result = await _service.GetPackagesAsync();
 
                 stopwatch.Stop();
-                _logger.LogInformation("[{Method}] Completed in {Ms}ms. Packages returned: {Count}",
-                    methodName, stopwatch.ElapsedMilliseconds, result?.Count ?? 0);
-
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 stopwatch.Stop();
-                _logger.LogError("[{Method}] Failed after {Ms}ms", methodName, stopwatch.ElapsedMilliseconds);
-                _logger.LogError("[{Method}] Exception Type : {Type}", methodName, ex.GetType().Name);
-                _logger.LogError("[{Method}] Message        : {Message}", methodName, ex.Message);
 
                 var inner = ex.InnerException;
                 int depth = 1;
                 while (inner != null)
                 {
-                    _logger.LogError("[{Method}] InnerException[{Depth}] {Type}: {Message}",
-                        methodName, depth, inner.GetType().Name, inner.Message);
                     inner = inner.InnerException;
                     depth++;
                 }

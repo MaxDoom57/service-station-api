@@ -29,7 +29,7 @@ namespace Infrastructure.Services
 
             try
             {
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey) ?? 0;
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1) ?? 0;
 
                 // Generate Order Number
                 int nextOrdNo = 1;
@@ -42,7 +42,7 @@ namespace Infrastructure.Services
                 else
                 {
                     var maxOrdNo = await db.OrdMas
-                        .Where(o => o.CKy == _userContext.CompanyKey)
+                        .Where(o => o.CKy == 1)
                         .MaxAsync(o => (int?)o.OrdNo) ?? 0;
                     nextOrdNo = maxOrdNo + 1;
                 }
@@ -177,9 +177,6 @@ namespace Infrastructure.Services
                 if (order == null || order.fInAct)
                     return (false, "Order not found");
 
-                if (order.CKy != _userContext.CompanyKey)
-                    return (false, "Unauthorized");
-
                 // Update Order Master
                 order.LocKy = dto.LocKy;
                 order.OrdTyp = dto.OrdTyp;
@@ -213,7 +210,7 @@ namespace Infrastructure.Services
                 var existingDetails = await db.OrdDet.Where(d => d.Ordky == dto.OrdKy).ToListAsync();
                 db.OrdDet.RemoveRange(existingDetails);
 
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey) ?? 0;
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1) ?? 0;
 
                 // Add new details
                 foreach (var detailDto in dto.OrderDetails)
@@ -298,9 +295,6 @@ namespace Infrastructure.Services
                 if (order == null)
                     return (false, "Order not found");
 
-                if (order.CKy != _userContext.CompanyKey)
-                    return (false, "Unauthorized");
-
                 order.fInAct = true;
                 await db.SaveChangesAsync();
 
@@ -319,7 +313,7 @@ namespace Infrastructure.Services
             var orders = await (from o in db.OrdMas
                                join a in db.Account on o.AccKy equals a.AccKy into accGroup
                                from a in accGroup.DefaultIfEmpty()
-                               where o.CKy == _userContext.CompanyKey && !o.fInAct
+                               where  !o.fInAct
                                orderby o.OrdDt descending
                                select new OrderListDto
                                {
@@ -342,7 +336,7 @@ namespace Infrastructure.Services
             using var db = await _factory.CreateDbContextAsync();
 
             var order = await db.OrdMas
-                .FirstOrDefaultAsync(o => o.OrdNo == ordNo && o.CKy == _userContext.CompanyKey && !o.fInAct);
+                .FirstOrDefaultAsync(o => o.OrdNo == ordNo && !o.fInAct);
 
             if (order == null)
                 return null;
@@ -355,7 +349,7 @@ namespace Infrastructure.Services
             using var db = await _factory.CreateDbContextAsync();
 
             var order = await db.OrdMas
-                .FirstOrDefaultAsync(o => o.OrdKy == ordKy && o.CKy == _userContext.CompanyKey && !o.fInAct);
+                .FirstOrDefaultAsync(o => o.OrdKy == ordKy && !o.fInAct);
 
             if (order == null)
                 return null;

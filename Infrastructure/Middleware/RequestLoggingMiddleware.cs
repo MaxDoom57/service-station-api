@@ -63,19 +63,22 @@ namespace Infrastructure.Middleware
                     // ReservationService gets 'IDynamicDbContextFactory' injected.
                     // It seems IDynamicDbContextFactory is Singleton or Scoped. 
                     // Let's resolve 'IDynamicDbContextFactory' and 'IUserRequestContext'.
-                    
+
                     /* 
                        Wait, to get the User Context which is likely filled during the request, 
                        we should use the current request services.
                     */
-                    
+
                     var factory = context.RequestServices.GetService<IDynamicDbContextFactory>();
                     var userContext = context.RequestServices.GetService<IUserRequestContext>();
 
-                    if (factory != null)
+                    // Skip logging if session data is not available (unauthenticated requests)
+                    if (factory != null && userContext != null
+                        && userContext.CompanyKey > 0
+                        && userContext.ProjectKey > 0)
                     {
                         using var db = await factory.CreateDbContextAsync();
-                        
+
                         var log = new ApiRequestLog
                         {
                             RequestPath = context.Request.Path,

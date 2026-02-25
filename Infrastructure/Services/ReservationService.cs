@@ -68,7 +68,7 @@ namespace Infrastructure.Services
                     vehicleKy = newVeh.VehicleKy;
                 }
 
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1);
 
                 // 2. Create ReservationMas
                 var resMas = new ReservationMas

@@ -51,7 +51,7 @@ namespace Infrastructure.Services
                 if (await db.CdMas.AnyAsync(x => x.ConCd == "OrdTyp" && x.Code == dto.Code && !x.fInAct))
                      return (false, "Package Code already exists");
                      
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1);
                 if (userKey == null) return (false, "User key not found");
 
                 // We need to determine ConKy for "OrdTyp". Usually this is a constant or looked up from another table (Control or similar).
@@ -157,10 +157,10 @@ namespace Infrastructure.Services
             var package = await db.CdMas.FindAsync((short)cdKy);
             if (package == null || package.fInAct) return null;
 
-            if (package.CKy != _userContext.CompanyKey || package.ConCd != "OrdTyp") return null;
+            if (package.ConCd != "OrdTyp") return null;
 
             var items = await db.ItmMas
-                .Where(x => x.CKy == _userContext.CompanyKey && x.ItmTypKy == cdKy && !x.fInAct)
+                .Where(x => x.ItmTypKy == cdKy && !x.fInAct)
                 .Select(x => new PackageItemDto
                 {
                     ItmKy = x.ItmKy,
@@ -185,7 +185,7 @@ namespace Infrastructure.Services
             using var db = await _factory.CreateDbContextAsync();
 
             var result = await db.CdMas
-                .Where(p => p.CKy == _userContext.CompanyKey && p.ConCd == "OrdTyp" && !p.fInAct)
+                .Where(p => p.ConCd == "OrdTyp" && !p.fInAct)
                 .Select(p => new PackageDetailDto
                 {
                     CdKy = p.CdKy,

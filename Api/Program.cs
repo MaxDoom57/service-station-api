@@ -19,6 +19,8 @@ builder.Services.AddSwaggerGen();
 // Scoped Services
 builder.Services.AddScoped<IUserRequestContext, UserRequestContext>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+// Singleton — tunnel pool must live for the entire app lifetime
+builder.Services.AddSingleton<CloudflaredTunnelManager>();
 builder.Services.AddScoped<IDynamicDbContextFactory, DynamicDbContextFactory>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -114,7 +116,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// ✅ Enable CORS here (BEFORE Authentication)
+// Enable CORS here (BEFORE Authentication)
 app.UseCors("AllowFrontend");
 
 app.UseAuthentication();

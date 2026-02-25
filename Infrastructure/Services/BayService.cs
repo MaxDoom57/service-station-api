@@ -25,7 +25,6 @@ namespace Infrastructure.Services
         public async Task<List<BayDto>> GetActiveBaysAsync()
         {
             using var db = await _factory.CreateDbContextAsync();
-            Console.WriteLine("CKY===========================" + _userContext.CompanyKey);
             try
             {
                 return await db.Bays

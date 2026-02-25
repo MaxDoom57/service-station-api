@@ -60,10 +60,6 @@ namespace Api.Controllers
                 if (_tokenBlacklist.IsTokenBlacklisted(token))
                     return BadRequest("Token already blacklisted");
 
-                Console.WriteLine($"UserId = {_userRequestContext.UserId}");
-                Console.WriteLine($"CompanyKey = {_userRequestContext.CompanyKey}");
-                Console.WriteLine($"ProjectKey = {_userRequestContext.ProjectKey}");
-
                 // Blacklist the token for the remaining lifetime
                 var expiration = DateTime.UtcNow.AddHours(1);
                 _tokenBlacklist.BlacklistToken(token, expiration);
@@ -95,8 +91,6 @@ namespace Api.Controllers
                 var dashboard = accessList[0];
                 var posMenu = accessList[1];
 
-                Console.WriteLine(accessList[0]);
-                Console.WriteLine(accessList[1]);
 
                 string dashboardAccess =
                     $"{ToBit(dashboard.fAcs)}{ToBit(dashboard.fNew)}{ToBit(dashboard.fUpdt)}{ToBit(dashboard.fDel)}{ToBit(dashboard.fSp)}";

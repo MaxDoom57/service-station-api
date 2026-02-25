@@ -67,13 +67,12 @@ namespace Infrastructure.Services
                     0 as Updated
                 from Cdmasqry
                 where ConKy = @ConKy
-                  and CKy = @CKy
             ";
 
             cmd.CommandType = CommandType.Text;
 
             cmd.Parameters.Add(new SqlParameter("@ConKy", conKy));
-            cmd.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+            //cmd.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
 
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())

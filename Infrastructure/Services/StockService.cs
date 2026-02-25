@@ -108,11 +108,11 @@ namespace Infrastructure.Services
                 cmdHdr.CommandText = @"
                     SELECT LocKy, TrnDt, Des, TrnKy
                     FROM vewStkAddHdr
-                    WHERE TrnNo = @TrnNo AND CKy = @CKy;
+                    WHERE TrnNo = @TrnNo;
                 ";
 
                 cmdHdr.Parameters.Add(new SqlParameter("@TrnNo", trnNo));
-                cmdHdr.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                //cmdHdr.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
 
                 StkAddHeaderDTO? header = null;
 
@@ -196,7 +196,7 @@ namespace Infrastructure.Services
             {
                 int trnNo;
                 int trnKy;
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1);
                 if (userKey == null)
                     throw new Exception("User key not found");
 
@@ -206,9 +206,9 @@ namespace Infrastructure.Services
                 cmdGetNo.CommandText = @"
                     SELECT ISNULL(MAX(TrnNo), 0) + 1
                     FROM TrnMas
-                    WHERE OurCd='STKADD' AND CKy=@CKy";
+                    WHERE OurCd='STKADD'";
 
-                cmdGetNo.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                //cmdGetNo.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
                 trnNo = Convert.ToInt32(await cmdGetNo.ExecuteScalarAsync());
 
                 // 2) Insert into TrnMas
@@ -295,7 +295,7 @@ namespace Infrastructure.Services
             try
             {
                 int trnKy;
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1);
                 if (userKey == null)
                     throw new Exception("User key not found");
 
@@ -305,7 +305,7 @@ namespace Infrastructure.Services
                 cmdGetKy.CommandText = @"
                     SELECT TrnKy 
                     FROM vewTrnNo 
-                    WHERE CKy=@CKy AND OurCd='STKADD' AND TrnNo=@TrnNo";
+                    WHERE OurCd='STKADD' AND TrnNo=@TrnNo";
 
                 cmdGetKy.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
                 cmdGetKy.Parameters.Add(new SqlParameter("@TrnNo", dto.trnNo));
@@ -403,11 +403,10 @@ namespace Infrastructure.Services
                 FROM vewTrnNo
                 WHERE OurCd = 'STKADD'
                   AND TrnNo = @TrnNo
-                  AND CKy   = @CKy
             ";
 
                     cmdGet.Parameters.Add(new SqlParameter("@TrnNo", trnNo));
-                    cmdGet.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                    //cmdGet.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
 
                     var trnKyObj = await cmdGet.ExecuteScalarAsync();
 
@@ -511,10 +510,10 @@ namespace Infrastructure.Services
                 cmdGetTrnKy.CommandText = @"
                             SELECT TrnKy 
                             FROM vewTrnNo 
-                            WHERE OurCd='STKDED' AND TrnNo=@TrnNo AND CKy=@CKy";
+                            WHERE OurCd='STKDED' AND TrnNo=@TrnNo";
 
                 cmdGetTrnKy.Parameters.Add(new SqlParameter("@TrnNo", trnNo));
-                cmdGetTrnKy.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                //cmdGetTrnKy.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
 
                 object? trnKyObj = await cmdGetTrnKy.ExecuteScalarAsync();
 
@@ -530,11 +529,11 @@ namespace Infrastructure.Services
                 cmdHdr.CommandText = @"
                             SELECT TrnDt, Des, LocKy, TrnKy 
                             FROM vewStkDedHdr 
-                            WHERE TrnNo=@TrnNo AND CKy=@CKy;
+                            WHERE TrnNo=@TrnNo;
                         ";
 
                 cmdHdr.Parameters.Add(new SqlParameter("@TrnNo", trnNo));
-                cmdHdr.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                //cmdHdr.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
 
                 StkAddHeaderDTO? header = null;
 
@@ -631,7 +630,7 @@ namespace Infrastructure.Services
                 int trnNo;
                 int trnKy;
                 int trnTrfLnkKy;
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1);
                 if (userKey == null)
                     throw new Exception("User key not found");
 
@@ -643,9 +642,9 @@ namespace Infrastructure.Services
                 cmdGetTrnNo.CommandText = @"
                             SELECT ISNULL(MAX(TrnNo), 0) + 1 
                             FROM TrnMas 
-                            WHERE CKy=@CKy AND OurCd='STKDED'";
+                            WHERE OurCd='STKDED'";
 
-                cmdGetTrnNo.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                //cmdGetTrnNo.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
                 trnNo = Convert.ToInt32(await cmdGetTrnNo.ExecuteScalarAsync());
 
                 // -------------------------------------------------------
@@ -689,9 +688,9 @@ namespace Infrastructure.Services
                 cmdGetTrnKy.CommandText = @"
                                 SELECT TrnKy 
                                 FROM vewTrnNo
-                                WHERE CKy=@CKy AND OurCd='STKDED' AND TrnNo=@TrnNo";
+                                WHERE OurCd='STKDED' AND TrnNo=@TrnNo";
 
-                cmdGetTrnKy.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                //cmdGetTrnKy.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
                 cmdGetTrnKy.Parameters.Add(new SqlParameter("@TrnNo", trnNo));
 
                 trnKy = Convert.ToInt32(await cmdGetTrnKy.ExecuteScalarAsync());
@@ -757,7 +756,7 @@ namespace Infrastructure.Services
 
             try
             {
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1);
                 if (userKey == null)
                     throw new Exception("User key not found");
 
@@ -778,11 +777,11 @@ namespace Infrastructure.Services
                 cmdFind.CommandText = @"
                             SELECT TrnKy 
                             FROM TrnMas 
-                            WHERE OurCd='STKDED' AND TrnNo=@TrnNo AND CKy=@CKy AND fInAct=0
+                            WHERE OurCd='STKDED' AND TrnNo=@TrnNo AND fInAct=0
                         ";
 
                 cmdFind.Parameters.Add(new SqlParameter("@TrnNo", dto.trnNo));
-                cmdFind.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                //cmdFind.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
 
                 object? trnKyObj = await cmdFind.ExecuteScalarAsync();
 
@@ -908,11 +907,10 @@ namespace Infrastructure.Services
                 FROM vewTrnNo
                 WHERE OurCd = 'STKDED'
                   AND TrnNo = @TrnNo
-                  AND CKy   = @CKy
             ";
 
                     cmdGet.Parameters.Add(new SqlParameter("@TrnNo", trnNo));
-                    cmdGet.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                    //cmdGet.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
 
                     var trnKyObj = await cmdGet.ExecuteScalarAsync();
 

@@ -33,7 +33,7 @@ namespace Infrastructure.Services
 
             try
             {
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey) ?? 0;
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1) ?? 0;
 
                 // 1. Handle Vehicle (Update Mileage/Damage)
                 // Assuming Vehicle Exists? Prompt says "create... with vehicle details". 
@@ -126,7 +126,7 @@ namespace Infrastructure.Services
         public async Task<(bool success, string message)> AddServiceItemAsync(AddServiceItemDto dto)
         {
              using var db = await _factory.CreateDbContextAsync();
-             var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey) ?? 0;
+             var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1) ?? 0;
 
              // Validate Service Order Exists
              var orderExists = await db.ServiceOrder.AnyAsync(o => o.ServiceOrdKy == dto.ServiceOrdKy);

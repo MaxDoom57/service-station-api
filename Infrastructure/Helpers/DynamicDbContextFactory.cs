@@ -2,8 +2,6 @@
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Helpers
 {
@@ -12,15 +10,18 @@ namespace Infrastructure.Helpers
         private readonly IConfiguration _config;
         private readonly MainDbContext _mainDb;
         private readonly IUserRequestContext _userContext;
+        private readonly CloudflaredTunnelManager _tunnelManager;
 
         public DynamicDbContextFactory(
             IConfiguration config,
             MainDbContext mainDb,
-            IUserRequestContext userContext)
+            IUserRequestContext userContext,
+            CloudflaredTunnelManager tunnelManager)
         {
-            _config = config;
-            _mainDb = mainDb;
-            _userContext = userContext;
+            _config        = config;
+            _mainDb        = mainDb;
+            _userContext   = userContext;
+            _tunnelManager = tunnelManager;
         }
 
         public async Task<DynamicDbContext> CreateDbContextAsync()
@@ -30,45 +31,75 @@ namespace Infrastructure.Helpers
 
             var creds = await _mainDb.DbCredentials
                 .FirstOrDefaultAsync(x =>
-                    x.CKy == _userContext.CompanyKey &&
-                    x.PrjKy == _userContext.ProjectKey);
+                    x.CKy    == _userContext.CompanyKey &&
+                    x.PrjKy  == _userContext.ProjectKey);
 
             if (creds == null)
                 throw new Exception("Database credentials not found.");
 
-            if (string.IsNullOrWhiteSpace(creds.DbServer) ||
-                string.IsNullOrWhiteSpace(creds.DbName))
-                throw new Exception("Server or database name missing.");
+            // ------------------------------------------------------------------
+            // Connection routing:
+            //   • IsCloudDb == true  → direct connection to DbServer
+            //                          (cloud-hosted SQL reachable from the API)
+            //   • IsCloudDb == false → cloudflared TCP tunnel
+            //                          (on-premise DB behind Cloudflare Access)
+            // ------------------------------------------------------------------
+            string server;
 
+            if (creds.IsCloudDb)
+            {
+                // Cloud DB — connect directly using DbServer from credentials
+                if (string.IsNullOrWhiteSpace(creds.DbServer) ||
+                    string.IsNullOrWhiteSpace(creds.DbName))
+                    throw new Exception("Server or database name missing.");
+
+                server = creds.DbServer;
+                Console.WriteLine($"[DynamicDb] Direct cloud connection → {server}");
+            }
+            else
+            {
+                // Local DB — route through cloudflared tunnel
+                if (string.IsNullOrWhiteSpace(creds.CfHostname)  ||
+                    string.IsNullOrWhiteSpace(creds.CfClientId)   ||
+                    string.IsNullOrWhiteSpace(creds.CfClientSecret))
+                    throw new Exception(
+                        "Cloudflare tunnel credentials (CfHostname, CfClientId, CfClientSecret) " +
+                        "are required when IsCloudDb is false.");
+
+                var localPort = await _tunnelManager.GetOrCreateTunnelAsync(
+                    hostname:     creds.CfHostname!,
+                    clientId:     creds.CfClientId!,
+                    clientSecret: creds.CfClientSecret!);
+
+                server = $"localhost,{localPort}";
+                Console.WriteLine($"[DynamicDb] Cloudflare tunnel → {creds.CfHostname} via {server}");
+            }
+
+            // Build connection string using the resolved server
             string connString;
             if (!string.IsNullOrWhiteSpace(creds.DbUser))
             {
                 connString =
-                    $"Server={creds.DbServer};" +
-                    $"Database={creds.DbName};" +
-                    $"User ID={creds.DbUser};" +
-                    $"Password={creds.DbPassword ?? ""};" +
-                    "Encrypt=False;" +
-                    "TrustServerCertificate=True;" +
-                    "MultipleActiveResultSets=True;" +
+                    $"Server={server};"                      +
+                    $"Database={creds.DbName};"              +
+                    $"User ID={creds.DbUser};"               +
+                    $"Password={creds.DbPassword ?? ""};"    +
+                    "Encrypt=False;"                         +
+                    "TrustServerCertificate=True;"           +
+                    "MultipleActiveResultSets=True;"         +
                     "Connection Timeout=60;";
             }
             else
             {
                 connString =
-                    $"Server={creds.DbServer};" +
-                    $"Database={creds.DbName};" +
-                    "Integrated Security=True;" +
-                    "Encrypt=False;" +
-                    "TrustServerCertificate=True;" +
+                    $"Server={server};"              +
+                    $"Database={creds.DbName};"      +
+                    "Integrated Security=True;"      +
+                    "Encrypt=False;"                 +
+                    "TrustServerCertificate=True;"   +
                     "MultipleActiveResultSets=True;" +
                     "Connection Timeout=60;";
             }
-
-            // LOG the connection attempt (mask password)
-            var displayConn = connString
-                .Replace(creds.DbPassword ?? "", "***");
-            Console.WriteLine($"[DynamicDb] Attempting connection: {displayConn}");
 
             try
             {
@@ -83,88 +114,16 @@ namespace Infrastructure.Helpers
 
                 var context = new DynamicDbContext(builder.Options);
 
-                // Force open connection immediately to catch errors here
+                // Force open connection immediately to surface auth/network errors early
                 await context.Database.OpenConnectionAsync();
-                Console.WriteLine("[DynamicDb] Connection successful!");
 
                 return context;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[DynamicDb] CONNECTION FAILED!");
-                Console.WriteLine($"[DynamicDb] Server: {creds.DbServer}");
-                Console.WriteLine($"[DynamicDb] Database: {creds.DbName}");
-                Console.WriteLine($"[DynamicDb] Error: {ex.Message}");
-                Console.WriteLine($"[DynamicDb] Inner: {ex.InnerException?.Message}");
+                Console.WriteLine($"[DynamicDb] CONNECTION FAILED! {ex.Message}");
                 throw;
             }
         }
-
-        //        public async Task<DynamicDbContext> CreateDbContextAsync()
-        //        {
-        //            // Validate session
-        //            if (_userContext.CompanyKey <= 0 || _userContext.ProjectKey <= 0)
-        //                throw new Exception("Invalid session data.");
-
-        //            var creds = await _mainDb.DbCredentials
-        //                .FirstOrDefaultAsync(x =>
-        //                    x.CKy == _userContext.CompanyKey &&
-        //                    x.PrjKy == _userContext.ProjectKey);
-
-        //            if (creds == null)
-        //                throw new Exception("Database credentials not found.");
-
-        //            if (string.IsNullOrWhiteSpace(creds.DbServer) ||
-        //                string.IsNullOrWhiteSpace(creds.DbName))
-        //            {
-        //                throw new Exception("Server or database name missing.");
-        //            }
-
-
-        //            string connString;
-
-        //            if (!string.IsNullOrWhiteSpace(creds.DbUser))
-        //            {
-        //                // SQL Authentication
-        //                connString =
-        //                    $"Server={creds.DbServer};" +
-        //                    $"Database={creds.DbName};" +
-        //                    $"User ID={creds.DbUser};" +
-        //                    $"Password={creds.DbPassword ?? ""};" +
-        //                    "Encrypt=False;" +
-        //                    "TrustServerCertificate=True;" +
-        //                    "MultipleActiveResultSets=True;" +
-        //                    "Connection Timeout=30;";
-        //            }
-        //            else
-        //            {
-        //                // Integrated Security (Windows Authentication)
-        //                connString =
-        //                    $"Server={creds.DbServer};" +
-        //                    $"Database={creds.DbName};" +
-        //                    "Integrated Security=True;" +
-        //                    "Encrypt=False;" +
-        //                    "TrustServerCertificate=True;" +
-        //                    "MultipleActiveResultSets=True;" +
-        //                    "Connection Timeout=30;";
-        //            }
-
-        //            var builder = new DbContextOptionsBuilder<DynamicDbContext>();
-
-        //            builder.UseSqlServer(connString, options =>
-        //            {
-        //                options.EnableRetryOnFailure(
-        //                    maxRetryCount: 3,
-        //                    maxRetryDelay: TimeSpan.FromSeconds(5),
-        //                    errorNumbersToAdd: null);
-        //            });
-
-        //#if DEBUG
-        //            builder.EnableDetailedErrors();
-        //            builder.EnableSensitiveDataLogging();
-        //#endif
-
-        //            return new DynamicDbContext(builder.Options);
-        //        }
     }
 }

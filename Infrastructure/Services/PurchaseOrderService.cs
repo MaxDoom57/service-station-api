@@ -52,12 +52,11 @@ namespace Infrastructure.Services
                     FROM vewPOHdr
                     WHERE OrdTypKy = @OrdTypKy
                       AND OrdNo = @OrdNo
-                      AND CKy = @CKy
                 ";
 
                 cmd.Parameters.Add(new SqlParameter("@OrdTypKy", ordTypKy));
                 cmd.Parameters.Add(new SqlParameter("@OrdNo", orderNo));
-                cmd.Parameters.Add(new SqlParameter("@CKy", cKy));
+                //cmd.Parameters.Add(new SqlParameter("@CKy", cKy));
 
                 using var reader = await cmd.ExecuteReaderAsync();
                 if (!reader.Read())
@@ -91,12 +90,11 @@ namespace Infrastructure.Services
                     FROM vewPODtls
                     WHERE OrdNo = @OrdNo
                       AND OrdTypKy = @OrdTypKy
-                      AND CKy = @CKy
                 ";
 
                 cmd.Parameters.Add(new SqlParameter("@OrdNo", orderNo));
                 cmd.Parameters.Add(new SqlParameter("@OrdTypKy", ordTypKy));
-                cmd.Parameters.Add(new SqlParameter("@CKy", cKy));
+                //cmd.Parameters.Add(new SqlParameter("@CKy", cKy));
 
                 using var reader = await cmd.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
@@ -141,7 +139,7 @@ namespace Infrastructure.Services
 
             try
             {
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
+                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1);
                 if (userKey == null)
                     throw new Exception("User key not found");
                 var cKy = _userContext.CompanyKey;
@@ -183,10 +181,10 @@ namespace Infrastructure.Services
                 cmdOrdKy.Transaction = tx;
                 cmdOrdKy.CommandText = @"
                     SELECT OrdKy FROM vewOrdNo
-                    WHERE OrdNo=@OrdNo AND OrdTyp='PURORD' AND CKy=@CKy
+                    WHERE OrdNo=@OrdNo AND OrdTyp='PURORD'
                 ";
                 cmdOrdKy.Parameters.Add(new SqlParameter("@OrdNo", ordNo));
-                cmdOrdKy.Parameters.Add(new SqlParameter("@CKy", cKy));
+                //cmdOrdKy.Parameters.Add(new SqlParameter("@CKy", cKy));
                 var ordKy = Convert.ToInt32(await cmdOrdKy.ExecuteScalarAsync());
 
                 // 4. Insert Details
@@ -256,10 +254,10 @@ namespace Infrastructure.Services
                 cmdOrdKy.Transaction = tx;
                 cmdOrdKy.CommandText = @"
                     SELECT OrdKy FROM vewOrdNo
-                    WHERE OrdNo=@OrdNo AND OrdTyp='PURORD' AND CKy=@CKy
+                    WHERE OrdNo=@OrdNo AND OrdTyp='PURORD'
                 ";
                 cmdOrdKy.Parameters.Add(new SqlParameter("@OrdNo", orderNo));
-                cmdOrdKy.Parameters.Add(new SqlParameter("@CKy", cKy));
+                //cmdOrdKy.Parameters.Add(new SqlParameter("@CKy", cKy));
                 var ordKy = Convert.ToInt32(await cmdOrdKy.ExecuteScalarAsync());
 
                 // Update OrdMas
@@ -401,11 +399,10 @@ namespace Infrastructure.Services
                 FROM vewOrdNo
                 WHERE OrdTyp = 'PURORD'
                   AND OrdNo = @OrdNo
-                  AND CKy = @CKy
             ";
 
                     cmd.Parameters.Add(new SqlParameter("@OrdNo", orderNo));
-                    cmd.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                    //cmd.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
 
                     var result = await cmd.ExecuteScalarAsync();
                     if (result == null)

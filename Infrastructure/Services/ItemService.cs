@@ -132,7 +132,7 @@ namespace Infrastructure.Services
 
             var userKey = await _userKeyService.GetUserKeyAsync(
                 _userContext.UserId,
-                _userContext.CompanyKey
+                1
             );
 
             if (userKey == null)
@@ -163,7 +163,7 @@ namespace Infrastructure.Services
                     await conn.OpenAsync();
                     using var tx = conn.BeginTransaction();
 
-                    // 1️⃣ Insert into ItmMas (NO OUTPUT)
+                    // 1️ Insert into ItmMas (NO OUTPUT)
                     using var cmdInsert = conn.CreateCommand();
                     cmdInsert.Transaction = tx;
                     cmdInsert.CommandText = @"
@@ -203,19 +203,18 @@ namespace Infrastructure.Services
 
                     await cmdInsert.ExecuteNonQueryAsync();
 
-                    // 2️⃣ Read back ItmKy safely
+                    // 2️ Read back ItmKy safely
                     using var cmdGetKey = conn.CreateCommand();
                     cmdGetKey.Transaction = tx;
                     cmdGetKey.CommandText = @"
                 SELECT ItmKy
                 FROM ItmMas
                 WHERE ItmCd = @ItmCd
-                  AND CKy = @CKy
                   AND fInAct = 0;
             ";
 
                     cmdGetKey.Parameters.Add(new SqlParameter("@ItmCd", dto.itemCode));
-                    cmdGetKey.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
+                    //cmdGetKey.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
 
                     var itmKyObj = await cmdGetKey.ExecuteScalarAsync();
                     if (itmKyObj == null)
