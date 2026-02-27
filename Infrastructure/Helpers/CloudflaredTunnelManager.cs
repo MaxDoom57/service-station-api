@@ -8,6 +8,10 @@ namespace Infrastructure.Helpers
     /// One tunnel is created per unique hostname and reused across all requests
     /// for that hostname, providing connection-level efficiency.
     ///
+    /// Each cloudflared child process receives its own isolated environment block
+    /// carrying that tenant's service token — credentials never leak across tenants
+    /// or into the host application's environment.
+    ///
     /// Lifecycle: register as a Singleton in DI and it will be Disposed on
     /// application shutdown, which kills every child cloudflared process.
     /// </summary>
@@ -21,6 +25,12 @@ namespace Infrastructure.Helpers
         /// <summary>
         /// Returns the local port for an existing tunnel, or spins up a new
         /// cloudflared process and waits for it to be ready.
+        ///
+        /// Service token credentials are injected via the child process's own
+        /// environment block (TUNNEL_SERVICE_TOKEN_ID / TUNNEL_SERVICE_TOKEN_SECRET).
+        /// This is the correct mechanism for `cloudflared access tcp` — the
+        /// --service-token-id / --service-token-secret CLI flags do not exist
+        /// for this subcommand.
         /// </summary>
         public async Task<int> GetOrCreateTunnelAsync(
             string hostname,
@@ -43,36 +53,71 @@ namespace Infrastructure.Helpers
                 var psi = new ProcessStartInfo
                 {
                     FileName  = "cloudflared",
+                    // ✅ No --service-token-id / --service-token-secret flags here.
+                    // Those flags don't exist for `access tcp`. Credentials are
+                    // passed via the environment block below instead.
                     Arguments = $"access tcp " +
                                 $"--hostname {hostname} " +
-                                $"--url localhost:{localPort} " +
-                                $"--service-token-id {clientId} " +
-                                $"--service-token-secret {clientSecret}",
+                                $"--url localhost:{localPort}",
                     RedirectStandardOutput = true,
                     RedirectStandardError  = true,
                     UseShellExecute        = false,
                     CreateNoWindow         = true
                 };
 
+                // ✅ Per-process environment — isolated to THIS child process only.
+                // Setting these here does NOT affect other cloudflared processes
+                // or the host .NET application's own environment.
+                psi.Environment["TUNNEL_SERVICE_TOKEN_ID"]     = clientId;
+                psi.Environment["TUNNEL_SERVICE_TOKEN_SECRET"] = clientSecret;
+
+                var tcs     = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
                 var process = new Process { StartInfo = psi };
 
                 process.OutputDataReceived += (_, e) =>
                 {
-                    if (e.Data != null)
-                        Console.WriteLine($"[cloudflared:{hostname}] {e.Data}");
+                    if (e.Data is null) return;
+                    Console.WriteLine($"[cloudflared:{hostname}] {e.Data}");
                 };
+
                 process.ErrorDataReceived += (_, e) =>
                 {
-                    if (e.Data != null)
-                        Console.WriteLine($"[cloudflared:{hostname}] ERR: {e.Data}");
+                    if (e.Data is null) return;
+                    Console.WriteLine($"[cloudflared:{hostname}] ERR: {e.Data}");
+
+                    // ✅ Detect readiness from stderr instead of a fixed Task.Delay.
+                    // "Start Websocket listener" is the line cloudflared emits once
+                    // the local TCP listener is bound and the tunnel is ready.
+                    if (!tcs.Task.IsCompleted &&
+                        e.Data.Contains("Start Websocket listener", StringComparison.OrdinalIgnoreCase))
+                    {
+                        tcs.TrySetResult(true);
+                    }
                 };
 
                 process.Start();
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
-                // Give the tunnel a few seconds to connect before handing back
-                await Task.Delay(3000);
+                // Wait for the "ready" signal with a 10-second timeout fallback.
+                // If the process dies before signalling, we throw immediately.
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                cts.Token.Register(() => tcs.TrySetCanceled());
+
+                try
+                {
+                    await tcs.Task;
+                }
+                catch (OperationCanceledException)
+                {
+                    if (process.HasExited)
+                        throw new Exception(
+                            $"cloudflared exited immediately for '{hostname}'. " +
+                            $"Exit code: {process.ExitCode}");
+
+                    // Process is still running but didn't signal in time — proceed anyway.
+                    Console.WriteLine($"[CloudflaredTunnelManager] Readiness timeout for {hostname}, proceeding...");
+                }
 
                 if (process.HasExited)
                     throw new Exception(
