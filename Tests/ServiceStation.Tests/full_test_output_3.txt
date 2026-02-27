@@ -1,0 +1,510 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Shared -> E:\Interwave Solutions\Service station\Shared\bin\Debug\net8.0\Shared.dll
+  Domain -> E:\Interwave Solutions\Service station\Domain\bin\Debug\net8.0\Domain.dll
+  Application -> E:\Interwave Solutions\Service station\Application\bin\Debug\net8.0\Application.dll
+  Infrastructure -> E:\Interwave Solutions\Service station\Infrastructure\bin\Debug\net8.0\Infrastructure.dll
+  ServiceStationApi -> E:\Interwave Solutions\Service station\Api\bin\Debug\net8.0\ServiceStationApi.dll
+  ServiceStation.Tests -> E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\bin\Debug\net8.0\ServiceStation.Tests.dll
+Test run for E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\bin\Debug\net8.0\ServiceStation.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 17.14.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+E:\Interwave Solutions\Service station\Tests\ServiceStation.Tests\bin\Debug\net8.0\ServiceStation.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.23)
+[xUnit.net 00:00:00.11]   Discovering: ServiceStation.Tests
+[xUnit.net 00:00:00.14]   Discovered:  ServiceStation.Tests
+[xUnit.net 00:00:00.15]   Starting:    ServiceStation.Tests
+info: Microsoft.EntityFrameworkCore.Update[30100]
+      Saved 1 entities to in-memory store.
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+      Object name: 'DynamicDbContext'.
+         at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+         at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+         at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+         at System.Linq.Queryable.Select[TSource,TResult](IQueryable`1 source, Expression`1 selector)
+         at Infrastructure.Services.PaymentTermService.GetAllAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\PaymentTermService.cs:line 21
+         at Api.Controllers.PaymentTermController.GetAll() in E:\Interwave Solutions\Service station\Api\Controllers\PaymentTermController.cs:line 22
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+      Object name: 'DynamicDbContext'.
+         at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+         at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+         at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+         at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+         at Infrastructure.Services.SalesAccountService.GetAllAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\SalesAccountService.cs:line 22
+         at Api.Controllers.SalesAccountController.GetAll() in E:\Interwave Solutions\Service station\Api\Controllers\SalesAccountController.cs:line 22
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.Exception: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+      Object name: 'DynamicDbContext'.
+         at Infrastructure.Services.CustomerAccountService.GetAllAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\CustomerAccountService.cs:line 35
+         at Infrastructure.Services.InvoiceDetailsService.GetDetailsAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\InvoiceDetailsService.cs:line 26
+         at Api.Controllers.InvoiceDetailsController.GetDetails() in E:\Interwave Solutions\Service station\Api\Controllers\InvoiceDetailsController.cs:line 22
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+      Object name: 'DynamicDbContext'.
+         at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+         at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+         at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+         at System.Linq.Queryable.GroupJoin[TOuter,TInner,TKey,TResult](IQueryable`1 outer, IEnumerable`1 inner, Expression`1 outerKeySelector, Expression`1 innerKeySelector, Expression`1 resultSelector)
+         at CustomerService.GetCustomersAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\CustomerService.cs:line 39
+         at CustomerController.GetAll() in E:\Interwave Solutions\Service station\Api\Controllers\CustomerController.cs:line 23
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+      Object name: 'DynamicDbContext'.
+         at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+         at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+         at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+         at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+         at Infrastructure.Services.BayControlService.GetAvailableBaysNowAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\BayControlService.cs:line 35
+         at Api.Controllers.BayControlController.GetAvailableBaysNow() in E:\Interwave Solutions\Service station\Api\Controllers\BayControlController.cs:line 23
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+      Object name: 'DynamicDbContext'.
+         at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+         at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+         at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+         at System.Linq.Queryable.Join[TOuter,TInner,TKey,TResult](IQueryable`1 outer, IEnumerable`1 inner, Expression`1 outerKeySelector, Expression`1 innerKeySelector, Expression`1 resultSelector)
+         at Infrastructure.Services.ReservationService.GetReservationsAsync(String vehicleId, Nullable`1 date) in E:\Interwave Solutions\Service station\Infrastructure\Services\ReservationService.cs:line 215
+         at Api.Controllers.ReservationController.GetAllReservations() in E:\Interwave Solutions\Service station\Api\Controllers\ReservationController.cs:line 50
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+fail: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware[1]
+      An unhandled exception has occurred while executing the request.
+      System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+      Object name: 'DynamicDbContext'.
+         at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+         at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+         at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+         at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+         at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+         at Infrastructure.Services.ServiceOrderService.GetServiceOrdersAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\ServiceOrderService.cs:line 229
+         at Api.Controllers.ServiceOrderController.GetServiceOrders() in E:\Interwave Solutions\Service station\Api\Controllers\ServiceOrderController.cs:line 52
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+      --- End of stack trace from previous location ---
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+[xUnit.net 00:00:01.49]   Finished:    ServiceStation.Tests
+  Passed ServiceStation.Tests.FullSystemTests.RunAllGetEndpoints_AndReportEmptyData [1 s]
+  Standard Output Messages:
+ Testing /api/ssms/v0.1/accessLevel...
+ [FAILED] /api/ssms/v0.1/accessLevel: Status InternalServerError
+ [ERROR_DETAILS] {"message":"User not found","type":"System.Exception","stackTrace":"   at Infrastructure.Services.CommonLookupService.GetAccessLevelAsync(String userId) in E:\\Interwave Solutions\\Service station\\Infrastructure\\Services\\CommonLookupService.cs:line 333\r\n   at Api.Controllers.AuthController.GetAccessLevel() in E:\\Interwave Solutions\\Service station\\Api\\Controllers\\AuthControllerr.cs:line 90","innerMessage":null,"innerStack":null}
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/items...
+ [FAILED] /api/ssms/v0.1/items: Status BadRequest
+ [ERROR_DETAILS] Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+ Object name: 'DynamicDbContext'.
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/vehicletype...
+ [FAILED] /api/ssms/v0.1/vehicletype: Status BadRequest
+ [ERROR_DETAILS] Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+ Object name: 'DynamicDbContext'.
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/CustomerAccount...
+ [FAILED] /api/ssms/v0.1/CustomerAccount: Status InternalServerError
+ [ERROR_DETAILS] {"message":"Failed to retrieve customer accounts!","detail":"Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.\r\nObject name: 'DynamicDbContext'."}
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/PaymentTerm...
+ [FAILED] /api/ssms/v0.1/PaymentTerm: Status InternalServerError
+ [ERROR_DETAILS] System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+ Object name: 'DynamicDbContext'.
+    at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+    at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+    at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+    at System.Linq.Queryable.Select[TSource,TResult](IQueryable`1 source, Expression`1 selector)
+    at Infrastructure.Services.PaymentTermService.GetAllAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\PaymentTermService.cs:line 21
+    at Api.Controllers.PaymentTermController.GetAll() in E:\Interwave Solutions\Service station\Api\Controllers\PaymentTermController.cs:line 22
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+ --- End of stack trace from previous location ---
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+    at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ 
+ HEADERS
+ =======
+ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3JLeSI6IjEiLCJVc3JJZCI6InNlcnZpY2VBZG1pbiIsIkNLeSI6IjIiLCJQcmpLeSI6IjI4MiIsIm5iZiI6MTc3MDYxOTc2MCwiZXhwIjoxNzcwNjIzMzYwLCJpYXQiOjE3NzA2MTk3NjAsImlzcyI6InlvdXJhcHAiLCJhdWQiOiJ5b3VyYXBwIn0.X_jrmblUaOd6_dF71LCUWCASQ-NYxVsLIww7WVhC9lg
+ Host: localhost
+ 
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/SalesAccount...
+ [FAILED] /api/ssms/v0.1/SalesAccount: Status InternalServerError
+ [ERROR_DETAILS] System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+ Object name: 'DynamicDbContext'.
+    at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+    at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+    at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+    at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+    at Infrastructure.Services.SalesAccountService.GetAllAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\SalesAccountService.cs:line 22
+    at Api.Controllers.SalesAccountController.GetAll() in E:\Interwave Solutions\Service station\Api\Controllers\SalesAccountController.cs:line 22
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+ --- End of stack trace from previous location ---
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+    at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ 
+ HEADERS
+ =======
+ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3JLeSI6IjEiLCJVc3JJZCI6InNlcnZpY2VBZG1pbiIsIkNLeSI6IjIiLCJQcmpLeSI6IjI4MiIsIm5iZiI6MTc3MDYxOTc2MCwiZXhwIjoxNzcwNjIzMzYwLCJpYXQiOjE3NzA2MTk3NjAsImlzcyI6InlvdXJhcHAiLCJhdWQiOiJ5b3VyYXBwIn0.X_jrmblUaOd6_dF71LCUWCASQ-NYxVsLIww7WVhC9lg
+ Host: localhost
+ 
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/InvoiceDetails...
+ [FAILED] /api/ssms/v0.1/InvoiceDetails: Status InternalServerError
+ [ERROR_DETAILS] System.Exception: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+ Object name: 'DynamicDbContext'.
+    at Infrastructure.Services.CustomerAccountService.GetAllAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\CustomerAccountService.cs:line 35
+    at Infrastructure.Services.InvoiceDetailsService.GetDetailsAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\InvoiceDetailsService.cs:line 26
+    at Api.Controllers.InvoiceDetailsController.GetDetails() in E:\Interwave Solutions\Service station\Api\Controllers\InvoiceDetailsController.cs:line 22
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+ --- End of stack trace from previous location ---
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+    at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ 
+ HEADERS
+ =======
+ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3JLeSI6IjEiLCJVc3JJZCI6InNlcnZpY2VBZG1pbiIsIkNLeSI6IjIiLCJQcmpLeSI6IjI4MiIsIm5iZiI6MTc3MDYxOTc2MCwiZXhwIjoxNzcwNjIzMzYwLCJpYXQiOjE3NzA2MTk3NjAsImlzcyI6InlvdXJhcHAiLCJhdWQiOiJ5b3VyYXBwIn0.X_jrmblUaOd6_dF71LCUWCASQ-NYxVsLIww7WVhC9lg
+ Host: localhost
+ 
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/Customer...
+ [FAILED] /api/ssms/v0.1/Customer: Status InternalServerError
+ [ERROR_DETAILS] System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+ Object name: 'DynamicDbContext'.
+    at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+    at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+    at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+    at System.Linq.Queryable.GroupJoin[TOuter,TInner,TKey,TResult](IQueryable`1 outer, IEnumerable`1 inner, Expression`1 outerKeySelector, Expression`1 innerKeySelector, Expression`1 resultSelector)
+    at CustomerService.GetCustomersAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\CustomerService.cs:line 39
+    at CustomerController.GetAll() in E:\Interwave Solutions\Service station\Api\Controllers\CustomerController.cs:line 23
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+ --- End of stack trace from previous location ---
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+    at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ 
+ HEADERS
+ =======
+ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3JLeSI6IjEiLCJVc3JJZCI6InNlcnZpY2VBZG1pbiIsIkNLeSI6IjIiLCJQcmpLeSI6IjI4MiIsIm5iZiI6MTc3MDYxOTc2MCwiZXhwIjoxNzcwNjIzMzYwLCJpYXQiOjE3NzA2MTk3NjAsImlzcyI6InlvdXJhcHAiLCJhdWQiOiJ5b3VyYXBwIn0.X_jrmblUaOd6_dF71LCUWCASQ-NYxVsLIww7WVhC9lg
+ Host: localhost
+ 
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/bay...
+ [FAILED] /api/ssms/v0.1/bay: Status BadRequest
+ [ERROR_DETAILS] Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+ Object name: 'DynamicDbContext'.
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/baycontrol/available...
+ [FAILED] /api/ssms/v0.1/baycontrol/available: Status InternalServerError
+ [ERROR_DETAILS] System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+ Object name: 'DynamicDbContext'.
+    at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+    at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+    at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+    at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+    at Infrastructure.Services.BayControlService.GetAvailableBaysNowAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\BayControlService.cs:line 35
+    at Api.Controllers.BayControlController.GetAvailableBaysNow() in E:\Interwave Solutions\Service station\Api\Controllers\BayControlController.cs:line 23
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+ --- End of stack trace from previous location ---
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+    at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ 
+ HEADERS
+ =======
+ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3JLeSI6IjEiLCJVc3JJZCI6InNlcnZpY2VBZG1pbiIsIkNLeSI6IjIiLCJQcmpLeSI6IjI4MiIsIm5iZiI6MTc3MDYxOTc2MCwiZXhwIjoxNzcwNjIzMzYwLCJpYXQiOjE3NzA2MTk3NjAsImlzcyI6InlvdXJhcHAiLCJhdWQiOiJ5b3VyYXBwIn0.X_jrmblUaOd6_dF71LCUWCASQ-NYxVsLIww7WVhC9lg
+ Host: localhost
+ 
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/reservation...
+ [FAILED] /api/ssms/v0.1/reservation: Status InternalServerError
+ [ERROR_DETAILS] System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+ Object name: 'DynamicDbContext'.
+    at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+    at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+    at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+    at System.Linq.Queryable.Join[TOuter,TInner,TKey,TResult](IQueryable`1 outer, IEnumerable`1 inner, Expression`1 outerKeySelector, Expression`1 innerKeySelector, Expression`1 resultSelector)
+    at Infrastructure.Services.ReservationService.GetReservationsAsync(String vehicleId, Nullable`1 date) in E:\Interwave Solutions\Service station\Infrastructure\Services\ReservationService.cs:line 215
+    at Api.Controllers.ReservationController.GetAllReservations() in E:\Interwave Solutions\Service station\Api\Controllers\ReservationController.cs:line 50
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+ --- End of stack trace from previous location ---
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+    at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ 
+ HEADERS
+ =======
+ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3JLeSI6IjEiLCJVc3JJZCI6InNlcnZpY2VBZG1pbiIsIkNLeSI6IjIiLCJQcmpLeSI6IjI4MiIsIm5iZiI6MTc3MDYxOTc2MCwiZXhwIjoxNzcwNjIzMzYwLCJpYXQiOjE3NzA2MTk3NjAsImlzcyI6InlvdXJhcHAiLCJhdWQiOiJ5b3VyYXBwIn0.X_jrmblUaOd6_dF71LCUWCASQ-NYxVsLIww7WVhC9lg
+ Host: localhost
+ 
+ --------------------------------------------------
+ Testing /api/ssms/v0.1/serviceorder...
+ [FAILED] /api/ssms/v0.1/serviceorder: Status InternalServerError
+ [ERROR_DETAILS] System.ObjectDisposedException: Cannot access a disposed context instance. A common cause of this error is disposing a context instance that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling 'Dispose' on the context instance, or wrapping it in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+ Object name: 'DynamicDbContext'.
+    at Microsoft.EntityFrameworkCore.DbContext.CheckDisposed()
+    at Microsoft.EntityFrameworkCore.DbContext.get_ContextServices()
+    at Microsoft.EntityFrameworkCore.DbContext.get_Model()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityType()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.CheckState()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.get_EntityQueryable()
+    at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.System.Linq.IQueryable.get_Provider()
+    at System.Linq.Queryable.Where[TSource](IQueryable`1 source, Expression`1 predicate)
+    at Infrastructure.Services.ServiceOrderService.GetServiceOrdersAsync() in E:\Interwave Solutions\Service station\Infrastructure\Services\ServiceOrderService.cs:line 229
+    at Api.Controllers.ServiceOrderController.GetServiceOrders() in E:\Interwave Solutions\Service station\Api\Controllers\ServiceOrderController.cs:line 52
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+ --- End of stack trace from previous location ---
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+    at Api.Middlewares.JwtSessionMiddleware.InvokeAsync(HttpContext context, IUserRequestContext userContext) in E:\Interwave Solutions\Service station\Api\Middlewares\JwtSessionMiddleware.cs:line 50
+    at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ 
+ HEADERS
+ =======
+ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc3JLeSI6IjEiLCJVc3JJZCI6InNlcnZpY2VBZG1pbiIsIkNLeSI6IjIiLCJQcmpLeSI6IjI4MiIsIm5iZiI6MTc3MDYxOTc2MCwiZXhwIjoxNzcwNjIzMzYwLCJpYXQiOjE3NzA2MTk3NjAsImlzcyI6InlvdXJhcHAiLCJhdWQiOiJ5b3VyYXBwIn0.X_jrmblUaOd6_dF71LCUWCASQ-NYxVsLIww7WVhC9lg
+ Host: localhost
+ 
+ --------------------------------------------------
+
+
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 1.9831 Seconds

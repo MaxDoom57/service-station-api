@@ -1,0 +1,7 @@
+﻿[
+  { "OrdKy": 101, "DocNo": "ORD-2026-001", "Date": "2026-02-10", "Customer": "John Doe", "Total": 5000.00 },
+  { "OrdKy": 102, "DocNo": "ORD-2026-002", "Date": "2026-02-11", "Customer": "Jane Smith", "Total": 3500.00 },
+  { "OrdKy": 103, "DocNo": "ORD-2026-003", "Date": "2026-02-12", "Customer": "ABC Logistics", "Total": 15000.00 },
+  { "OrdKy": 104, "DocNo": "ORD-2026-004", "Date": "2026-02-13", "Customer": "Kamal Perera", "Total": 2000.00 },
+  { "OrdKy": 105, "DocNo": "ORD-2026-005", "Date": "2026-02-14", "Customer": "Sunil Traders", "Total": 8500.00 }
+]
