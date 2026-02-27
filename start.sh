@@ -7,8 +7,8 @@ curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloud
 chmod +x ./cloudflared
 
 echo "=== CF_ACCESS_CLIENT_ID is set: ${CF_ACCESS_CLIENT_ID:0:8}... ==="
-
 echo "=== Starting cloudflared tunnel proxy ==="
+
 ./cloudflared access tcp \
   --hostname ssms-hat-02.eposmart.com \
   --url localhost:14333 \
