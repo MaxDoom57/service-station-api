@@ -19,10 +19,6 @@ builder.Services.AddSwaggerGen();
 // Scoped Services
 builder.Services.AddScoped<IUserRequestContext, UserRequestContext>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-// Singleton — tunnel pool must live for the entire app lifetime
-builder.Services.AddSingleton<CloudflaredTunnelManager>();
-// Hosted service — pre-warms all cloudflared tunnels at startup
-builder.Services.AddHostedService<TunnelWarmupService>();
 builder.Services.AddScoped<IDynamicDbContextFactory, DynamicDbContextFactory>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
