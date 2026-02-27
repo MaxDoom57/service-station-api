@@ -3,10 +3,14 @@
   "WorkspaceRootPath": "E:\\Interwave Solutions\\Service station\\Api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\interwave solutions\\service station\\infrastructure\\middleware\\requestloggingmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\interwave solutions\\service station\\infrastructure\\helpers\\dynamicdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\interwave solutions\\service station\\infrastructure\\helpers\\dynamicdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\interwave solutions\\service station\\infrastructure\\helpers\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|e:\\interwave solutions\\service station\\api\\middlewares\\jwtsessionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|solutionrelative:middlewares\\jwtsessionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,28 +25,39 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RequestLoggingMiddleware.cs",
-              "DocumentMoniker": "E:\\Interwave Solutions\\Service station\\Infrastructure\\Middleware\\RequestLoggingMiddleware.cs",
-              "RelativeDocumentMoniker": "..\\Infrastructure\\Middleware\\RequestLoggingMiddleware.cs",
-              "ToolTip": "E:\\Interwave Solutions\\Service station\\Infrastructure\\Middleware\\RequestLoggingMiddleware.cs",
-              "RelativeToolTip": "..\\Infrastructure\\Middleware\\RequestLoggingMiddleware.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T03:59:46.74Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "DynamicDbContextFactory.cs",
               "DocumentMoniker": "E:\\Interwave Solutions\\Service station\\Infrastructure\\Helpers\\DynamicDbContextFactory.cs",
               "RelativeDocumentMoniker": "..\\Infrastructure\\Helpers\\DynamicDbContextFactory.cs",
               "ToolTip": "E:\\Interwave Solutions\\Service station\\Infrastructure\\Helpers\\DynamicDbContextFactory.cs",
               "RelativeToolTip": "..\\Infrastructure\\Helpers\\DynamicDbContextFactory.cs",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAwwIUAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAwwGMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T03:59:27.287Z",
+              "WhenOpened": "2026-02-25T05:39:31.696Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "E:\\Interwave Solutions\\Service station\\Infrastructure\\Helpers\\TokenService.cs",
+              "RelativeDocumentMoniker": "..\\Infrastructure\\Helpers\\TokenService.cs",
+              "ToolTip": "E:\\Interwave Solutions\\Service station\\Infrastructure\\Helpers\\TokenService.cs",
+              "RelativeToolTip": "..\\Infrastructure\\Helpers\\TokenService.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T05:38:25.773Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "JwtSessionMiddleware.cs",
+              "DocumentMoniker": "E:\\Interwave Solutions\\Service station\\Api\\Middlewares\\JwtSessionMiddleware.cs",
+              "RelativeDocumentMoniker": "Middlewares\\JwtSessionMiddleware.cs",
+              "ToolTip": "E:\\Interwave Solutions\\Service station\\Api\\Middlewares\\JwtSessionMiddleware.cs",
+              "RelativeToolTip": "Middlewares\\JwtSessionMiddleware.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-25T05:37:29.284Z"
             }
           ]
         }
