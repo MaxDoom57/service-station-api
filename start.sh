@@ -12,7 +12,7 @@ echo "=== Starting cloudflared tunnel proxy ==="
 CF_ACCESS_CLIENT_ID="$CF_ACCESS_CLIENT_ID" \
 CF_ACCESS_CLIENT_SECRET="$CF_ACCESS_CLIENT_SECRET" \
 ./cloudflared access tcp \
-  --hostname ssms-hat-02.eposmart.com \
+  --hostname hat-01.eposmart.com \
   --url localhost:14333 &
 
 echo "=== Waiting for tunnel to be ready ==="
