@@ -24,6 +24,7 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserKeyService, UserKeyService>();
 builder.Services.AddScoped<ITokenBlacklistService, TokenBlacklistService>();
+builder.Services.AddSingleton<ITokenActivityService, TokenActivityService>();
 builder.Services.AddScoped<ItemService>();
 builder.Services.AddScoped<CustomerAccountService>();
 builder.Services.AddScoped<SalesAccountService>();

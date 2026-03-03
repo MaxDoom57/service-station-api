@@ -15,7 +15,11 @@ namespace Api.Middlewares
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, IUserRequestContext userContext)
+        public async Task InvokeAsync(
+            HttpContext context,
+            IUserRequestContext userContext,
+            ITokenActivityService tokenActivity,
+            ITokenBlacklistService tokenBlacklist)
         {
             var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
 
@@ -39,6 +43,13 @@ namespace Api.Middlewares
                         userContext.UserId = userId;
                         userContext.CompanyKey = int.Parse(companyKey);
                         userContext.ProjectKey = int.Parse(projectKey);
+
+                        // Bump the sliding-window activity tracker so the refresh
+                        // endpoint knows this token was recently used.
+                        if (!tokenBlacklist.IsTokenBlacklisted(token))
+                        {
+                            tokenActivity.Touch(token);
+                        }
                     }
                 }
                 catch
@@ -51,3 +62,4 @@ namespace Api.Middlewares
         }
     }
 }
+
