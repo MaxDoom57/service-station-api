@@ -27,6 +27,19 @@ namespace Api.Middlewares
             {
                 var token = authHeader.Substring("Bearer ".Length);
 
+                // ─── BLACKLIST GATE ──────────────────────────────────────────────────────
+                // If the token has been revoked (e.g. after rotation or logout),
+                // reject immediately — do NOT forward to the next middleware or controller.
+                if (tokenBlacklist.IsTokenBlacklisted(token))
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(
+                        "{\"error\":\"Token has been revoked. Please login again.\"}");
+                    return;   // ← pipeline stops here
+                }
+                // ────────────────────────────────────────────────────────────────────────
+
                 try
                 {
                     var handler = new JwtSecurityTokenHandler();
@@ -44,17 +57,14 @@ namespace Api.Middlewares
                         userContext.CompanyKey = int.Parse(companyKey);
                         userContext.ProjectKey = int.Parse(projectKey);
 
-                        // Bump the sliding-window activity tracker so the refresh
-                        // endpoint knows this token was recently used.
-                        if (!tokenBlacklist.IsTokenBlacklisted(token))
-                        {
-                            tokenActivity.Touch(token);
-                        }
+                        // Bump the sliding-window activity tracker so the
+                        // refresh endpoint knows this token was recently used.
+                        tokenActivity.Touch(token);
                     }
                 }
                 catch
                 {
-                    // Token invalid or unreadable; do not set session context
+                    // Token unreadable — let the JWT bearer middleware handle it.
                 }
             }
 
