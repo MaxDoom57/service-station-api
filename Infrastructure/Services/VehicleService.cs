@@ -28,164 +28,178 @@ namespace Infrastructure.Services
         public async Task<(bool success, string message, int statusCode)> RegisterVehicleAsync(CreateVehicleRequestDto dto)
         {
             using var db = await _factory.CreateDbContextAsync();
-            using var transaction = await db.Database.BeginTransactionAsync();
 
-            try
+            var result = (success: false, message: string.Empty, statusCode: 500);
+
+            await db.Database.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
-                if (userKey == null) return (false, "User key not found", 400);
-
-                // 1. Check if vehicle exists (Active only)
-                if (await db.Vehicles.AnyAsync(v => v.VehicleId == dto.VehicleId && v.fInAct != true))
-                    return (false, "Vehicle Number already exists", 409);
-
-                // 2. Handle Owner — check/create Address
-                int adrKy;
-                if (dto.Owner.AdrKy.HasValue && dto.Owner.AdrKy > 0)
+                using var transaction = await db.Database.BeginTransactionAsync();
+                try
                 {
-                    adrKy = dto.Owner.AdrKy.Value;
-                }
-                else
-                {
-                    var address = new AdrMas
+                    var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
+                    if (userKey == null)
                     {
-                        CKy     = (short)_userContext.CompanyKey,
-                        FstNm   = dto.Owner.FstNm,
-                        LstNm   = dto.Owner.LstNm,
-                        AdrNm   = $"{dto.Owner.FstNm} {dto.Owner.LstNm}",
-                        Address = dto.Owner.Address,
-                        TP1     = dto.Owner.TP1,
-                        EntUsrKy = userKey.Value,
-                        EntDtm  = DateTime.Now
-                    };
-                    db.Addresses.Add(address);
-                    await db.SaveChangesAsync();
-                    adrKy = address.AdrKy;
-                }
+                        result = (false, "User key not found", 400);
+                        return;
+                    }
 
-                // Check or create Account
-                var existingAccAdr = await db.AccAdr.FirstOrDefaultAsync(x => x.AdrKy == adrKy);
-                int accKy;
-
-                if (existingAccAdr != null)
-                {
-                    accKy = existingAccAdr.AccKy;
-                }
-                else
-                {
-                    var account = new Account
+                    // 1. Check if vehicle exists (Active only)
+                    if (await db.Vehicles.AnyAsync(v => v.VehicleId == dto.VehicleId && v.fInAct != true))
                     {
-                        CKy      = (short)_userContext.CompanyKey,
-                        AccCd    = "CUS" + adrKy,
-                        AccNm    = $"{dto.Owner.FstNm} {dto.Owner.LstNm}",
-                        AccTypKy = 1,
-                        AccTyp   = "CUS",
-                        fInAct   = false,
-                        fApr     = 1,
-                        EntUsrKy = userKey.Value,
-                        EntDtm   = DateTime.Now,
-                        SKy      = 1,
-                        AccLvl   = 1,
-                        fCusSup  = 1,
-                        fCtrlAcc = false,
-                        fBasAcc  = true,
-                        fMultiAdr = false,
-                        CrLmt    = 0,
-                        CrDays   = 0
-                    };
-                    db.Account.Add(account);
-                    await db.SaveChangesAsync();
-                    accKy = account.AccKy;
+                        result = (false, "Vehicle Number already exists", 409);
+                        return;
+                    }
 
-                    var accAdr = new AccAdr
+                    // 2. Handle Owner — check/create Address
+                    int adrKy;
+                    if (dto.Owner.AdrKy.HasValue && dto.Owner.AdrKy > 0)
                     {
-                        AccKy = accKy,
-                        AdrKy = adrKy,
-                        A = ""
-                    };
-                    db.AccAdr.Add(accAdr);
-                    await db.SaveChangesAsync();
-                }
-
-                // 3. Create Vehicle
-                var vehicle = new Vehicle
-                {
-                    VehicleId        = dto.VehicleId,
-                    OwnerAccountKy   = accKy,
-                    VehicleTypKy     = dto.VehicleTypKy,
-                    FuelTyp          = dto.FuelTyp,
-                    CurrentMileage   = dto.CurrentMileage,
-                    MileageUpdateDtm = dto.CurrentMileage.HasValue ? DateTime.Now : null,
-                    FuelLevel        = dto.FuelLevel,
-                    Make             = dto.Make,
-                    Model            = dto.Model,
-                    Year             = dto.Year,
-                    ChassisNo        = dto.ChassisNo,
-                    EngineNo         = dto.EngineNo,
-                    Description      = dto.Description,
-                    fInAct           = false,
-                    EntUsrKy         = userKey.Value,
-                    EntDtm           = DateTime.Now
-                };
-                db.Vehicles.Add(vehicle);
-                await db.SaveChangesAsync(); // generates VehicleKy
-
-                // 4. Handle Drivers
-                foreach (var dDto in dto.Drivers)
-                {
-                    int driverKy;
-                    if (dDto.DriverKy.HasValue && dDto.DriverKy > 0)
-                    {
-                        driverKy = dDto.DriverKy.Value;
+                        adrKy = dto.Owner.AdrKy.Value;
                     }
                     else
                     {
-                        var newDriver = new Driver
+                        var address = new AdrMas
                         {
-                            DriverName = dDto.DriverName,
-                            NIC        = dDto.NIC,
-                            TP         = dDto.TP,
-                            LicenseNo  = dDto.LicenseNo,
-                            fInAct     = false,
-                            EntUsrKy   = userKey.Value,
-                            EntDtm     = DateTime.Now
+                            CKy      = (short)_userContext.CompanyKey,
+                            FstNm    = dto.Owner.FstNm,
+                            LstNm    = dto.Owner.LstNm,
+                            AdrNm    = $"{dto.Owner.FstNm} {dto.Owner.LstNm}",
+                            Address  = dto.Owner.Address,
+                            TP1      = dto.Owner.TP1,
+                            EntUsrKy = userKey.Value,
+                            EntDtm   = DateTime.Now
                         };
-                        db.Drivers.Add(newDriver);
+                        db.Addresses.Add(address);
                         await db.SaveChangesAsync();
-                        driverKy = newDriver.DriverKy;
+                        adrKy = address.AdrKy;
                     }
 
-                    db.VehicleDrivers.Add(new VehicleDriver
+                    // Check or create Account
+                    var existingAccAdr = await db.AccAdr.FirstOrDefaultAsync(x => x.AdrKy == adrKy);
+                    int accKy;
+
+                    if (existingAccAdr != null)
                     {
-                        VehicleKy = vehicle.VehicleKy,
-                        DriverKy  = driverKy
-                    });
+                        accKy = existingAccAdr.AccKy;
+                    }
+                    else
+                    {
+                        var account = new Account
+                        {
+                            CKy       = (short)_userContext.CompanyKey,
+                            AccCd     = "CUS" + adrKy,
+                            AccNm     = $"{dto.Owner.FstNm} {dto.Owner.LstNm}",
+                            AccTypKy  = 1,
+                            AccTyp    = "CUS",
+                            fInAct    = false,
+                            fApr      = 1,
+                            EntUsrKy  = userKey.Value,
+                            EntDtm    = DateTime.Now,
+                            SKy       = 1,
+                            AccLvl    = 1,
+                            fCusSup   = 1,
+                            fCtrlAcc  = false,
+                            fBasAcc   = true,
+                            fMultiAdr = false,
+                            CrLmt     = 0,
+                            CrDays    = 0
+                        };
+                        db.Account.Add(account);
+                        await db.SaveChangesAsync();
+                        accKy = account.AccKy;
+
+                        var accAdr = new AccAdr
+                        {
+                            AccKy = accKy,
+                            AdrKy = adrKy,
+                            A     = ""
+                        };
+                        db.AccAdr.Add(accAdr);
+                        await db.SaveChangesAsync();
+                    }
+
+                    // 3. Create Vehicle
+                    var vehicle = new Vehicle
+                    {
+                        VehicleId        = dto.VehicleId,
+                        OwnerAccountKy   = accKy,
+                        VehicleTypKy     = dto.VehicleTypKy,
+                        FuelTyp          = dto.FuelTyp,
+                        CurrentMileage   = dto.CurrentMileage,
+                        MileageUpdateDtm = dto.CurrentMileage.HasValue ? DateTime.Now : null,
+                        FuelLevel        = dto.FuelLevel,
+                        Make             = dto.Make,
+                        Model            = dto.Model,
+                        Year             = dto.Year,
+                        ChassisNo        = dto.ChassisNo,
+                        EngineNo         = dto.EngineNo,
+                        Description      = dto.Description,
+                        fInAct           = false,
+                        EntUsrKy         = userKey.Value,
+                        EntDtm           = DateTime.Now
+                    };
+                    db.Vehicles.Add(vehicle);
+                    await db.SaveChangesAsync(); // generates VehicleKy
+
+                    // 4. Handle Drivers
+                    foreach (var dDto in dto.Drivers)
+                    {
+                        int driverKy;
+                        if (dDto.DriverKy.HasValue && dDto.DriverKy > 0)
+                        {
+                            driverKy = dDto.DriverKy.Value;
+                        }
+                        else
+                        {
+                            var newDriver = new Driver
+                            {
+                                DriverName = dDto.DriverName,
+                                NIC        = dDto.NIC,
+                                TP         = dDto.TP,
+                                LicenseNo  = dDto.LicenseNo,
+                                fInAct     = false,
+                                EntUsrKy   = userKey.Value,
+                                EntDtm     = DateTime.Now
+                            };
+                            db.Drivers.Add(newDriver);
+                            await db.SaveChangesAsync();
+                            driverKy = newDriver.DriverKy;
+                        }
+
+                        db.VehicleDrivers.Add(new VehicleDriver
+                        {
+                            VehicleKy = vehicle.VehicleKy,
+                            DriverKy  = driverKy
+                        });
+                    }
+
+                    await db.SaveChangesAsync();
+
+                    // 5. Sync CusItm — create a matching item record in the same transaction
+                    var cusItm = BuildCusItm(vehicle, _userContext.CompanyKey, userKey.Value);
+                    db.CusItm.Add(cusItm);
+                    await db.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+                    result = (true, "Vehicle registered successfully", 201);
                 }
-
-                await db.SaveChangesAsync();
-
-                // 5. Sync CusItm — create a matching item record in the same transaction
-                var cusItm = BuildCusItm(vehicle, _userContext.CompanyKey, userKey.Value);
-                db.CusItm.Add(cusItm);
-                await db.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-                return (true, "Vehicle registered successfully", 201);
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-
-                var messages = new List<string>();
-                var current  = ex;
-                while (current != null)
+                catch (Exception ex)
                 {
-                    messages.Add(current.Message);
-                    current = current.InnerException;
-                }
+                    await transaction.RollbackAsync();
 
-                return (false, $"Error: {string.Join(" | ", messages)}", 500);
-            }
+                    var messages = new List<string>();
+                    var current  = ex;
+                    while (current != null)
+                    {
+                        messages.Add(current.Message);
+                        current = current.InnerException;
+                    }
+
+                    result = (false, $"Error: {string.Join(" | ", messages)}", 500);
+                }
+            });
+
+            return result;
         }
 
         // -------------------------------------------------------
@@ -196,66 +210,81 @@ namespace Infrastructure.Services
             if (!dto.VehicleKy.HasValue) return (false, "Vehicle Key is required");
 
             using var db = await _factory.CreateDbContextAsync();
-            using var transaction = await db.Database.BeginTransactionAsync();
 
-            try
+            var result = (success: false, message: string.Empty);
+
+            await db.Database.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
-                if (userKey == null) return (false, "User key not found");
-
-                // --- Update Vehicle ---
-                var vehicle = await db.Vehicles.FindAsync(dto.VehicleKy.Value);
-                if (vehicle == null) return (false, "Vehicle not found");
-
-                // Keep old ItmCd before changing VehicleId, so we can locate the CusItm row
-                string oldVehicleId = vehicle.VehicleId;
-
-                vehicle.VehicleId    = dto.VehicleId;
-                vehicle.VehicleTypKy = dto.VehicleTypKy;
-                vehicle.FuelTyp      = dto.FuelTyp;
-
-                if (dto.CurrentMileage != vehicle.CurrentMileage)
+                using var transaction = await db.Database.BeginTransactionAsync();
+                try
                 {
-                    vehicle.CurrentMileage   = dto.CurrentMileage;
-                    vehicle.MileageUpdateDtm = DateTime.Now;
+                    var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
+                    if (userKey == null)
+                    {
+                        result = (false, "User key not found");
+                        return;
+                    }
+
+                    // --- Update Vehicle ---
+                    var vehicle = await db.Vehicles.FindAsync(dto.VehicleKy.Value);
+                    if (vehicle == null)
+                    {
+                        result = (false, "Vehicle not found");
+                        return;
+                    }
+
+                    // Keep old ItmCd before changing VehicleId, so we can locate the CusItm row
+                    string oldVehicleId = vehicle.VehicleId;
+
+                    vehicle.VehicleId    = dto.VehicleId;
+                    vehicle.VehicleTypKy = dto.VehicleTypKy;
+                    vehicle.FuelTyp      = dto.FuelTyp;
+
+                    if (dto.CurrentMileage != vehicle.CurrentMileage)
+                    {
+                        vehicle.CurrentMileage   = dto.CurrentMileage;
+                        vehicle.MileageUpdateDtm = DateTime.Now;
+                    }
+
+                    vehicle.FuelLevel   = dto.FuelLevel;
+                    vehicle.Make        = dto.Make;
+                    vehicle.Model       = dto.Model;
+                    vehicle.Year        = dto.Year;
+                    vehicle.ChassisNo   = dto.ChassisNo;
+                    vehicle.EngineNo    = dto.EngineNo;
+                    vehicle.Description = dto.Description;
+
+                    await db.SaveChangesAsync();
+
+                    // --- Sync CusItm ---
+                    string oldItmCd = oldVehicleId.Length > 15 ? oldVehicleId[..15] : oldVehicleId;
+
+                    var cusItm = await db.CusItm
+                        .FirstOrDefaultAsync(c => c.ItmCd == oldItmCd && c.CKy == _userContext.CompanyKey);
+
+                    if (cusItm != null)
+                    {
+                        ApplyCusItmChanges(cusItm, vehicle, _userContext.CompanyKey);
+                    }
+                    else
+                    {
+                        // CusItm row missing — create it (self-healing)
+                        db.CusItm.Add(BuildCusItm(vehicle, _userContext.CompanyKey, userKey.Value));
+                    }
+
+                    await db.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    result = (true, "Vehicle updated successfully");
                 }
-
-                vehicle.FuelLevel   = dto.FuelLevel;
-                vehicle.Make        = dto.Make;
-                vehicle.Model       = dto.Model;
-                vehicle.Year        = dto.Year;
-                vehicle.ChassisNo   = dto.ChassisNo;
-                vehicle.EngineNo    = dto.EngineNo;
-                vehicle.Description = dto.Description;
-
-                await db.SaveChangesAsync();
-
-                // --- Sync CusItm ---
-                string oldItmCd = oldVehicleId.Length > 15 ? oldVehicleId[..15] : oldVehicleId;
-
-                var cusItm = await db.CusItm
-                    .FirstOrDefaultAsync(c => c.ItmCd == oldItmCd && c.CKy == _userContext.CompanyKey);
-
-                if (cusItm != null)
+                catch (Exception ex)
                 {
-                    ApplyCusItmChanges(cusItm, vehicle, _userContext.CompanyKey);
+                    await transaction.RollbackAsync();
+                    result = (false, "Error updating vehicle: " + ex.Message);
                 }
-                else
-                {
-                    // CusItm row missing — create it (self-healing)
-                    db.CusItm.Add(BuildCusItm(vehicle, _userContext.CompanyKey, userKey.Value));
-                }
+            });
 
-                await db.SaveChangesAsync();
-                await transaction.CommitAsync();
-
-                return (true, "Vehicle updated successfully");
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-                return (false, "Error updating vehicle: " + ex.Message);
-            }
+            return result;
         }
 
         // -------------------------------------------------------
@@ -264,55 +293,66 @@ namespace Infrastructure.Services
         public async Task<(bool success, string message)> DeleteVehicleAsync(int vehicleKy)
         {
             using var db = await _factory.CreateDbContextAsync();
-            using var transaction = await db.Database.BeginTransactionAsync();
 
-            try
+            var result = (success: false, message: string.Empty);
+
+            await db.Database.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                var vehicle = await db.Vehicles.FindAsync(vehicleKy);
-                if (vehicle == null) return (false, "Vehicle not found");
-
-                // Soft-delete vehicle
-                vehicle.fInAct = true;
-
-                // Soft-delete owner account if no other active vehicles remain
-                int? ownerAccKy = vehicle.OwnerAccountKy;
-                if (ownerAccKy.HasValue)
+                using var transaction = await db.Database.BeginTransactionAsync();
+                try
                 {
-                    bool hasOtherVehicles = await db.Vehicles.AnyAsync(v =>
-                        v.OwnerAccountKy == ownerAccKy.Value &&
-                        v.VehicleKy != vehicleKy &&
-                        v.fInAct != true);
-
-                    if (!hasOtherVehicles)
+                    var vehicle = await db.Vehicles.FindAsync(vehicleKy);
+                    if (vehicle == null)
                     {
-                        var account = await db.Account.FindAsync(ownerAccKy.Value);
-                        if (account != null) account.fInAct = true;
+                        result = (false, "Vehicle not found");
+                        return;
                     }
-                }
 
-                await db.SaveChangesAsync();
+                    // Soft-delete vehicle
+                    vehicle.fInAct = true;
 
-                // --- Sync CusItm: soft-delete matching record ---
-                string itmCd = vehicle.VehicleId.Length > 15 ? vehicle.VehicleId[..15] : vehicle.VehicleId;
+                    // Soft-delete owner account if no other active vehicles remain
+                    int? ownerAccKy = vehicle.OwnerAccountKy;
+                    if (ownerAccKy.HasValue)
+                    {
+                        bool hasOtherVehicles = await db.Vehicles.AnyAsync(v =>
+                            v.OwnerAccountKy == ownerAccKy.Value &&
+                            v.VehicleKy != vehicleKy &&
+                            v.fInAct != true);
 
-                var cusItm = await db.CusItm
-                    .FirstOrDefaultAsync(c => c.ItmCd == itmCd && c.CKy == _userContext.CompanyKey);
+                        if (!hasOtherVehicles)
+                        {
+                            var account = await db.Account.FindAsync(ownerAccKy.Value);
+                            if (account != null) account.fInAct = true;
+                        }
+                    }
 
-                if (cusItm != null)
-                {
-                    cusItm.fInAct = true;
-                    cusItm.fObs   = true;  // mark as obsolete
                     await db.SaveChangesAsync();
-                }
 
-                await transaction.CommitAsync();
-                return (true, "Vehicle deleted successfully");
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-                return (false, ex.Message);
-            }
+                    // --- Sync CusItm: soft-delete matching record ---
+                    string itmCd = vehicle.VehicleId.Length > 15 ? vehicle.VehicleId[..15] : vehicle.VehicleId;
+
+                    var cusItm = await db.CusItm
+                        .FirstOrDefaultAsync(c => c.ItmCd == itmCd && c.CKy == _userContext.CompanyKey);
+
+                    if (cusItm != null)
+                    {
+                        cusItm.fInAct = true;
+                        cusItm.fObs   = true;  // mark as obsolete
+                        await db.SaveChangesAsync();
+                    }
+
+                    await transaction.CommitAsync();
+                    result = (true, "Vehicle deleted successfully");
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    result = (false, ex.Message);
+                }
+            });
+
+            return result;
         }
 
         // -------------------------------------------------------

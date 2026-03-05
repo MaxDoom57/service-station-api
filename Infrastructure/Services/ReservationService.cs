@@ -33,114 +33,123 @@ namespace Infrastructure.Services
         public async Task<(bool success, string message, int resKy)> CreateReservationAsync(CreateFullReservationDto dto)
         {
             using var db = await _factory.CreateDbContextAsync();
-            using var transaction = await db.Database.BeginTransactionAsync();
 
-            try
+            var result = (success: false, message: string.Empty, resKy: 0);
+
+            await db.Database.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                // 1. Handle Vehicle (Get Existiing or Register New)
-                int vehicleKy = 0;
-                var existingVehicle = await db.Vehicles
-                    .FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId && v.fInAct != true);
-
-                if (existingVehicle != null)
+                using var transaction = await db.Database.BeginTransactionAsync();
+                try
                 {
-                    vehicleKy = existingVehicle.VehicleKy;
+                    // 1. Handle Vehicle (Get Existing or Register New)
+                    int vehicleKy = 0;
+                    var existingVehicle = await db.Vehicles
+                        .FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId && v.fInAct != true);
+
+                    if (existingVehicle != null)
+                    {
+                        vehicleKy = existingVehicle.VehicleKy;
+                    }
+                    else
+                    {
+                        if (dto.NewVehicleDetails == null)
+                        {
+                            result = (false, "Vehicle not found. Please provide vehicle registration details.", 0);
+                            return;
+                        }
+
+                        // Ensure ID matches
+                        dto.NewVehicleDetails.VehicleId = dto.VehicleId;
+
+                        // Call VehicleService to register
+                        var regResult = await _vehicleService.RegisterVehicleAsync(dto.NewVehicleDetails);
+                        if (!regResult.success)
+                        {
+                            result = (false, $"Vehicle Registration Failed: {regResult.message}", 0);
+                            return;
+                        }
+
+                        // Fetch the newly created vehicle key
+                        var newVeh = await db.Vehicles
+                            .FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId);
+
+                        if (newVeh == null) throw new Exception("Failed to retrieve new vehicle after registration.");
+                        vehicleKy = newVeh.VehicleKy;
+                    }
+
+                    var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1);
+
+                    // 2. Create ReservationMas
+                    var resMas = new ReservationMas
+                    {
+                        VehicleKy = vehicleKy,
+                        PackageKy = dto.PackageKy,
+                        ResStatus = "Pending",
+                        Remarks = dto.Remarks,
+                        fInAct = false,
+                        EntUsrKy = userKey ?? 0,
+                        EntDtm = DateTime.Now,
+                        CKy = _userContext.CompanyKey
+                    };
+
+                    db.ReservationMas.Add(resMas);
+                    await db.SaveChangesAsync(); // Get ResKy
+
+                    // 3. Check if Date is Unavailable (Holiday/Event)
+                    var bookingDate = dto.BookingFrom.Date;
+                    var unavailableDate = await db.CalendarMas
+                        .FirstOrDefaultAsync(c => c.CalDt != null && c.CalDt.Value.Date == bookingDate && !c.fInAct);
+
+                    if (unavailableDate != null)
+                    {
+                        await transaction.RollbackAsync();
+                        result = (false, $"Selected date is unavailable: {unavailableDate.CalDesc}", 0);
+                        return;
+                    }
+
+                    // 4. Overlap Check
+                    bool overlap = await db.BayReservations.AnyAsync(r =>
+                        r.BayKy == dto.BayKy && !r.fInAct && r.ResStatus != "Cancelled" &&
+                        ((dto.BookingFrom >= r.FromDtm && dto.BookingFrom < r.ToDtm) ||
+                         (dto.BookingTo > r.FromDtm && dto.BookingTo <= r.ToDtm) ||
+                         (dto.BookingFrom <= r.FromDtm && dto.BookingTo >= r.ToDtm)));
+
+                    if (overlap)
+                    {
+                        await transaction.RollbackAsync();
+                        result = (false, "Validation Failed: Selected Bay Time Slot is already reserved/requested.", 0);
+                        return;
+                    }
+
+                    var bayRes = new BayReservation
+                    {
+                        BayKy = dto.BayKy,
+                        ReservationMasKy = resMas.ResKy,
+                        VehicleKy = vehicleKy,
+                        FromDtm = dto.BookingFrom,
+                        ToDtm = dto.BookingTo,
+                        ResType = "Online",
+                        ResStatus = "Pending",
+                        fInAct = false,
+                        EntUsrKy = userKey ?? 0,
+                        EntDtm = DateTime.Now,
+                        CKy = _userContext.CompanyKey
+                    };
+
+                    db.BayReservations.Add(bayRes);
+                    await db.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+                    result = (true, "Reservation placed successfully, awaiting approval.", resMas.ResKy);
                 }
-                else
-                {
-                    if (dto.NewVehicleDetails == null)
-                        return (false, "Vehicle not found. Please provide vehicle registration details.", 0);
-
-                    // Ensure ID matches
-                    dto.NewVehicleDetails.VehicleId = dto.VehicleId;
-
-                    // Call VehicleService to register
-                    var regResult = await _vehicleService.RegisterVehicleAsync(dto.NewVehicleDetails);
-                    if (!regResult.success) return (false, $"Vehicle Registration Failed: {regResult.message}", 0);
-                    
-                    // Fetch the newly created vehicle key
-                    // VehicleService returns success message but not ID currently (based on previous code). 
-                    // I will fetch it again.
-                    var newVeh = await db.Vehicles
-                        .FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId);
-                    
-                    if (newVeh == null) throw new Exception("Failed to retrieve new vehicle after registration.");
-                    vehicleKy = newVeh.VehicleKy;
-                }
-
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1);
-
-                // 2. Create ReservationMas
-                var resMas = new ReservationMas
-                {
-                    VehicleKy = vehicleKy,
-                    PackageKy = dto.PackageKy,
-                    ResStatus = "Pending",
-                    Remarks = dto.Remarks,
-                    fInAct = false,
-                    EntUsrKy = userKey ?? 0,
-                    EntDtm = DateTime.Now,
-                    CKy = _userContext.CompanyKey
-                };
-
-                db.ReservationMas.Add(resMas);
-                await db.SaveChangesAsync(); // Get ResKy
-
-                // 3. Create BayReservation (The Slot)
-                // Use BayControlService to validate overlap? 
-                // Or I can insert directly since BayControlService logic for "Pending" allows insertion check.
-                // But I should duplicate the logic or use internal helper to avoid circular DI or context issues if I used Service directly. Used Db here.
-
-                // Check if Date is Unavailable (Holiday/Event)
-                var bookingDate = dto.BookingFrom.Date;
-                var unavailableDate = await db.CalendarMas
-                    .FirstOrDefaultAsync(c => c.CalDt != null && c.CalDt.Value.Date == bookingDate && !c.fInAct); // Check if CalDt matches Booking Date
-
-                if (unavailableDate != null)
+                catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
-                    return (false, $"Selected date is unavailable: {unavailableDate.CalDesc}", 0);
+                    result = (false, $"Error: {ex.Message}", 0);
                 }
+            });
 
-                // Overlap Check
-                bool overlap = await db.BayReservations.AnyAsync(r => 
-                    r.BayKy == dto.BayKy && !r.fInAct && r.ResStatus != "Cancelled" &&
-                    ((dto.BookingFrom >= r.FromDtm && dto.BookingFrom < r.ToDtm) ||
-                     (dto.BookingTo > r.FromDtm && dto.BookingTo <= r.ToDtm) ||
-                     (dto.BookingFrom <= r.FromDtm && dto.BookingTo >= r.ToDtm)));
-
-                if (overlap) 
-                {
-                     await transaction.RollbackAsync();
-                     return (false, "Validation Failed: Selected Bay Time Slot is already reserved/requested.", 0);
-                }
-
-                var bayRes = new BayReservation
-                {
-                    BayKy = dto.BayKy,
-                    ReservationMasKy = resMas.ResKy, // Link to Parent
-                    VehicleKy = vehicleKy,
-                    FromDtm = dto.BookingFrom,
-                    ToDtm = dto.BookingTo,
-                    ResType = "Online", // Or 'Physical' passed in? Assuming this flow is for Booking.
-                    ResStatus = "Pending",
-                    fInAct = false,
-                    EntUsrKy = userKey ?? 0,
-                    EntDtm = DateTime.Now,
-                    CKy = _userContext.CompanyKey
-                };
-
-                db.BayReservations.Add(bayRes);
-                await db.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-                return (true, "Reservation placed successfully, awaiting approval.", resMas.ResKy);
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-                return (false, $"Error: {ex.Message}", 0);
-            }
+            return result;
         }
 
         public async Task<(bool success, string message)> UpdateReservationAsync(int resKy, CreateFullReservationDto dto)
