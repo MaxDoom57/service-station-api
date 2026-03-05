@@ -7,7 +7,6 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/ssms/v0.1/bay")]
-    [Authorize]
     public class BayController : ControllerBase
     {
         private readonly BayService _service;

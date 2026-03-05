@@ -7,7 +7,6 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/ssms/v0.1/reservation")]
-    [Authorize]
     public class ReservationController : ControllerBase
     {
         private readonly ReservationService _service;
