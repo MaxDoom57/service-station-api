@@ -29,98 +29,104 @@ namespace Infrastructure.Services
         public async Task<(bool success, string message, int ordKy)> CreateServiceOrderAsync(CreateServiceOrderDto dto)
         {
             using var db = await _factory.CreateDbContextAsync();
-            using var transaction = await db.Database.BeginTransactionAsync();
 
-            try
+            var result = (success: false, message: string.Empty, ordKy: 0);
+
+            await db.Database.CreateExecutionStrategy().ExecuteAsync(async () =>
             {
-                var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1) ?? 0;
-
-                // 1. Handle Vehicle (Update Mileage/Damage)
-                // Assuming Vehicle Exists? Prompt says "create... with vehicle details". 
-                // If it doesn't exist, we should probably fail or auto-create (but validation is better).
-                // I'll search for it.
-                var vehicle = await db.Vehicles.FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId && v.fInAct != true);
-                if (vehicle == null) return (false, "Vehicle not found", 0);
-
-                // Update Vehicle Info
-                vehicle.CurrentMileage = dto.CurrentMileage;
-                vehicle.MileageUpdateDtm = DateTime.Now;
-                // Damage note is stored in ServiceOrder primarily, but could be on Vehicle description? 
-                // Requirement says "in serviceOrder with given details". So DamageNote goes to ServiceOrder.
-
-                // 3. Handle Customer
-                // We have vehicle.OwnerAccountKy. We can check if it matches provided Name? 
-                // Or just trust the Vehicle Owner Link. 
-                // Prompt: "create serviceOrder with customer details(name, id...)"
-                // I'll link to the Vehicle's Owner Account.
-                if (!vehicle.OwnerAccountKy.HasValue) return (false, "Vehicle has no linked owner", 0);
-                int accKy = vehicle.OwnerAccountKy.Value;
-
-                // Validate Package Key
-                if (!await db.CdMas.AnyAsync(c => c.CdKy == dto.PackageKy))
-                    return (false, "Invalid Package Key", 0);
-
-                // 3. Create ServiceOrder Master
-                var order = new ServiceOrder
+                using var transaction = await db.Database.BeginTransactionAsync();
+                try
                 {
-                    ServiceOrdNo = "SO-" + DateTime.Now.Ticks.ToString().Substring(10), // Simple ID
-                    VehicleKy = vehicle.VehicleKy,
-                    AccKy = accKy,
-                    PackageKy = dto.PackageKy,
-                    BayKy = dto.BayKy,
-                    CurrentMileage = dto.CurrentMileage,
-                    DamageNote = dto.DamageNote,
-                    Remarks = dto.AdditionalNotes,
-                    Status = "Wait", // Initial State
-                    fInAct = false,
-                    EntUsrKy = userKey,
-                    EntDtm = DateTime.Now,
-                    CKy = _userContext.CompanyKey
-                };
+                    var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1) ?? 0;
 
-                db.ServiceOrder.Add(order);
-                await db.SaveChangesAsync();
-
-                // 4. Add Package Items to Details
-                // Fetch items for package
-                var pkgItems = await db.ItmMas
-                    .Where(x => x.ItmTypKy == dto.PackageKy && !x.fInAct)
-                    .ToListAsync();
-
-                foreach (var item in pkgItems)
-                {
-                    var detail = new ServiceOrderDetail
+                    // 1. Find Vehicle
+                    var vehicle = await db.Vehicles.FirstOrDefaultAsync(v => v.VehicleId == dto.VehicleId && v.fInAct != true);
+                    if (vehicle == null)
                     {
-                        ServiceOrdKy = order.ServiceOrdKy,
-                        ItemKy = item.ItmKy,
-                        ItemName = item.ItmNm,
-                        Price = item.SlsPri, // Base price
-                        EstimatedTime = "Standard", // Or fetch from somewhere if available
-                        StatusWait = 1, // Start as Wait
-                        StatusInProgress = 0,
-                        StatusFinish = 0,
-                        IsApproved = true, // Package items are approved
+                        result = (false, "Vehicle not found", 0);
+                        return;
+                    }
+
+                    // Update Vehicle Mileage
+                    vehicle.CurrentMileage = dto.CurrentMileage;
+                    vehicle.MileageUpdateDtm = DateTime.Now;
+
+                    // 2. Resolve Customer Account via Vehicle Owner
+                    if (!vehicle.OwnerAccountKy.HasValue)
+                    {
+                        result = (false, "Vehicle has no linked owner", 0);
+                        return;
+                    }
+                    int accKy = vehicle.OwnerAccountKy.Value;
+
+                    // 3. Validate Package Key
+                    if (!await db.CdMas.AnyAsync(c => c.CdKy == dto.PackageKy))
+                    {
+                        result = (false, "Invalid Package Key", 0);
+                        return;
+                    }
+
+                    // 4. Create ServiceOrder Master
+                    var order = new ServiceOrder
+                    {
+                        ServiceOrdNo = "SO-" + DateTime.Now.Ticks.ToString().Substring(10),
+                        VehicleKy = vehicle.VehicleKy,
+                        AccKy = accKy,
+                        PackageKy = dto.PackageKy,
+                        BayKy = dto.BayKy,
+                        CurrentMileage = dto.CurrentMileage,
+                        DamageNote = dto.DamageNote,
+                        Remarks = dto.AdditionalNotes,
+                        Status = "Wait",
+                        fInAct = false,
                         EntUsrKy = userKey,
-                        EntDtm = DateTime.Now
+                        EntDtm = DateTime.Now,
+                        CKy = _userContext.CompanyKey
                     };
-                    db.ServiceOrderDetail.Add(detail);
+
+                    db.ServiceOrder.Add(order);
+                    await db.SaveChangesAsync();
+
+                    // 5. Add Package Items to Details
+                    var pkgItems = await db.ItmMas
+                        .Where(x => x.ItmTypKy == dto.PackageKy && !x.fInAct)
+                        .ToListAsync();
+
+                    foreach (var item in pkgItems)
+                    {
+                        db.ServiceOrderDetail.Add(new ServiceOrderDetail
+                        {
+                            ServiceOrdKy = order.ServiceOrdKy,
+                            ItemKy = item.ItmKy,
+                            ItemName = item.ItmNm,
+                            Price = item.SlsPri,
+                            EstimatedTime = "Standard",
+                            StatusWait = 1,
+                            StatusInProgress = 0,
+                            StatusFinish = 0,
+                            IsApproved = true,
+                            EntUsrKy = userKey,
+                            EntDtm = DateTime.Now
+                        });
+                    }
+
+                    await db.SaveChangesAsync();
+
+                    // 6. Sync to OrdMas/OrdDet
+                    await CreateOrdMasAndDetSync(db, order, userKey);
+                    await db.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+                    result = (true, "Service Order Created", order.ServiceOrdKy);
                 }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    result = (false, "Error: " + ex.Message, 0);
+                }
+            });
 
-                await db.SaveChangesAsync();
-
-                // Sync to OrdMas/OrdDet
-                await CreateOrdMasAndDetSync(db, order, userKey);
-                await db.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                return (true, "Service Order Created", order.ServiceOrdKy);
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-                return (false, "Error: " + ex.Message, 0);
-            }
+            return result;
         }
 
         public async Task<(bool success, string message)> AddServiceItemAsync(AddServiceItemDto dto)
