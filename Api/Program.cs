@@ -58,7 +58,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("https://vehicle-service-web-eight.vercel.app")
+            policy.WithOrigins("https://vehicle-service-web-eight.vercel.app", "https://motocare-pro-ui.vercel.app/")
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   .AllowCredentials();  // Uncomment if using cookies
