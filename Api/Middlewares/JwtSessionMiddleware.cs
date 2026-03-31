@@ -67,18 +67,24 @@ namespace Api.Middlewares
                     // Token unreadable — let the JWT bearer middleware handle it.
                 }
             }
-
-            // --- FALLBACK FOR ANONYMOUS ENDPOINTS ---
-            // The DynamicDbContextFactory requires CompanyKey and ProjectKey.
-            // If a token wasn't provided (e.g., AllowAnonymous), we can fallback to custom headers.
-            if (userContext.CompanyKey <= 0 || userContext.ProjectKey <= 0)
+            else
             {
-                var cKyHeader = context.Request.Headers["CKy"].FirstOrDefault();
-                var prjKyHeader = context.Request.Headers["PrjKy"].FirstOrDefault();
+                // ─── PUBLIC WEBSITE KEY GATE ─────────────────────────────────────────────
+                // For public (website) endpoints that use [AllowAnonymous], the frontend
+                // sends X-Company-Key and X-Project-Key headers instead of a JWT token.
+                // Populate the user context so DynamicDbContextFactory can select the
+                // correct tenant database.
+                var companyKeyHeader = context.Request.Headers["X-Company-Key"].FirstOrDefault();
+                var projectKeyHeader = context.Request.Headers["X-Project-Key"].FirstOrDefault();
 
-                // If headers aren't sent, you can default them to 1 for your main company/project
-                userContext.CompanyKey = int.TryParse(cKyHeader, out int hCky) ? hCky : 2;
-                userContext.ProjectKey = int.TryParse(prjKyHeader, out int hPrjKy) ? hPrjKy : 282;
+                if (int.TryParse(companyKeyHeader, out var companyKeyValue) &&
+                    int.TryParse(projectKeyHeader, out var projectKeyValue) &&
+                    companyKeyValue > 0 && projectKeyValue > 0)
+                {
+                    userContext.CompanyKey = companyKeyValue;
+                    userContext.ProjectKey = projectKeyValue;
+                }
+                // ────────────────────────────────────────────────────────────────────────
             }
 
             await _next(context);
