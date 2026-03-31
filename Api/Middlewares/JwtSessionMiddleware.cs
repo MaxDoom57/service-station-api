@@ -77,8 +77,8 @@ namespace Api.Middlewares
                 var prjKyHeader = context.Request.Headers["PrjKy"].FirstOrDefault();
 
                 // If headers aren't sent, you can default them to 1 for your main company/project
-                userContext.CompanyKey = int.TryParse(cKyHeader, out int hCky) ? hCky : 1;
-                userContext.ProjectKey = int.TryParse(prjKyHeader, out int hPrjKy) ? hPrjKy : 1;
+                userContext.CompanyKey = int.TryParse(cKyHeader, out int hCky) ? hCky : 2;
+                userContext.ProjectKey = int.TryParse(prjKyHeader, out int hPrjKy) ? hPrjKy : 282;
             }
 
             await _next(context);
