@@ -102,11 +102,6 @@ builder.Services.AddAuthentication("Bearer")
 
 var app = builder.Build();
 
-// Middleware order
-app.UseMiddleware<Api.Middlewares.JwtSessionMiddleware>();
-app.UseMiddleware<Api.Middlewares.MockResponseMiddleware>();
-app.UseMiddleware<Infrastructure.Middleware.RequestLoggingMiddleware>();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -120,6 +115,11 @@ app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Middleware order
+app.UseMiddleware<Api.Middlewares.JwtSessionMiddleware>();
+app.UseMiddleware<Api.Middlewares.MockResponseMiddleware>();
+app.UseMiddleware<Infrastructure.Middleware.RequestLoggingMiddleware>();
 
 // Controllers
 app.MapControllers();
