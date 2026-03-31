@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
@@ -66,6 +66,19 @@ namespace Api.Middlewares
                 {
                     // Token unreadable — let the JWT bearer middleware handle it.
                 }
+            }
+
+            // --- FALLBACK FOR ANONYMOUS ENDPOINTS ---
+            // The DynamicDbContextFactory requires CompanyKey and ProjectKey.
+            // If a token wasn't provided (e.g., AllowAnonymous), we can fallback to custom headers.
+            if (userContext.CompanyKey <= 0 || userContext.ProjectKey <= 0)
+            {
+                var cKyHeader = context.Request.Headers["CKy"].FirstOrDefault();
+                var prjKyHeader = context.Request.Headers["PrjKy"].FirstOrDefault();
+
+                // If headers aren't sent, you can default them to 1 for your main company/project
+                userContext.CompanyKey = int.TryParse(cKyHeader, out int hCky) ? hCky : 1;
+                userContext.ProjectKey = int.TryParse(prjKyHeader, out int hPrjKy) ? hPrjKy : 1;
             }
 
             await _next(context);
