@@ -6,6 +6,7 @@ namespace API.Controllers
 {
     [ApiController]
     [Route("api/ssms/v0.1/users")]
+    [AllowAnonymous]
     public class UserController : ControllerBase
     {
         private readonly UserService _service;

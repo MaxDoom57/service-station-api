@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Controllers
 {
     [Route("api/ssms/v0.1/calendar")]
+    [AllowAnonymous]
     public class CalendarController : ControllerBase
     {
         private readonly IDynamicDbContextFactory _factory;

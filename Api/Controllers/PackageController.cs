@@ -9,6 +9,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/ssms/v0.1/package")]
+    [AllowAnonymous]
     public class PackageController : ControllerBase
     {
         private readonly PackageService _service;

@@ -9,6 +9,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/ssms/v0.1/items")]
+    [AllowAnonymous]
     public class ItemsController : ControllerBase
     {
         private readonly ItemService _service;

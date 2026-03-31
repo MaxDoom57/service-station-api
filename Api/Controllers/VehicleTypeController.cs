@@ -7,6 +7,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/ssms/v0.1/vehicletype")]
+    [AllowAnonymous]
     public class VehicleTypeController : ControllerBase
     {
         private readonly VehicleTypeService _service;
