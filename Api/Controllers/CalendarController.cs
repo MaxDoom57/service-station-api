@@ -1,6 +1,7 @@
 using Application.DTOs;
 using Application.Interfaces;
 using Infrastructure.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
