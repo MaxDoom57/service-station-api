@@ -58,20 +58,31 @@ namespace Infrastructure.Services
                     }
                     else
                     {
-                        var address = new AdrMas
+                        string expectedAdrNm = $"{dto.Owner.FstNm} {dto.Owner.LstNm}".Trim();
+                        var existingAddress = await db.Addresses
+                            .FirstOrDefaultAsync(a => a.CKy == (short)_userContext.CompanyKey && a.AdrNm == expectedAdrNm);
+
+                        if (existingAddress != null)
                         {
-                            CKy      = (short)_userContext.CompanyKey,
-                            FstNm    = dto.Owner.FstNm,
-                            LstNm    = dto.Owner.LstNm,
-                            AdrNm    = $"{dto.Owner.FstNm} {dto.Owner.LstNm}",
-                            Address  = dto.Owner.Address,
-                            TP1      = dto.Owner.TP1,
-                            EntUsrKy = userKey.Value,
-                            EntDtm   = DateTime.Now
-                        };
-                        db.Addresses.Add(address);
-                        await db.SaveChangesAsync();
-                        adrKy = address.AdrKy;
+                            adrKy = existingAddress.AdrKy;
+                        }
+                        else
+                        {
+                            var address = new AdrMas
+                            {
+                                CKy      = (short)_userContext.CompanyKey,
+                                FstNm    = dto.Owner.FstNm,
+                                LstNm    = dto.Owner.LstNm,
+                                AdrNm    = expectedAdrNm,
+                                Address  = dto.Owner.Address,
+                                TP1      = dto.Owner.TP1,
+                                EntUsrKy = userKey.Value,
+                                EntDtm   = DateTime.Now
+                            };
+                            db.Addresses.Add(address);
+                            await db.SaveChangesAsync();
+                            adrKy = address.AdrKy;
+                        }
                     }
 
                     // Check or create Account
