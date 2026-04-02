@@ -24,7 +24,7 @@ namespace Infrastructure.Services
 
         // -------------------------------------------------------
         // REGISTER (ADD)
-        // -------------------------------------------------------
+        // --------------------------------------------------------
         public async Task<(bool success, string message, int statusCode)> RegisterVehicleAsync(CreateVehicleRequestDto dto)
         {
             using var db = await _factory.CreateDbContextAsync();
@@ -39,8 +39,7 @@ namespace Infrastructure.Services
                     var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
                     if (userKey == null)
                     {
-                        result = (false, "User key not found", 400);
-                        return;
+                        userKey = 1;
                     }
 
                     // 1. Check if vehicle exists (Active only)
@@ -232,8 +231,7 @@ namespace Infrastructure.Services
                     var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
                     if (userKey == null)
                     {
-                        result = (false, "User key not found");
-                        return;
+                        userKey = 1;
                     }
 
                     // --- Update Vehicle ---
