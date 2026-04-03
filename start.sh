@@ -16,19 +16,7 @@ echo "=== Starting cloudflared tunnel proxy ==="
   --service-token-secret "$CF_ACCESS_CLIENT_SECRET" &
 
 echo "=== Waiting for tunnel to be ready ==="
-for i in $(seq 1 20); do
-  if ss -tlnp | grep -q 14335; then
-    echo "=== Tunnel is ready ==="
-    break
-  fi
-  echo "Waiting... ($i/20)"
-  sleep 2
-done
-
-if ! ss -tlnp | grep -q 14335; then
-  echo "ERROR: cloudflared failed to start. Check logs above."
-  exit 1
-fi
+sleep 5
 
 echo "=== Starting ServiceStationApi ==="
 exec dotnet ServiceStationApi.dll --urls "http://0.0.0.0:${PORT:-10000}"
