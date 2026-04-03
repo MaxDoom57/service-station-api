@@ -11,7 +11,7 @@ echo "=== Starting cloudflared tunnel proxy ==="
 
 ./cloudflared access tcp \
   --hostname sahirupc.eposmart.com \
-  --url http://localhost:14335 \
+  --url localhost:14333
   --service-token-id "$CF_ACCESS_CLIENT_ID" \
   --service-token-secret "$CF_ACCESS_CLIENT_SECRET" &
 
