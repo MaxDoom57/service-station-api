@@ -9,7 +9,7 @@ chmod +x ./cloudflared
 echo "=== CF_ACCESS_CLIENT_ID is set: ${CF_ACCESS_CLIENT_ID:0:8}... ==="
 echo "=== Starting cloudflared tunnel proxy ==="
 
-./cloudflared access http \
+./cloudflared access tcp \
   --hostname sahirupc.eposmart.com \
   --url http://localhost:14333 \
   --service-token-id "$CF_ACCESS_CLIENT_ID" \
