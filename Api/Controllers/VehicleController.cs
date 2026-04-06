@@ -35,7 +35,7 @@ namespace Api.Controllers
             return Ok(result.message);
         }
 
-        [HttpDelete("{vehicleKy}")]
+        [HttpDelete("{vehicleKy:int}")]
         public async Task<IActionResult> DeleteVehicle(int vehicleKy)
         {
             var result = await _service.DeleteVehicleAsync(vehicleKy);
@@ -71,12 +71,27 @@ namespace Api.Controllers
             }
         }
 
-        [HttpGet("{vehicleKy}")]
+        [HttpGet("{vehicleKy:int}")]
         public async Task<IActionResult> GetVehicleDetails(int vehicleKy)
         {
             try
             {
                 var result = await _service.GetVehicleDetailsAsync(vehicleKy);
+                if (result == null) return NotFound("Vehicle not found");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{vehicleId}")]
+        public async Task<IActionResult> GetVehicleDetailsByVehicleId(string vehicleId)
+        {
+            try
+            {
+                var result = await _service.GetVehicleDetailsByVehicleIdAsync(vehicleId);
                 if (result == null) return NotFound("Vehicle not found");
                 return Ok(result);
             }

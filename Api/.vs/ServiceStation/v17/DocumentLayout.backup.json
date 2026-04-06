@@ -3,8 +3,11 @@
   "WorkspaceRootPath": "E:\\Programming\\Github\\service-station-api\\Api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|e:\\programming\\github\\service-station-api\\api\\controllers\\serviceordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|solutionrelative:controllers\\serviceordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\programming\\github\\service-station-api\\infrastructure\\services\\vehicleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|e:\\programming\\github\\service-station-api\\api\\controllers\\vehiclecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|solutionrelative:controllers\\vehiclecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +22,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ServiceOrderController.cs",
-              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Api\\Controllers\\ServiceOrderController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ServiceOrderController.cs",
-              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Api\\Controllers\\ServiceOrderController.cs",
-              "RelativeToolTip": "Controllers\\ServiceOrderController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Title": "VehicleService.cs",
+              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\VehicleService.cs",
+              "RelativeDocumentMoniker": "..\\Infrastructure\\Services\\VehicleService.cs",
+              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\VehicleService.cs",
+              "RelativeToolTip": "..\\Infrastructure\\Services\\VehicleService.cs",
+              "ViewState": "AgIAAPMBAAAAAAAAAAAgwAoCAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T08:22:59.375Z",
+              "WhenOpened": "2026-04-06T03:55:18.147Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "VehicleController.cs",
+              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Api\\Controllers\\VehicleController.cs",
+              "RelativeDocumentMoniker": "Controllers\\VehicleController.cs",
+              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Api\\Controllers\\VehicleController.cs",
+              "RelativeToolTip": "Controllers\\VehicleController.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAowEkAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-06T03:54:39.518Z",
               "EditorCaption": ""
             }
           ]

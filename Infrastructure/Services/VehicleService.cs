@@ -492,74 +492,97 @@ namespace Infrastructure.Services
                     .FirstOrDefaultAsync(v => v.VehicleKy == vehicleKy);
                 if (vehicle == null) return null;
 
-                Account? ownerAcc = null;
-                AdrMas?  adrMas   = null;
-
-                if (vehicle.OwnerAccountKy.HasValue)
-                {
-                    ownerAcc = await db.Account.AsNoTracking()
-                        .FirstOrDefaultAsync(a => a.AccKy == vehicle.OwnerAccountKy.Value);
-                    var accAdr = await db.AccAdr
-                        .FirstOrDefaultAsync(aa => aa.AccKy == vehicle.OwnerAccountKy.Value);
-                    if (accAdr != null)
-                        adrMas = await db.Addresses.AsNoTracking()
-                            .FirstOrDefaultAsync(a => a.AdrKy == accAdr.AdrKy);
-                }
-
-                var drivers = await (from vd in db.VehicleDrivers
-                                     join d in db.Drivers on vd.DriverKy equals d.DriverKy
-                                     where vd.VehicleKy == vehicleKy
-                                     select new DriverDto
-                                     {
-                                         DriverKy   = d.DriverKy,
-                                         DriverName = d.DriverName,
-                                         NIC        = d.NIC,
-                                         TP         = d.TP,
-                                         LicenseNo  = d.LicenseNo
-                                     }).ToListAsync();
-
-                string? vehicleType = "";
-                if (vehicle.VehicleTypKy.HasValue)
-                {
-                    vehicleType = await db.CdMas
-                        .Where(x => x.CdKy == vehicle.VehicleTypKy.Value
-                                 && x.ConCd == "OrdCat1"
-                                 && x.CKy   == _userContext.CompanyKey)
-                        .Select(x => x.CdNm)
-                        .FirstOrDefaultAsync();
-                }
-
-                return new VehicleDetailDto
-                {
-                    VehicleKy        = vehicle.VehicleKy,
-                    VehicleId        = vehicle.VehicleId,
-                    VehicleTypKy     = vehicle.VehicleTypKy ?? 0,
-                    VehicleTyp       = vehicleType ?? "",
-                    FuelTyp          = vehicle.FuelTyp,
-                    CurrentMileage   = vehicle.CurrentMileage,
-                    MileageUpdateDtm = vehicle.MileageUpdateDtm,
-                    FuelLevel        = vehicle.FuelLevel,
-                    Make             = vehicle.Make,
-                    Model            = vehicle.Model,
-                    Year             = vehicle.Year,
-                    ChassisNo        = vehicle.ChassisNo,
-                    EngineNo         = vehicle.EngineNo,
-                    Description      = vehicle.Description,
-                    Owner = new OwnerDto
-                    {
-                        FstNm   = adrMas?.FstNm ?? ownerAcc?.AccNm ?? "",
-                        LstNm   = adrMas?.LstNm ?? "",
-                        Address = adrMas?.Address,
-                        TP1     = adrMas?.TP1,
-                        NIC     = adrMas?.AdrID1,
-                    },
-                    Drivers = drivers
-                };
+                return await BuildVehicleDetailAsync(db, vehicle);
             }
             catch (Exception ex)
             {
                 throw new Exception("Error retrieving vehicle details: " + ex.Message);
             }
+        }
+
+        public async Task<VehicleDetailDto?> GetVehicleDetailsByVehicleIdAsync(string vehicleId)
+        {
+            try
+            {
+                using var db = await _factory.CreateDbContextAsync();
+
+                var vehicle = await db.Vehicles.AsNoTracking()
+                    .FirstOrDefaultAsync(v => v.VehicleId == vehicleId && v.fInAct != true);
+                if (vehicle == null) return null;
+
+                return await BuildVehicleDetailAsync(db, vehicle);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error retrieving vehicle details by ID: " + ex.Message);
+            }
+        }
+
+        private async Task<VehicleDetailDto> BuildVehicleDetailAsync(DynamicDbContext db, Vehicle vehicle)
+        {
+            Account? ownerAcc = null;
+            AdrMas? adrMas = null;
+
+            if (vehicle.OwnerAccountKy.HasValue)
+            {
+                ownerAcc = await db.Account.AsNoTracking()
+                    .FirstOrDefaultAsync(a => a.AccKy == vehicle.OwnerAccountKy.Value);
+                var accAdr = await db.AccAdr
+                    .FirstOrDefaultAsync(aa => aa.AccKy == vehicle.OwnerAccountKy.Value);
+                if (accAdr != null)
+                    adrMas = await db.Addresses.AsNoTracking()
+                        .FirstOrDefaultAsync(a => a.AdrKy == accAdr.AdrKy);
+            }
+
+            var drivers = await (from vd in db.VehicleDrivers
+                                 join d in db.Drivers on vd.DriverKy equals d.DriverKy
+                                 where vd.VehicleKy == vehicle.VehicleKy
+                                 select new DriverDto
+                                 {
+                                     DriverKy = d.DriverKy,
+                                     DriverName = d.DriverName,
+                                     NIC = d.NIC,
+                                     TP = d.TP,
+                                     LicenseNo = d.LicenseNo
+                                 }).ToListAsync();
+
+            string? vehicleType = "";
+            if (vehicle.VehicleTypKy.HasValue)
+            {
+                vehicleType = await db.CdMas
+                    .Where(x => x.CdKy == vehicle.VehicleTypKy.Value
+                             && x.ConCd == "OrdCat1"
+                             && x.CKy == _userContext.CompanyKey)
+                    .Select(x => x.CdNm)
+                    .FirstOrDefaultAsync();
+            }
+
+            return new VehicleDetailDto
+            {
+                VehicleKy = vehicle.VehicleKy,
+                VehicleId = vehicle.VehicleId,
+                VehicleTypKy = vehicle.VehicleTypKy ?? 0,
+                VehicleTyp = vehicleType ?? "",
+                FuelTyp = vehicle.FuelTyp,
+                CurrentMileage = vehicle.CurrentMileage,
+                MileageUpdateDtm = vehicle.MileageUpdateDtm,
+                FuelLevel = vehicle.FuelLevel,
+                Make = vehicle.Make,
+                Model = vehicle.Model,
+                Year = vehicle.Year,
+                ChassisNo = vehicle.ChassisNo,
+                EngineNo = vehicle.EngineNo,
+                Description = vehicle.Description,
+                Owner = new OwnerDto
+                {
+                    FstNm = adrMas?.FstNm ?? ownerAcc?.AccNm ?? "",
+                    LstNm = adrMas?.LstNm ?? "",
+                    Address = adrMas?.Address,
+                    TP1 = adrMas?.TP1,
+                    NIC = adrMas?.AdrID1,
+                },
+                Drivers = drivers
+            };
         }
 
         // -------------------------------------------------------
