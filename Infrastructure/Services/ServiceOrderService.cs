@@ -337,6 +337,42 @@ namespace Infrastructure.Services
                     }).ToList()
                 };
         }
+
+        public async Task<ServiceOrderDto?> GetServiceOrderDetailsByVehicleIdAsync(string vehicleId)
+        {
+            using var db = await _factory.CreateDbContextAsync();
+            var vehicle = await db.Vehicles.FirstOrDefaultAsync(v => v.VehicleId == vehicleId && v.fInAct != true);
+            if (vehicle == null) return null;
+
+            var o = await db.ServiceOrder
+                .Where(x => x.VehicleKy == vehicle.VehicleKy && !x.fInAct)
+                .OrderByDescending(x => x.EntDtm)
+                .FirstOrDefaultAsync();
+
+            if (o == null) return null;
+
+            var c = await db.Account.FindAsync(o.AccKy);
+            var p = await db.CdMas.FindAsync((short)o.PackageKy);
+            var items = await db.ServiceOrderDetail.Where(d => d.ServiceOrdKy == o.ServiceOrdKy).ToListAsync();
+
+            return new ServiceOrderDto
+            {
+                ServiceOrdKy = o.ServiceOrdKy,
+                ServiceOrdNo = o.ServiceOrdNo,
+                VehicleId = vehicle.VehicleId,
+                CustomerName = c?.AccNm ?? "",
+                PackageName = p?.CdNm ?? "",
+                Status = o.Status,
+                Items = items.Select(i => new ServiceOrderDetailDto
+                {
+                    ServiceOrdDetKy = i.ServiceOrdDetKy,
+                    ItemName = i.ItemName,
+                    Price = i.Price,
+                    IsApproved = i.IsApproved,
+                    Status = i.StatusInProgress == 1 ? "InProgress" : (i.StatusFinish == 1 ? "Finish" : "Wait")
+                }).ToList()
+            };
+        }
         // ---------------------------------------------------------
         // Sync Logic for OrdMas / OrdDet
         // ---------------------------------------------------------

@@ -101,5 +101,20 @@ namespace Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("vehicle/{vehicleId}")]
+        public async Task<IActionResult> GetServiceOrderDetailsByVehicleId(string vehicleId)
+        {
+            try
+            {
+                var result = await _service.GetServiceOrderDetailsByVehicleIdAsync(vehicleId);
+                if (result == null) return NotFound("Active Service Order not found for this vehicle");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
