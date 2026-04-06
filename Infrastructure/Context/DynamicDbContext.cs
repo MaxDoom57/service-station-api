@@ -373,7 +373,7 @@ namespace Infrastructure.Context
                 .HasKey(x => x.TempServiceKy);
 
             modelBuilder.Entity<Vehicle>()
-                .ToTable("Vehicles", tb => tb.UseSqlOutputClause(false))
+                .ToTable("Vehicle", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.VehicleKy);
 
             modelBuilder.Entity<Driver>()
