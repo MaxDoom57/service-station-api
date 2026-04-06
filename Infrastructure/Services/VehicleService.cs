@@ -507,8 +507,7 @@ namespace Infrastructure.Services
                 using var db = await _factory.CreateDbContextAsync();
 
                 var vehicle = await db.Vehicles.AsNoTracking()
-                    .Where(v => v.VehicleId == vehicleId && v.fInAct != true)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync(v => v.VehicleId == vehicleId);
                 if (vehicle == null) return null;
 
                 return await BuildVehicleDetailAsync(db, vehicle);
