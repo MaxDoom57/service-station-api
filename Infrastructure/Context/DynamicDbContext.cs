@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Domain.Entities.Lookups;
 using Domain.Entities.Reports;
 using Infrastructure.Context.Entities;
@@ -373,7 +373,7 @@ namespace Infrastructure.Context
                 .HasKey(x => x.TempServiceKy);
 
             modelBuilder.Entity<Vehicle>()
-                .ToTable("Vehicle", tb => tb.UseSqlOutputClause(false))
+                .ToTable("Vehicles", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.VehicleKy);
 
             modelBuilder.Entity<Driver>()
