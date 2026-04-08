@@ -227,8 +227,8 @@ namespace Infrastructure.Services
 
                 await db.SaveChangesAsync();
 
-                // Update Master Status Logic
-                await UpdateMasterStatus(db, item.ServiceOrdKy);
+                // Update Master Status Logic is removed as it's now manually controlled
+                // await UpdateMasterStatus(db, item.ServiceOrdKy);
 
                 return (true, "Status updated");
             }
@@ -238,37 +238,24 @@ namespace Infrastructure.Services
             }
         }
 
-        private async Task UpdateMasterStatus(DynamicDbContext db, int ordKy)
+        // private async Task UpdateMasterStatus(DynamicDbContext db, int ordKy) removed, now manually handled
+
+        public async Task<(bool success, string message)> UpdateServiceOrderStatusAsync(UpdateServiceOrderStatusDto dto)
         {
-            var order = await db.ServiceOrder.FindAsync(ordKy);
-            if (order == null) return; // Handle orphan items gracefully
+            using var db = await _factory.CreateDbContextAsync();
+            var order = await db.ServiceOrder.FindAsync(dto.ServiceOrdKy);
+            if (order == null) return (false, "Service Order not found");
 
-            var items = await db.ServiceOrderDetail.Where(x => x.ServiceOrdKy == ordKy).ToListAsync();
-
-            // Logic:
-            // if no items is under inprogress or finish, service order state is wait. (All Wait)
-            // if any service item states is progress or finish, service state is ongoing. 
-            // if whole items have finish state, serviceOrder state is finish.
-
-            bool anyProgress = items.Any(i => i.StatusInProgress == 1);
-            bool anyFinish = items.Any(i => i.StatusFinish == 1);
-            bool allFinish = items.All(i => i.StatusFinish == 1);
-            bool allWait = items.All(i => i.StatusWait == 1);
-
-            if (allFinish)
+            try
             {
-                order.Status = "Finish";
+                order.Status = dto.Status;
+                await db.SaveChangesAsync();
+                return (true, "Service Order status updated");
             }
-            else if (anyProgress || anyFinish) // If any is finish but NOT ALL, it's still ongoing logically? Prompt: "if any ... is progress or finish, service state is ongoing". Yes. Because "whole items have finish state" is the ONLY condition for Master Finish. So partial finish = Ongoing.
+            catch (Exception ex)
             {
-                order.Status = "InProgress";
+                return (false, "Error updating status: " + ex.Message);
             }
-            else
-            {
-                order.Status = "Wait";
-            }
-
-            await db.SaveChangesAsync();
         }
 
         public async Task<List<ServiceOrderDto>> GetServiceOrdersAsync()

@@ -74,6 +74,20 @@ namespace Api.Controllers
             }
         }
 
+        [HttpPut("status")]
+        public async Task<IActionResult> UpdateServiceOrderStatus([FromBody] UpdateServiceOrderStatusDto dto)
+        {
+            try
+            {
+                var result = await _service.UpdateServiceOrderStatusAsync(dto);
+                return result.success ? Ok(result.message) : BadRequest(result.message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetServiceOrders()
         {

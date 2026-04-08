@@ -49,6 +49,12 @@ namespace Application.DTOs.ServiceOrder
         public string Status { get; set; } // "Wait", "InProgress", "Finish"
     }
 
+    public class UpdateServiceOrderStatusDto
+    {
+        public int ServiceOrdKy { get; set; }
+        public string Status { get; set; } 
+    }
+
     public class ServiceOrderDetailDto
     {
         public int ServiceOrdDetKy { get; set; }
