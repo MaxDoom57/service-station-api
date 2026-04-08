@@ -10,11 +10,13 @@ namespace System
             {
                 try
                 {
-                    return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Sri Lanka Standard Time"));
+                    var slTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Sri Lanka Standard Time"));
+                    return DateTime.SpecifyKind(slTime, DateTimeKind.Local);
                 }
                 catch (TimeZoneNotFoundException)
                 {
-                    return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Asia/Colombo"));
+                    var slTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Asia/Colombo"));
+                    return DateTime.SpecifyKind(slTime, DateTimeKind.Local);
                 }
             }
         }
