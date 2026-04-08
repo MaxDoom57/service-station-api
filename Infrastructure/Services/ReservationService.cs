@@ -254,45 +254,48 @@ namespace Infrastructure.Services
             using var db = await _factory.CreateDbContextAsync();
             
             var query = from r in db.ReservationMas
-                        join br in db.BayReservations on r.ResKy equals br.ReservationMasKy
-                        join v in db.Vehicles on r.VehicleKy equals v.VehicleKy
+                        join br in db.BayReservations on r.ResKy equals br.ReservationMasKy into brGroup
+                        from br in brGroup.DefaultIfEmpty()
+                        join v in db.Vehicles on r.VehicleKy equals v.VehicleKy into vGroup
+                        from v in vGroup.DefaultIfEmpty()
                         join p in db.CdMas on r.PackageKy equals p.CdKy into pkg
                         from p in pkg.DefaultIfEmpty()
-                        join b in db.Bays on br.BayKy equals b.BayKy
+                        join b in db.Bays on (int?)(br == null ? null : br.BayKy) equals (int?)b.BayKy into bGroup
+                        from b in bGroup.DefaultIfEmpty()
                         // Left join Account
-                        join acc in db.Account on v.OwnerAccountKy equals (int?)acc.AccKy into accGroup
+                        join acc in db.Account on (int?)(v == null ? null : v.OwnerAccountKy) equals (int?)acc.AccKy into accGroup
                         from acc in accGroup.DefaultIfEmpty()
                         // Left join VehicleType
-                        join vt in db.CdMas on v.VehicleTypKy equals (int?)vt.CdKy into vtGroup
+                        join vt in db.CdMas on (int?)(v == null ? null : v.VehicleTypKy) equals (int?)vt.CdKy into vtGroup
                         from vt in vtGroup.DefaultIfEmpty()
                         // Left join Address for Phone
-                        join accAdr in db.AccAdr on v.OwnerAccountKy equals (int?)accAdr.AccKy into accAdrGroup
+                        join accAdr in db.AccAdr on (int?)(v == null ? null : v.OwnerAccountKy) equals (int?)accAdr.AccKy into accAdrGroup
                         from accAdr in accAdrGroup.DefaultIfEmpty()
-                        join adr in db.Addresses on accAdr.AdrKy equals adr.AdrKy into adrGroup
+                        join adr in db.Addresses on (int?)(accAdr == null ? null : accAdr.AdrKy) equals (int?)adr.AdrKy into adrGroup
                         from adr in adrGroup.DefaultIfEmpty()
                         where !r.fInAct
                         select new { r, br, v, p, b, acc, vt, adr };
 
             if (!string.IsNullOrEmpty(vehicleId))
-                query = query.Where(x => x.v.VehicleId == vehicleId);
+                query = query.Where(x => x.v != null && x.v.VehicleId == vehicleId);
 
             if (date.HasValue)
-                query = query.Where(x => x.br.FromDtm.Date == date.Value.Date);
+                query = query.Where(x => x.br != null && x.br.FromDtm.Date == date.Value.Date);
 
             var result = await query.Select(x => new ReservationDetailDto
             {
                 ResKy = x.r.ResKy,
                 VehicleKy = x.r.VehicleKy,
-                VehicleId = x.v.VehicleId,
+                VehicleId = x.v != null ? x.v.VehicleId : "",
                 VehicleType = x.vt != null ? x.vt.CdNm : "",
                 OwnerName = x.acc != null ? x.acc.AccNm : "Unknown",
                 OwnerPhone = x.adr != null && x.adr.TP1 != null ? x.adr.TP1 : "",
                 PackageKy = x.r.PackageKy,
                 PackageName = x.p != null ? x.p.CdNm : "Unknown",
-                BayKy = x.br.BayKy,
-                BayName = x.b.BayNm,
-                FromDtm = x.br.FromDtm,
-                ToDtm = x.br.ToDtm,
+                BayKy = x.br != null ? x.br.BayKy : 0,
+                BayName = x.b != null ? x.b.BayNm : "",
+                FromDtm = x.br != null ? x.br.FromDtm : default(DateTime),
+                ToDtm = x.br != null ? x.br.ToDtm : default(DateTime),
                 ResStatus = x.r.ResStatus,
                 Remarks = x.r.Remarks
             }).ToListAsync();
