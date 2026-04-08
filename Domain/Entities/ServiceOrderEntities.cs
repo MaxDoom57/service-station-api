@@ -26,7 +26,7 @@ namespace Domain.Entities
         public string? Remarks { get; set; }
 
         [MaxLength(20)]
-        public string Status { get; set; } // Wait, Ongoing, Finish
+        public string Status { get; set; } // Wait, InProgress, Finish
 
         public bool fInAct { get; set; }
         public int EntUsrKy { get; set; }
