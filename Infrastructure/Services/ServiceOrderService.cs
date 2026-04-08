@@ -291,6 +291,7 @@ namespace Infrastructure.Services
                 {
                     ServiceOrdKy = o.ServiceOrdKy,
                     ServiceOrdNo = o.ServiceOrdNo,
+                    Date = o.EntDtm,
                     VehicleId = v?.VehicleId ?? "",
                     CustomerName = c?.AccNm ?? "",
                     PackageName = p?.CdNm ?? "",
@@ -323,6 +324,7 @@ namespace Infrastructure.Services
                 {
                     ServiceOrdKy = o.ServiceOrdKy,
                     ServiceOrdNo = o.ServiceOrdNo,
+                    Date = o.EntDtm,
                     VehicleId = v?.VehicleId ?? "",
                     CustomerName = c?.AccNm ?? "",
                     PackageName = p?.CdNm ?? "",
@@ -359,6 +361,7 @@ namespace Infrastructure.Services
             {
                 ServiceOrdKy = o.ServiceOrdKy,
                 ServiceOrdNo = o.ServiceOrdNo,
+                Date = o.EntDtm,
                 VehicleId = vehicle.VehicleId,
                 CustomerName = c?.AccNm ?? "",
                 PackageName = p?.CdNm ?? "",

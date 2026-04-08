@@ -62,6 +62,7 @@ namespace Application.DTOs.ServiceOrder
     {
         public int ServiceOrdKy { get; set; }
         public string ServiceOrdNo { get; set; }
+        public DateTime Date { get; set; }
         public string VehicleId { get; set; }
         public string CustomerName { get; set; }
         public string PackageName { get; set; }
