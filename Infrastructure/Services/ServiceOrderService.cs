@@ -49,7 +49,7 @@ namespace Infrastructure.Services
 
                     // Update Vehicle Mileage
                     vehicle.CurrentMileage = dto.CurrentMileage;
-                    vehicle.MileageUpdateDtm = DateTime.Now;
+                    vehicle.MileageUpdateDtm = AppTime.Now;
 
                     // 2. Resolve Customer Account via Vehicle Owner
                     if (!vehicle.OwnerAccountKy.HasValue)
@@ -69,7 +69,7 @@ namespace Infrastructure.Services
                     // 4. Create ServiceOrder Master
                     var order = new ServiceOrder
                     {
-                        ServiceOrdNo = "SO-" + DateTime.Now.Ticks.ToString().Substring(10),
+                        ServiceOrdNo = "SO-" + AppTime.Now.Ticks.ToString().Substring(10),
                         VehicleKy = vehicle.VehicleKy,
                         AccKy = accKy,
                         PackageKy = dto.PackageKy,
@@ -80,7 +80,7 @@ namespace Infrastructure.Services
                         Status = "Wait",
                         fInAct = false,
                         EntUsrKy = userKey,
-                        EntDtm = DateTime.Now,
+                        EntDtm = AppTime.Now,
                         CKy = _userContext.CompanyKey
                     };
 
@@ -106,7 +106,7 @@ namespace Infrastructure.Services
                             StatusFinish = 0,
                             IsApproved = true,
                             EntUsrKy = userKey,
-                            EntDtm = DateTime.Now
+                            EntDtm = AppTime.Now
                         });
                     }
 
@@ -152,7 +152,7 @@ namespace Infrastructure.Services
                      StatusFinish = 0,
                      IsApproved = false, // Pending Approval
                      EntUsrKy = userKey,
-                     EntDtm = DateTime.Now
+                     EntDtm = AppTime.Now
                  };
 
                  db.ServiceOrderDetail.Add(item);
@@ -189,7 +189,7 @@ namespace Infrastructure.Services
                     CustName = dto.CustName,
                     IpAddress = dto.IpAddress,
                     Device = dto.Device,
-                    ApprovedDtm = DateTime.Now
+                    ApprovedDtm = AppTime.Now
                 };
                 db.ServiceOrderApproval.Add(approval);
                 
@@ -414,7 +414,7 @@ namespace Infrastructure.Services
                 YurRef = so.ServiceOrdNo,
                 EntUsrKy = userKey,
                 OrdDt = so.EntDtm,
-                EntDtm = DateTime.Now,
+                EntDtm = AppTime.Now,
                 OrdFrqKy = 1,
                 OrdStsKy = 1,
                 BUKy = 1,
@@ -489,7 +489,7 @@ namespace Infrastructure.Services
                 fApr = 1,
                 fVirtItm = false,
                 EntUsrKy = userKey,
-                EntDtm = DateTime.Now,
+                EntDtm = AppTime.Now,
                 AdrKy = 1, 
                 BUKy = 1,
                 CdKy1 = 1,
@@ -502,3 +502,4 @@ namespace Infrastructure.Services
         }
     }
 }
+

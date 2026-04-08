@@ -238,7 +238,7 @@ public class ItemsEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
             quantity = 50,
             costPrice = 100,
             salePrice = 160,
-            expirDt = DateTime.Now.AddYears(1)
+            expirDt = AppTime.Now.AddYears(1)
         };
 
         var batchPostResponse = await client.PostAsync("/api/ssms/v0.1/items/batch",
@@ -308,3 +308,4 @@ public class ItemsEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.False(stillActive, "Item should not be in active items list after deletion");
     }
 }
+

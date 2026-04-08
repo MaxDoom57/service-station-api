@@ -78,7 +78,7 @@ namespace Infrastructure.Services
                     fInAct = false,
                     fApr = 1,
                     EntUsrKy = userKey.Value,
-                    EntDtm = DateTime.Now,
+                    EntDtm = AppTime.Now,
                     // Defaulting mandatory fields based on schema 
                     // Many fields are NO null. I should set defaults.
                     fCtrlCd = false,
@@ -210,3 +210,4 @@ namespace Infrastructure.Services
         }
     }
 }
+

@@ -88,7 +88,7 @@ namespace Infrastructure.Services
                         Remarks = dto.Remarks,
                         fInAct = false,
                         EntUsrKy = userKey ?? 0,
-                        EntDtm = DateTime.Now,
+                        EntDtm = AppTime.Now,
                         CKy = _userContext.CompanyKey
                     };
 
@@ -132,7 +132,7 @@ namespace Infrastructure.Services
                         ResStatus = "Pending",
                         fInAct = false,
                         EntUsrKy = userKey ?? 0,
-                        EntDtm = DateTime.Now,
+                        EntDtm = AppTime.Now,
                         CKy = _userContext.CompanyKey
                     };
 
@@ -293,3 +293,4 @@ namespace Infrastructure.Services
         }
     }
 }
+

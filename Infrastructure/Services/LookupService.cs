@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Lookups;
+using Application.DTOs.Lookups;
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Entities.Lookups;
@@ -123,18 +123,18 @@ namespace Infrastructure.Services
                 .OrderByDescending(x => x.Period)
                 .FirstOrDefaultAsync();
 
-            // If record exists → return last transaction no
+            // If record exists ? return last transaction no
             if (record != null)
                 return record.LstTrnNo;
 
-            // If not exists → create record and return 0
+            // If not exists ? create record and return 0
             var newRecord = new TrnNoLst
             {
                 fInAct = false,
                 Status = "A",
                 CKy = (short)_userContext.CompanyKey,
                 SKy = 0,
-                Period = DateTime.Now.Year,
+                Period = AppTime.Now.Year,
                 OurCd = request.OurCd,
                 CdKy = 0,
                 LstTrnNo = 0,
@@ -148,3 +148,4 @@ namespace Infrastructure.Services
         }
     }
 }
+

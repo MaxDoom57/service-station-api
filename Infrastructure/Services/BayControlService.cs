@@ -29,7 +29,7 @@ namespace Infrastructure.Services
         public async Task<List<AvailableBayDto>> GetAvailableBaysNowAsync()
         {
             using var db = await _factory.CreateDbContextAsync();
-            var now = DateTime.Now;
+            var now = AppTime.Now;
 
             try
             {
@@ -137,7 +137,7 @@ namespace Infrastructure.Services
                     fInAct = false,
                     CKy = _userContext.CompanyKey,
                     EntUsrKy = userKey ?? 0,
-                    EntDtm = DateTime.Now
+                    EntDtm = AppTime.Now
                 };
     
                 db.BayReservations.Add(res);
@@ -195,7 +195,7 @@ namespace Infrastructure.Services
                 control.CurrentVehicleKy = dto.VehicleKy;
                 control.CurrentActivity = dto.CurrentActivity;
                 control.EstimatedFinishDtm = dto.EstimatedFinishDtm;
-                control.LastUpdDtm = DateTime.Now;
+                control.LastUpdDtm = AppTime.Now;
     
                 await db.SaveChangesAsync();
                 return (true, "Bay status updated");
@@ -281,3 +281,4 @@ namespace Infrastructure.Services
         }
     }
 }
+

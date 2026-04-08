@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using Application.DTOs.ItemBatch;
 using Application.DTOs.Items;
 using Application.Interfaces;
@@ -163,7 +163,7 @@ namespace Infrastructure.Services
                     await conn.OpenAsync();
                     using var tx = conn.BeginTransaction();
 
-                    // 1️ Insert into ItmMas (NO OUTPUT)
+                    // 1? Insert into ItmMas (NO OUTPUT)
                     using var cmdInsert = conn.CreateCommand();
                     cmdInsert.Transaction = tx;
                     cmdInsert.CommandText = @"
@@ -203,7 +203,7 @@ namespace Infrastructure.Services
 
                     await cmdInsert.ExecuteNonQueryAsync();
 
-                    // 2️ Read back ItmKy safely
+                    // 2? Read back ItmKy safely
                     using var cmdGetKey = conn.CreateCommand();
                     cmdGetKey.Transaction = tx;
                     cmdGetKey.CommandText = @"
@@ -249,7 +249,7 @@ namespace Infrastructure.Services
                         SlsPri = dto.salesPrice,
                         Qty = dto.quantity ?? 0,
                         EntUsrKy = userKey.Value,
-                        EntDtm = DateTime.Now,
+                        EntDtm = AppTime.Now,
                         // Initialize required properties with defaults
                         LocKy = locKy,
                         fInAct = false,
@@ -636,3 +636,4 @@ namespace Infrastructure.Services
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Customers;
+using Application.DTOs.Customers;
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Context;
@@ -21,7 +21,7 @@ public class CustomerService
     private readonly CommonLookupService _lookup;
     private readonly IUserKeyService _userKeyService;
     private readonly IValidationService _validator;
-    private readonly ILogger<CustomerService> _logger;  // ← added
+    private readonly ILogger<CustomerService> _logger;  // ? added
 
     public CustomerService(
         IDynamicDbContextFactory factory,
@@ -29,14 +29,14 @@ public class CustomerService
         CommonLookupService lookup,
         IUserKeyService userKeyService,
         IValidationService validator,
-        ILogger<CustomerService> logger)  // ← added
+        ILogger<CustomerService> logger)  // ? added
     {
         _factory = factory;
         _userContext = userContext;
         _lookup = lookup;
         _userKeyService = userKeyService;
         _validator = validator;
-        _logger = logger;  // ← added
+        _logger = logger;  // ? added
     }
 
     // Get all active customers
@@ -148,7 +148,7 @@ public class CustomerService
     }
 
     // -------------------------------------------------------
-    // Helpers — add these inside the CustomerService class
+    // Helpers � add these inside the CustomerService class
     // -------------------------------------------------------
 
     private async Task TestTcpConnectionAsync(string connectionString, string callerMethod)
@@ -268,7 +268,7 @@ public class CustomerService
             cmd1.Parameters.Add(new SqlParameter("@TP2", dto.TP2 ?? (object)DBNull.Value));
             cmd1.Parameters.Add(new SqlParameter("@EMail", dto.EMail ?? (object)DBNull.Value));
             cmd1.Parameters.Add(new SqlParameter("@EntUsrKy", userKey));
-            cmd1.Parameters.Add(new SqlParameter("@EntDtm", DateTime.Now));
+            cmd1.Parameters.Add(new SqlParameter("@EntDtm", AppTime.Now));
 
             var adrKyObj = await cmd1.ExecuteScalarAsync();
             int adrKy = Convert.ToInt32(adrKyObj);
@@ -303,7 +303,7 @@ public class CustomerService
             cmd2.Parameters.Add(new SqlParameter("@AccTyp", ourCd)); // "CUS"
             cmd2.Parameters.Add(new SqlParameter("@AccTypKy", accTypKy));
             cmd2.Parameters.Add(new SqlParameter("@EntUsrKy", userKey));
-            cmd2.Parameters.Add(new SqlParameter("@EntDtm", DateTime.Now));
+            cmd2.Parameters.Add(new SqlParameter("@EntDtm", AppTime.Now));
 
             await cmd2.ExecuteNonQueryAsync();
 
@@ -395,7 +395,7 @@ public class CustomerService
         {
             // Format: yyMMddHHmmssff (14 chars - fits in 15 char column)
             // Example: 26020915480012 (Year-Month-Day-Hour-Min-Sec-Centiseconds)
-            string accCd = DateTime.Now.ToString("yyMMddHHmmssff");
+            string accCd = AppTime.Now.ToString("yyMMddHHmmssff");
 
             // Check existence
             using var checkCmd = conn.CreateCommand();
@@ -485,7 +485,7 @@ public class CustomerService
             cmd.Parameters.Add(new SqlParameter("@EMail", dto.EMail ?? (object)DBNull.Value));
             //cmd.Parameters.Add(new SqlParameter("@GPSLoc", dto.GPSLoc ?? (object)DBNull.Value));
             cmd.Parameters.Add(new SqlParameter("@EntUsrKy", userKey));
-            cmd.Parameters.Add(new SqlParameter("@EntDtm", DateTime.Now));
+            cmd.Parameters.Add(new SqlParameter("@EntDtm", AppTime.Now));
 
             int rows = await cmd.ExecuteNonQueryAsync();
             if (rows == 0)
@@ -501,3 +501,4 @@ public class CustomerService
     }
 
 }
+

@@ -67,9 +67,9 @@ namespace Infrastructure.Services
                     DocNo = dto.DocNo,
                     YurRef = dto.YurRef,
                     EntUsrKy = userKey,
-                    OrdDt = dto.OrdDt ?? DateTime.Now,
+                    OrdDt = dto.OrdDt ?? AppTime.Now,
                     DlryDt = dto.DlryDt,
-                    EntDtm = DateTime.Now,
+                    EntDtm = AppTime.Now,
                     OrdFrqKy = dto.OrdFrqKy,
                     OrdStsKy = dto.OrdStsKy,
                     OrdRelKy = 0,
@@ -132,7 +132,7 @@ namespace Infrastructure.Services
                         Amt2 = detailDto.Amt2,
                         fNoPrnPri = detailDto.fNoPrnPri,
                         EntUsrKy = userKey,
-                        EntDtm = DateTime.Now,
+                        EntDtm = AppTime.Now,
                         FmtFntSize = detailDto.FmtFntSize,
                         FmtFntUndLn = detailDto.FmtFntUndLn,
                         FmtFntStyle = detailDto.FmtFntStyle,
@@ -251,7 +251,7 @@ namespace Infrastructure.Services
                         Amt2 = detailDto.Amt2,
                         fNoPrnPri = detailDto.fNoPrnPri,
                         EntUsrKy = userKey,
-                        EntDtm = DateTime.Now,
+                        EntDtm = AppTime.Now,
                         FmtFntSize = detailDto.FmtFntSize,
                         FmtFntUndLn = detailDto.FmtFntUndLn,
                         FmtFntStyle = detailDto.FmtFntStyle,
@@ -416,3 +416,4 @@ namespace Infrastructure.Services
         }
     }
 }
+

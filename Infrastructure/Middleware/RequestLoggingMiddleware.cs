@@ -23,7 +23,7 @@ namespace Infrastructure.Middleware
         public async Task Invoke(HttpContext context, IServiceProvider serviceProvider)
         {
             var stopwatch = Stopwatch.StartNew();
-            var requestTime = DateTime.Now;
+            var requestTime = AppTime.Now;
 
             // Buffer the request to read body
             context.Request.EnableBuffering();
@@ -138,3 +138,4 @@ namespace Infrastructure.Middleware
         }
     }
 }
+

@@ -51,7 +51,7 @@ namespace Infrastructure.Services
                     UsrKy = dto.UsrKy,
                     Remarks = dto.Remarks,
                     fInAct = false,
-                    EntDtm = DateTime.Now,
+                    EntDtm = AppTime.Now,
                     EntUsrKy = userKey,
                     CKy = _userContext.CompanyKey
                 };
@@ -137,3 +137,4 @@ namespace Infrastructure.Services
         }
     }
 }
+

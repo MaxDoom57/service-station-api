@@ -67,7 +67,7 @@ namespace Infrastructure.Services
                     fInAct = false,
                     fApr = 1,
                     EntUsrKy = userKey.Value,
-                    EntDtm = DateTime.Now,
+                    EntDtm = AppTime.Now,
                     // Defaults
                     fCtrlCd = false, CtrlCdKy = 1, ObjKy = 1, AcsLvlKy = 1, SO = 0,
                     fUsrAcs = false, fCCAcs = false, fDefault = false,
@@ -132,3 +132,4 @@ namespace Infrastructure.Services
         }
     }
 }
+

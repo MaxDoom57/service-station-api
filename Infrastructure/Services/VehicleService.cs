@@ -76,7 +76,7 @@ namespace Infrastructure.Services
                                 Address  = dto.Owner.Address,
                                 TP1      = dto.Owner.TP1,
                                 EntUsrKy = userKey.Value,
-                                EntDtm   = DateTime.Now
+                                EntDtm   = AppTime.Now
                             };
                             db.Addresses.Add(address);
                             await db.SaveChangesAsync();
@@ -104,7 +104,7 @@ namespace Infrastructure.Services
                             fInAct    = false,
                             fApr      = 1,
                             EntUsrKy  = userKey.Value,
-                            EntDtm    = DateTime.Now,
+                            EntDtm    = AppTime.Now,
                             SKy       = 1,
                             AccLvl    = 1,
                             fCusSup   = 1,
@@ -136,7 +136,7 @@ namespace Infrastructure.Services
                         VehicleTypKy     = dto.VehicleTypKy,
                         FuelTyp          = dto.FuelTyp,
                         CurrentMileage   = dto.CurrentMileage,
-                        MileageUpdateDtm = dto.CurrentMileage.HasValue ? DateTime.Now : null,
+                        MileageUpdateDtm = dto.CurrentMileage.HasValue ? AppTime.Now : null,
                         FuelLevel        = dto.FuelLevel,
                         Make             = dto.Make,
                         Model            = dto.Model,
@@ -146,7 +146,7 @@ namespace Infrastructure.Services
                         Description      = dto.Description,
                         fInAct           = false,
                         EntUsrKy         = userKey.Value,
-                        EntDtm           = DateTime.Now
+                        EntDtm           = AppTime.Now
                     };
                     db.Vehicles.Add(vehicle);
                     await db.SaveChangesAsync(); // generates VehicleKy
@@ -169,7 +169,7 @@ namespace Infrastructure.Services
                                 LicenseNo  = dDto.LicenseNo,
                                 fInAct     = false,
                                 EntUsrKy   = userKey.Value,
-                                EntDtm     = DateTime.Now
+                                EntDtm     = AppTime.Now
                             };
                             db.Drivers.Add(newDriver);
                             await db.SaveChangesAsync();
@@ -252,7 +252,7 @@ namespace Infrastructure.Services
                     if (dto.CurrentMileage != vehicle.CurrentMileage)
                     {
                         vehicle.CurrentMileage   = dto.CurrentMileage;
-                        vehicle.MileageUpdateDtm = DateTime.Now;
+                        vehicle.MileageUpdateDtm = AppTime.Now;
                     }
 
                     vehicle.FuelLevel   = dto.FuelLevel;
@@ -632,7 +632,7 @@ namespace Infrastructure.Services
                 SlsPri      = 0,
                 SlsPri2     = 0,
                 EntUsrKy    = userKey,
-                EntDtm      = DateTime.Now
+                EntDtm      = AppTime.Now
             };
         }
 
@@ -667,3 +667,4 @@ namespace Infrastructure.Services
         }
     }
 }
+

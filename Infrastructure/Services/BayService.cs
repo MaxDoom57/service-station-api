@@ -67,7 +67,7 @@ namespace Infrastructure.Services
                     Description = dto.Description,
                     fInAct = false,
                     EntUsrKy = userKey.Value,
-                    EntDtm = DateTime.Now
+                    EntDtm = AppTime.Now
                 };
     
                 db.Bays.Add(bay);
@@ -126,3 +126,4 @@ namespace Infrastructure.Services
         }
     }
 }
+
