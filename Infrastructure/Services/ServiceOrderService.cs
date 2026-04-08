@@ -98,7 +98,7 @@ namespace Infrastructure.Services
                         {
                             ServiceOrdKy = order.ServiceOrdKy,
                             ItemKy = item.ItmKy,
-                            ItemName = item.ItmNm,
+                            ItemName = item.ItmNm ?? "",
                             Price = item.SlsPri,
                             EstimatedTime = "Standard",
                             StatusWait = 1,
