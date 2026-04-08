@@ -108,16 +108,16 @@ namespace Infrastructure.Services
                     }
 
                     // 4. Overlap Check
-                    bool overlap = await db.BayReservations.AnyAsync(r =>
-                        r.BayKy == dto.BayKy && !r.fInAct && r.ResStatus != "Cancelled" &&
+                    int overlapCount = await db.BayReservations.CountAsync(r =>
+                        !r.fInAct && r.ResStatus != "Cancelled" &&
                         ((dto.BookingFrom >= r.FromDtm && dto.BookingFrom < r.ToDtm) ||
                          (dto.BookingTo > r.FromDtm && dto.BookingTo <= r.ToDtm) ||
                          (dto.BookingFrom <= r.FromDtm && dto.BookingTo >= r.ToDtm)));
 
-                    if (overlap)
+                    if (overlapCount >= 3)
                     {
                         await transaction.RollbackAsync();
-                        result = (false, "Validation Failed: Selected Bay Time Slot is already reserved/requested.", 0);
+                        result = (false, "Validation Failed: Selected time period already has the maximum number of reservations (3).", 0);
                         return;
                     }
 
@@ -172,14 +172,14 @@ namespace Infrastructure.Services
                      // Check if times changed, validate overlap again
                      if (bayRes.FromDtm != dto.BookingFrom || bayRes.ToDtm != dto.BookingTo || bayRes.BayKy != dto.BayKy)
                      {
-                        bool overlap = await db.BayReservations.AnyAsync(r => 
+                        int overlapCount = await db.BayReservations.CountAsync(r => 
                             r.ReservationMasKy != resKy && // Exclude self
-                            r.BayKy == dto.BayKy && !r.fInAct && r.ResStatus != "Cancelled" &&
+                            !r.fInAct && r.ResStatus != "Cancelled" &&
                             ((dto.BookingFrom >= r.FromDtm && dto.BookingFrom < r.ToDtm) ||
                              (dto.BookingTo > r.FromDtm && dto.BookingTo <= r.ToDtm) ||
                              (dto.BookingFrom <= r.FromDtm && dto.BookingTo >= r.ToDtm)));
                         
-                        if (overlap) return (false, "New slot is unavailable");
+                        if (overlapCount >= 3) return (false, "Validation Failed: Selected time period already has the maximum number of reservations (3).");
 
                         bayRes.BayKy = dto.BayKy;
                         bayRes.FromDtm = dto.BookingFrom;
