@@ -3,11 +3,8 @@
   "WorkspaceRootPath": "E:\\Programming\\Github\\service-station-api\\Api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\programming\\github\\service-station-api\\infrastructure\\services\\serviceorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|e:\\programming\\github\\service-station-api\\api\\controllers\\serviceordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|solutionrelative:controllers\\serviceordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|e:\\programming\\github\\service-station-api\\api\\controllers\\reservationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|solutionrelative:controllers\\reservationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,27 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ServiceOrderService.cs",
-              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\ServiceOrderService.cs",
-              "RelativeDocumentMoniker": "..\\Infrastructure\\Services\\ServiceOrderService.cs",
-              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\ServiceOrderService.cs",
-              "RelativeToolTip": "..\\Infrastructure\\Services\\ServiceOrderService.cs",
-              "ViewState": "AgIAAOcAAAAAAAAAAAAYwP8AAAANAAAAAAAAAA==",
+              "Title": "ReservationController.cs",
+              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Api\\Controllers\\ReservationController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ReservationController.cs",
+              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Api\\Controllers\\ReservationController.cs",
+              "RelativeToolTip": "Controllers\\ReservationController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABoAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-08T05:11:56.641Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ServiceOrderController.cs",
-              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Api\\Controllers\\ServiceOrderController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ServiceOrderController.cs",
-              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Api\\Controllers\\ServiceOrderController.cs",
-              "RelativeToolTip": "Controllers\\ServiceOrderController.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAgwD4AAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-08T05:08:06.911Z",
+              "WhenOpened": "2026-04-08T05:42:57.629Z",
               "EditorCaption": ""
             }
           ]

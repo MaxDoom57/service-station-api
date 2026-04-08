@@ -262,8 +262,16 @@ namespace Infrastructure.Services
                         // Left join Account
                         join acc in db.Account on v.OwnerAccountKy equals (int?)acc.AccKy into accGroup
                         from acc in accGroup.DefaultIfEmpty()
+                        // Left join VehicleType
+                        join vt in db.CdMas on v.VehicleTypKy equals (int?)vt.CdKy into vtGroup
+                        from vt in vtGroup.DefaultIfEmpty()
+                        // Left join Address for Phone
+                        join accAdr in db.AccAdr on v.OwnerAccountKy equals (int?)accAdr.AccKy into accAdrGroup
+                        from accAdr in accAdrGroup.DefaultIfEmpty()
+                        join adr in db.Addresses on accAdr.AdrKy equals adr.AdrKy into adrGroup
+                        from adr in adrGroup.DefaultIfEmpty()
                         where !r.fInAct
-                        select new { r, br, v, p, b, acc };
+                        select new { r, br, v, p, b, acc, vt, adr };
 
             if (!string.IsNullOrEmpty(vehicleId))
                 query = query.Where(x => x.v.VehicleId == vehicleId);
@@ -276,9 +284,9 @@ namespace Infrastructure.Services
                 ResKy = x.r.ResKy,
                 VehicleKy = x.r.VehicleKy,
                 VehicleId = x.v.VehicleId,
-                VehicleType = "", // Can fetch
+                VehicleType = x.vt != null ? x.vt.CdNm : "",
                 OwnerName = x.acc != null ? x.acc.AccNm : "Unknown",
-                OwnerPhone = "", // Need Address link
+                OwnerPhone = x.adr != null && x.adr.TP1 != null ? x.adr.TP1 : "",
                 PackageKy = x.r.PackageKy,
                 PackageName = x.p != null ? x.p.CdNm : "Unknown",
                 BayKy = x.br.BayKy,
