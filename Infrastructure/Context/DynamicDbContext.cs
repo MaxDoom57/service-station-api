@@ -76,6 +76,8 @@ namespace Infrastructure.Context
         public DbSet<BayWorker> BayWorkers { get; set; }
         public DbSet<OrdNoLst> OrdNoLst { get; set; }
         public DbSet<CusItm> CusItm { get; set; }
+        public DbSet<OrdImg> OrdImg { get; set; }
+        public DbSet<SvschkList> SvschkList { get; set; }
 
         //Report views
         public DbSet<VewSlsDtlsRpt> VewSlsDtlsRpt { get; set; }
@@ -431,6 +433,14 @@ namespace Infrastructure.Context
             modelBuilder.Entity<CusItm>()
                 .ToTable("CusItm", tb => tb.UseSqlOutputClause(false))
                 .HasKey(x => x.CusItmKy);
+
+            modelBuilder.Entity<OrdImg>()
+                .ToTable("OrdImg", tb => tb.UseSqlOutputClause(false))
+                .HasKey(x => x.ImageKy);
+
+            modelBuilder.Entity<SvschkList>()
+                .ToTable("SvschkList")
+                .HasKey(x => x.ChkListKy);
         }
     }
 }

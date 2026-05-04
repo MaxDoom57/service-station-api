@@ -11,13 +11,16 @@ namespace Domain.Entities
 
         public int VehicleKy { get; set; } // FK to Vehicle
 
-        public int PackageKy { get; set; } // FK to CdMas (Package)
+        public int? PackageKy { get; set; } // FK to CdMas (Package), optional
 
         [MaxLength(20)]
         public string ResStatus { get; set; } // 'Pending', 'Approved', 'Cancelled', 'Completed'
 
         [MaxLength(500)]
         public string? Remarks { get; set; }
+
+        [MaxLength(20)]
+        public string? Tp1 { get; set; }
 
         public bool fInAct { get; set; }
 

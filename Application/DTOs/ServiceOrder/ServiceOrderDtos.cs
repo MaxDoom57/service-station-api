@@ -19,8 +19,20 @@ namespace Application.DTOs.ServiceOrder
         public string? AdditionalNotes { get; set; } // Remarks
         
         // Service Details
-        public int PackageKy { get; set; }
+        public int? PackageKy { get; set; }                              // Optional
+        public List<ServiceOrderItemInputDto>? Items { get; set; }       // Used when no PackageKy
         public int BayKy { get; set; }
+        public string? UserId { get; set; }
+        
+        // Image Details
+        public string? SignatureImage { get; set; } // Base64
+        public List<string>? VehicleImages { get; set; } // List of Base64
+    }
+
+    public class ServiceOrderItemInputDto
+    {
+        public int ItmKy { get; set; }
+        public string? EstimatedTime { get; set; } // Defaults to "Standard" if not set
     }
 
     public class AddServiceItemDto
@@ -29,6 +41,7 @@ namespace Application.DTOs.ServiceOrder
         public string ItemName { get; set; }
         public decimal Price { get; set; }
         public string EstimatedTime { get; set; }
+        public string? UserId { get; set; }
     }
 
     public class ApproveServiceItemDto
@@ -47,12 +60,14 @@ namespace Application.DTOs.ServiceOrder
         public int ServiceOrdDetKy { get; set; }
         // "wait, inprogress, finish"
         public string Status { get; set; } // "Wait", "InProgress", "Finish"
+        public string? UserId { get; set; }
     }
 
     public class UpdateServiceOrderStatusDto
     {
         public int ServiceOrdKy { get; set; }
         public string Status { get; set; } 
+        public string? UserId { get; set; }
     }
 
     public class ServiceOrderDetailDto
@@ -74,5 +89,12 @@ namespace Application.DTOs.ServiceOrder
         public string PackageName { get; set; }
         public string Status { get; set; }
         public List<ServiceOrderDetailDto> Items { get; set; }
+    }
+
+    public class ServiceOrderImageDto
+    {
+        public int ImageKy { get; set; }
+        public string ImageUrl { get; set; }
+        public string ImageType { get; set; }
     }
 }

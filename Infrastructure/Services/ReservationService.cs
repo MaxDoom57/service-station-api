@@ -15,19 +15,22 @@ namespace Infrastructure.Services
         private readonly IUserKeyService _userKeyService;
         private readonly VehicleService _vehicleService;
         private readonly BayControlService _bayControlService;
+        private readonly ISmsService _smsService;
 
         public ReservationService(
             IDynamicDbContextFactory factory,
             IUserRequestContext userContext,
             IUserKeyService userKeyService,
             VehicleService vehicleService,
-            BayControlService bayControlService)
+            BayControlService bayControlService,
+            ISmsService smsService)
         {
             _factory = factory;
             _userContext = userContext;
             _userKeyService = userKeyService;
             _vehicleService = vehicleService;
             _bayControlService = bayControlService;
+            _smsService = smsService;
         }
 
         public async Task<(bool success, string message, int resKy)> CreateReservationAsync(CreateFullReservationDto dto)
@@ -86,6 +89,7 @@ namespace Infrastructure.Services
                         PackageKy = dto.PackageKy,
                         ResStatus = "Pending",
                         Remarks = dto.Remarks,
+                        Tp1 = dto.Tp1,
                         fInAct = false,
                         EntUsrKy = userKey ?? 0,
                         EntDtm = AppTime.Now,
@@ -141,6 +145,9 @@ namespace Infrastructure.Services
 
                     await transaction.CommitAsync();
                     result = (true, "Reservation placed successfully, awaiting approval.", resMas.ResKy);
+
+                    // SMS notification after reservation creation has been disabled as per request
+
                 }
                 catch (Exception ex)
                 {
@@ -258,7 +265,7 @@ namespace Infrastructure.Services
                         from br in brGroup.DefaultIfEmpty()
                         join v in db.Vehicles on r.VehicleKy equals v.VehicleKy into vGroup
                         from v in vGroup.DefaultIfEmpty()
-                        join p in db.CdMas on r.PackageKy equals p.CdKy into pkg
+                        join p in db.CdMas on (short?)(r.PackageKy.HasValue ? r.PackageKy.Value : (int?)null) equals (short?)p.CdKy into pkg
                         from p in pkg.DefaultIfEmpty()
                         join b in db.Bays on (int?)(br == null ? null : br.BayKy) equals (int?)b.BayKy into bGroup
                         from b in bGroup.DefaultIfEmpty()

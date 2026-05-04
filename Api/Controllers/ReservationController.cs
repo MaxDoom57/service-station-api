@@ -11,27 +11,58 @@ namespace Api.Controllers
     public class ReservationController : ControllerBase
     {
         private readonly ReservationService _service;
+        private readonly OtpService _otpService;
 
-        public ReservationController(ReservationService service)
+        public ReservationController(ReservationService service, OtpService otpService)
         {
             _service = service;
+            _otpService = otpService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateReservation([FromBody] CreateFullReservationDto dto)
+        // ─── OTP Flow ────────────────────────────────────────────────────────────
+
+        [HttpPost("otp/init")]
+        public async Task<IActionResult> OtpInit([FromBody] CreateFullReservationDto dto)
         {
             try
             {
-                if (!ModelState.IsValid) return BadRequest(ModelState);
-    
-                var result = await _service.CreateReservationAsync(dto);
-                if (!result.success) return BadRequest(result.message);
-    
-                return Ok(new { message = result.message, resKy = result.resKy });
+                var result = await _otpService.InitAsync(dto);
+                if (!result.success) return BadRequest(new { result.message });
+                return Ok(new { result.message, result.sessionId });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("otp/confirm")]
+        public async Task<IActionResult> OtpConfirm([FromBody] OtpConfirmDto dto)
+        {
+            try
+            {
+                var result = await _otpService.ConfirmAsync(dto);
+                if (!result.success) return BadRequest(new { result.message });
+                return Ok(new { result.message, result.resKy });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("otp/resend")]
+        public async Task<IActionResult> OtpResend([FromBody] OtpResendDto dto)
+        {
+            try
+            {
+                var result = await _otpService.ResendAsync(dto);
+                if (!result.success) return BadRequest(new { result.message });
+                return Ok(new { result.message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
 

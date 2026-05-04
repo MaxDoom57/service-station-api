@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Application.Services;
 using Infrastructure.Context;
 using Infrastructure.Helpers;
@@ -48,6 +48,14 @@ builder.Services.AddScoped<ReservationService>();
 builder.Services.AddScoped<ServiceOrderService>();
 builder.Services.AddScoped<BayWorkerService>();
 builder.Services.AddScoped<OrderManagementService>();
+builder.Services.AddScoped<ChecklistService>();
+builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
+builder.Services.AddHttpClient("SmsClient").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    UseProxy = false
+});
+builder.Services.AddScoped<ISmsService, SmsService>();
+builder.Services.AddScoped<OtpService>();
 
 builder.Services.AddMemoryCache();
 

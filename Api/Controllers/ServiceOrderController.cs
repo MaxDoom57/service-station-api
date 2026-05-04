@@ -46,6 +46,20 @@ namespace Api.Controllers
             }
         }
 
+        [HttpPost("item/direct")]
+        public async Task<IActionResult> AddServiceItemDirect([FromBody] AddServiceItemDto dto)
+        {
+            try
+            {
+                var result = await _service.AddServiceItemDirectAsync(dto);
+                return result.success ? Ok(result.message) : BadRequest(result.message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut("item/approval")]
         public async Task<IActionResult> ApproveServiceItem([FromBody] ApproveServiceItemDto dto)
         {
@@ -123,6 +137,20 @@ namespace Api.Controllers
             {
                 var result = await _service.GetServiceOrderDetailsByVehicleIdAsync(vehicleId);
                 if (result == null) return NotFound("Active Service Order not found for this vehicle");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("images/{ordKy}")]
+        public async Task<IActionResult> GetOrderImages(int ordKy)
+        {
+            try
+            {
+                var result = await _service.GetOrderImagesAsync(ordKy);
                 return Ok(result);
             }
             catch (Exception ex)

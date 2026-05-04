@@ -14,7 +14,7 @@ namespace Domain.Entities
 
         public int VehicleKy { get; set; }
         public int AccKy { get; set; } // Customer Account
-        public int PackageKy { get; set; }
+        public int? PackageKy { get; set; }
         public int BayKy { get; set; }
 
         public float? CurrentMileage { get; set; }
@@ -32,6 +32,7 @@ namespace Domain.Entities
         public int EntUsrKy { get; set; }
         public DateTime EntDtm { get; set; }
         public int CKy { get; set; }
+        public int? OrdKy { get; set; }
     }
 
     public class ServiceOrderDetail

@@ -15,8 +15,7 @@ namespace Application.DTOs.Reservation
         public CreateVehicleRequestDto? NewVehicleDetails { get; set; } 
 
         // 2. Reservation Info
-        [Required]
-        public int PackageKy { get; set; }
+        public int? PackageKy { get; set; } // Optional - if null, items must be provided on service order
         
         [Required]
         public int BayKy { get; set; }
@@ -28,6 +27,8 @@ namespace Application.DTOs.Reservation
         public DateTime BookingTo { get; set; }
 
         public string? Remarks { get; set; }
+
+        public string? Tp1 { get; set; } // Customer mobile number for SMS
     }
 
     public class ReservationDetailDto
@@ -42,7 +43,7 @@ namespace Application.DTOs.Reservation
         public string OwnerPhone { get; set; }
 
         // Package
-        public int PackageKy { get; set; }
+        public int? PackageKy { get; set; }
         public string PackageName { get; set; }
 
         // Time / Bay
