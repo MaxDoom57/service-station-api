@@ -382,7 +382,7 @@ namespace Infrastructure.Services
                 else return (false, "Invalid status");
 
                 var userId = !string.IsNullOrEmpty(dto.UserId) ? dto.UserId : _userContext.UserId;
-                var userKey = await _userKeyService.GetUserKeyAsync(userId, 1) ?? 100;
+                var userKey = await _userKeyService.GetUserKeyAsync(userId, 1) ?? 0;
                 item.EntUsrKy = userKey;
 
                 await db.SaveChangesAsync();

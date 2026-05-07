@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,25 @@ namespace Infrastructure.Services
 {
     public class UserKeyService : IUserKeyService
     {
-        private readonly IUserRepository _repo;
+        private readonly IDynamicDbContextFactory _factory;
+        private readonly IUserRequestContext _userContext;
 
-        public UserKeyService(IUserRepository repo)
+        public UserKeyService(IDynamicDbContextFactory factory, IUserRequestContext userContext)
         {
-            _repo = repo;
+            _factory = factory;
+            _userContext = userContext;
         }
 
-        public Task<int?> GetUserKeyAsync(string userId, int cKy)
+        public async Task<int?> GetUserKeyAsync(string userId, int cKy)
         {
-            return _repo.GetUserKeyAsync(userId, cKy);
+            using var db = await _factory.CreateDbContextAsync();
+
+            var userKey = await db.UsrMas
+                .Where(x => x.UsrId == userId && x.CKy == cKy)
+                .Select(x => (int?)x.UsrKy)
+                .FirstOrDefaultAsync();
+
+            return userKey;
         }
     }
 }
