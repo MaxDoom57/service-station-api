@@ -30,8 +30,7 @@
               "ViewState": "AgIAAD8AAAAAAAAAAAA7wE0AAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-30T08:14:07.809Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -41,7 +40,7 @@
               "RelativeDocumentMoniker": "..\\Application\\DTOs\\ServiceOrder\\ServiceOrderDtos.cs",
               "ToolTip": "E:\\Programming\\Github\\service-station-api\\Application\\DTOs\\ServiceOrder\\ServiceOrderDtos.cs",
               "RelativeToolTip": "..\\Application\\DTOs\\ServiceOrder\\ServiceOrderDtos.cs",
-              "ViewState": "AgIAAE0AAAAAAAAAAAA9wEUAAAA7AAAAAAAAAA==",
+              "ViewState": "AgIAAE4AAAAAAAAAAAA7wEUAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-05T07:47:16.13Z",
               "EditorCaption": ""

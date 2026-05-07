@@ -65,6 +65,11 @@ namespace Infrastructure.Services
             var smsMessage = $"HAT Corporate Solutions (Pvt)Ltd.\n\nYour Reservation Code: {otp}\n\nDo not share this with anyone.";
             _ = _smsService.SendAsync(cleanPhone, smsMessage);
 
+            // LOG OTP FOR DEVELOPMENT/TESTING
+            Console.WriteLine("=========================");
+            Console.WriteLine($"Your Reservation Code: {otp}");
+            Console.WriteLine("=========================");
+
             return (true, "OTP sent successfully. Please verify within 5 minutes.", sessionId);
         }
 
@@ -124,6 +129,11 @@ namespace Infrastructure.Services
 
             var smsMessage = $"HAT Corporate Solutions (Pvt)Ltd.\n\nYour Reservation Code: {session.Otp}\n\nDo not share this with anyone.";
             _ = _smsService.SendAsync(session.PhoneNumber, smsMessage);
+
+            // LOG OTP FOR DEVELOPMENT/TESTING
+            Console.WriteLine("=========================");
+            Console.WriteLine($"Your Reservation Code: {session.Otp}");
+            Console.WriteLine("=========================");
 
             return (true, $"OTP resent successfully. Attempt {session.ResendCount} of {MaxResendCount}.");
         }

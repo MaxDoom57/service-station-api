@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "E:\\Programming\\Github\\service-station-api\\Api\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5826D3E2-35D1-3394-E8AD-3768DEE232D8}|..\\Application\\Application.csproj|e:\\programming\\github\\service-station-api\\application\\dtos\\serviceorder\\serviceorderdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|e:\\programming\\github\\service-station-api\\api\\controllers\\serviceordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ED562DFE-B9EF-5F88-771F-EBF333E4D08F}|ServiceStationApi.csproj|solutionrelative:controllers\\serviceordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -14,20 +17,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "ServiceOrderController.cs",
               "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Api\\Controllers\\ServiceOrderController.cs",
               "RelativeDocumentMoniker": "Controllers\\ServiceOrderController.cs",
               "ToolTip": "E:\\Programming\\Github\\service-station-api\\Api\\Controllers\\ServiceOrderController.cs",
               "RelativeToolTip": "Controllers\\ServiceOrderController.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAYwCcAAAA/AAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAA7wE0AAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-30T08:14:07.809Z",
-              "IsPinned": true,
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ServiceOrderDtos.cs",
+              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Application\\DTOs\\ServiceOrder\\ServiceOrderDtos.cs",
+              "RelativeDocumentMoniker": "..\\Application\\DTOs\\ServiceOrder\\ServiceOrderDtos.cs",
+              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Application\\DTOs\\ServiceOrder\\ServiceOrderDtos.cs",
+              "RelativeToolTip": "..\\Application\\DTOs\\ServiceOrder\\ServiceOrderDtos.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAA7wEUAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-05T07:47:16.13Z",
               "EditorCaption": ""
             }
           ]
