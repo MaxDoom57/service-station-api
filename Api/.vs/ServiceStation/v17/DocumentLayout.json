@@ -1,12 +1,36 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\Programming\\Github\\service-station-api\\Api\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\programming\\github\\service-station-api\\infrastructure\\services\\userkeyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserKeyService.cs",
+              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\UserKeyService.cs",
+              "RelativeDocumentMoniker": "..\\Infrastructure\\Services\\UserKeyService.cs",
+              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\UserKeyService.cs",
+              "RelativeToolTip": "..\\Infrastructure\\Services\\UserKeyService.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T11:51:05.16Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
