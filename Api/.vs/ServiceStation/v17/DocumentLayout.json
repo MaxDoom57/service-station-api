@@ -3,7 +3,10 @@
   "WorkspaceRootPath": "E:\\Programming\\Github\\service-station-api\\Api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\programming\\github\\service-station-api\\infrastructure\\services\\userkeyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\programming\\github\\service-station-api\\infrastructure\\services\\serviceorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C89F7701-1230-045D-AC93-AE7F7C59B668}|..\\Infrastructure\\Infrastructure.csproj|e:\\programming\\github\\service-station-api\\infrastructure\\services\\otpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,14 +21,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UserKeyService.cs",
-              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\UserKeyService.cs",
-              "RelativeDocumentMoniker": "..\\Infrastructure\\Services\\UserKeyService.cs",
-              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\UserKeyService.cs",
-              "RelativeToolTip": "..\\Infrastructure\\Services\\UserKeyService.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "ServiceOrderService.cs",
+              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\ServiceOrderService.cs",
+              "RelativeDocumentMoniker": "..\\Infrastructure\\Services\\ServiceOrderService.cs",
+              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\ServiceOrderService.cs",
+              "RelativeToolTip": "..\\Infrastructure\\Services\\ServiceOrderService.cs",
+              "ViewState": "AgIAAJwBAAAAAAAAAAAwwLMBAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T11:51:05.16Z",
+              "WhenOpened": "2026-05-11T09:53:01.266Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OtpService.cs",
+              "DocumentMoniker": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\OtpService.cs",
+              "RelativeDocumentMoniker": "..\\Infrastructure\\Services\\OtpService.cs",
+              "ToolTip": "E:\\Programming\\Github\\service-station-api\\Infrastructure\\Services\\OtpService.cs",
+              "RelativeToolTip": "..\\Infrastructure\\Services\\OtpService.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAWwGwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-11T09:49:11.927Z",
               "EditorCaption": ""
             }
           ]

@@ -62,13 +62,8 @@ namespace Infrastructure.Services
             _cache.Set(sessionId, session, TimeSpan.FromMinutes(OtpExpiryMinutes));
 
             // Send OTP via SMS
-            var smsMessage = $"HAT Corporate Solutions (Pvt)Ltd.\n\nYour Reservation Code: {otp}\n\nDo not share this with anyone.";
+            var smsMessage = $"{_smsService.SmsCompanyName}\n\nYour OTP Code for reservation: {otp}\n\nDo not share this with anyone.";
             _ = _smsService.SendAsync(cleanPhone, smsMessage);
-
-            // LOG OTP FOR DEVELOPMENT/TESTING
-            Console.WriteLine("=========================");
-            Console.WriteLine($"Your Reservation Code: {otp}");
-            Console.WriteLine("=========================");
 
             return (true, "OTP sent successfully. Please verify within 5 minutes.", sessionId);
         }
@@ -127,13 +122,8 @@ namespace Infrastructure.Services
 
             _cache.Set(dto.SessionId, session, TimeSpan.FromMinutes(OtpExpiryMinutes));
 
-            var smsMessage = $"HAT Corporate Solutions (Pvt)Ltd.\n\nYour Reservation Code: {session.Otp}\n\nDo not share this with anyone.";
+            var smsMessage = $"{_smsService.SmsCompanyName}\n\nYour OTP Code for reservation: {session.Otp}\n\nDo not share this with anyone.";
             _ = _smsService.SendAsync(session.PhoneNumber, smsMessage);
-
-            // LOG OTP FOR DEVELOPMENT/TESTING
-            Console.WriteLine("=========================");
-            Console.WriteLine($"Your Reservation Code: {session.Otp}");
-            Console.WriteLine("=========================");
 
             return (true, $"OTP resent successfully. Attempt {session.ResendCount} of {MaxResendCount}.");
         }

@@ -16,12 +16,15 @@ namespace Infrastructure.Services
         private readonly string _apiToken;
         private readonly string _senderId;
 
+        public string SmsCompanyName { get; }
+
         public SmsService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
             _baseUrl = configuration["SmsGateway:BaseUrl"] ?? "";
             _apiToken = configuration["SmsGateway:ApiToken"] ?? "";
             _senderId = configuration["SmsGateway:SenderId"] ?? "";
+            SmsCompanyName = configuration["SmsGateway:SmsCompanyName"] ?? "HATCS";
         }
 
         public Task SendAsync(string phoneNumber, string message)

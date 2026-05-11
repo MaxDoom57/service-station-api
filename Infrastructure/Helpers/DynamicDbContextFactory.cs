@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -65,13 +65,6 @@ namespace Infrastructure.Helpers
                     "Connection Timeout=60;";
             }
 
-            // LOG the connection attempt (mask password)
-            var displayConn = string.IsNullOrEmpty(creds.DbPassword)
-                ? connString
-                : connString.Replace(creds.DbPassword, "***");
-
-            Console.WriteLine($"[DynamicDb] Connecting: {displayConn}");
-
             try
             {
                 var builder = new DbContextOptionsBuilder<DynamicDbContext>();
@@ -90,9 +83,8 @@ namespace Infrastructure.Helpers
 
                 return context;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"[DynamicDb] CONNECTION FAILED! Server={creds.DbServer} DB={creds.DbName} Error={ex.Message}");
                 throw;
             }
         }

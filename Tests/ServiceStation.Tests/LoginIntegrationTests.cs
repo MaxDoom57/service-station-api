@@ -91,7 +91,6 @@ public class LoginIntegrationTests : IClassFixture<WebApplicationFactory<Program
         var responseAndContent = await response.Content.ReadAsStringAsync();
         Assert.Contains("token", responseAndContent.ToLower());
         
-        // Output result for user visibility
-        Console.WriteLine(responseAndContent);
+
     }
 }

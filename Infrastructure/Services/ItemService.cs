@@ -463,9 +463,8 @@ namespace Infrastructure.Services
                     .OrderBy(x => x.ExpirDt)
                     .ToListAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"Error in GetItemBatchesAsync: {ex.Message}");
                 return new List<vewItmBatch>();
             }
         }

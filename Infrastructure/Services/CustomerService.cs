@@ -1,4 +1,4 @@
-using Application.DTOs.Customers;
+﻿using Application.DTOs.Customers;
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Context;
@@ -148,7 +148,7 @@ public class CustomerService
     }
 
     // -------------------------------------------------------
-    // Helpers � add these inside the CustomerService class
+    // Helpers — add these inside the CustomerService class
     // -------------------------------------------------------
 
     private async Task TestTcpConnectionAsync(string connectionString, string callerMethod)
@@ -416,7 +416,6 @@ public class CustomerService
 
     public async Task UpdateCustomerAsync(UpdateCustomerAddressDto dto)
     {
-        Console.WriteLine("Function started for updating customer address..............");
 
         // Email validation
         if (!string.IsNullOrWhiteSpace(dto.EMail))

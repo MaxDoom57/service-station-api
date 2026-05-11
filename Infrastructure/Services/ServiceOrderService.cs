@@ -220,14 +220,8 @@ namespace Infrastructure.Services
                             var customerName = account?.AccNm ?? "Customer";
                             var dateTime = AppTime.Now.ToString("yyyy-MM-dd HH:mm");
                             var sms = $"Dear {customerName},\n" +
-                                      $"Your vehicle has been successfully received for service and a service order has been created.\n\n" +
-                                      $"Vehicle No: {dto.VehicleId}\n" +
-                                      $"Service Order No: {order.ServiceOrdNo}\n" +
-                                      $"Date & Time: {dateTime}\n\n" +
-                                      $"Our team has started the initial inspection and will keep you informed of any updates.\n\n" +
-                                      $"Thank you for choosing us.\n" +
-                                      $"Best regards,\n" +
-                                      $"HATCS";
+                                      $"We are pleased to confirm that your vehicle {dto.VehicleId} has been received, and the service order has been initiated.\n" +
+                                      $"Thank you. - {_smsService.SmsCompanyName}";
                             _ = _smsService.SendAsync(adr.TP1, sms);
                         }
                     }
@@ -435,16 +429,10 @@ namespace Infrastructure.Services
                                 .Where(d => d.ServiceOrdKy == order.ServiceOrdKy && d.IsApproved)
                                 .SumAsync(d => (decimal?)d.Price) ?? 0;
                             var dateTime = AppTime.Now.ToString("yyyy-MM-dd HH:mm");
-                            var sms = $"Dear {customerName},\n\n" +
-                                      $"Your service has been successfully completed.\n\n" +
-                                      $"Service Order No: {order.ServiceOrdNo}\n" +
-                                      $"Date & Time: {dateTime}\n" +
-                                      $"Invoice No: {invoiceNo}\n" +
-                                      $"Total Amount: Rs. {totalAmount:N2}\n\n" +
-                                      $"We appreciate your trust in our service. If you have any questions or need further assistance, feel free to contact us.\n\n" +
-                                      $"Thank you again for your business.\n" +
-                                      $"Best regards,\n" +
-                                      $"HATCS";
+                            var vehicle = await db.Vehicles.FindAsync(order.VehicleKy);
+                            var sms = $"Dear {customerName},\n" +
+                                      $"Your vehicle {vehicle?.VehicleId ?? ""} service is now complete.\n" +
+                                      $"Thank you for choosing {_smsService.SmsCompanyName}.";
                             _ = _smsService.SendAsync(adr.TP1, sms);
                         }
                     }
