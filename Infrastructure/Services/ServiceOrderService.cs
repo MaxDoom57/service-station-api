@@ -126,7 +126,13 @@ namespace Infrastructure.Services
                     else
                     {
                         // Manual item flow: use dto.Items
-                        foreach (var inputItem in dto.Items!)
+                        if (dto.Items == null || dto.Items.Count == 0)
+                        {
+                            result = (false, "Please provide either a Package or at least one Service Item.", 0);
+                            return;
+                        }
+
+                        foreach (var inputItem in dto.Items)
                         {
                             var itmMas = await db.ItmMas.FirstOrDefaultAsync(x => x.ItmKy == inputItem.ItmKy && !x.fInAct);
                             if (itmMas == null)
@@ -412,6 +418,13 @@ namespace Infrastructure.Services
 
                 if (dto.Status == "Finish" && order.OrdKy.HasValue)
                 {
+                    var ordMas = await db.OrdMas.FirstOrDefaultAsync(x => x.OrdKy == order.OrdKy.Value);
+                    if (ordMas != null)
+                    {
+                        ordMas.fFinish = true;
+                        await db.SaveChangesAsync();
+                    }
+
                     await SyncToTrnMas(db, order.OrdKy.Value, userKey);
 
                     // Send SMS: Order Finalized / TrnMas saved
@@ -423,7 +436,6 @@ namespace Infrastructure.Services
                         {
                             var account = await db.Account.FindAsync(order.AccKy);
                             var customerName = account?.AccNm ?? "Customer";
-                            var ordMas = await db.OrdMas.FirstOrDefaultAsync(x => x.OrdKy == order.OrdKy.Value);
                             var invoiceNo = ordMas?.DocNo ?? order.ServiceOrdNo;
                             var totalAmount = await db.ServiceOrderDetail
                                 .Where(d => d.ServiceOrdKy == order.ServiceOrdKy && d.IsApproved)
