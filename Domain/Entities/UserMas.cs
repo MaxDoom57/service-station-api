@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 namespace Domain.Entities
 {
     [Table("UsrMas")]
+    /// <summary>
+    /// UsrMas class.
+    /// </summary>
     public class UsrMas
     {
         [Key]

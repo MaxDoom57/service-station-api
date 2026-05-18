@@ -8,6 +8,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/serviceorder")]
     [AllowAnonymous]
+    /// <summary>
+    /// ServiceOrderController class.
+    /// </summary>
     public class ServiceOrderController : ControllerBase
     {
         private readonly ServiceOrderService _service;

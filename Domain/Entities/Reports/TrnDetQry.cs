@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace POS.Core.Entities.Reports
 {
     [Table("TrnDetQry")]
+    /// <summary>
+    /// TrnDetQry class.
+    /// </summary>
     public class TrnDetQry
     {
         public DateTime TrnDt { get; set; }

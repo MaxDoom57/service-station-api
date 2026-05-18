@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +7,9 @@ using Application.Interfaces;
 
 namespace Infrastructure.Helpers
 {
+    /// <summary>
+    /// UserRequestContext class.
+    /// </summary>
     public class UserRequestContext : IUserRequestContext
     {
         public string UserId { get; set; }

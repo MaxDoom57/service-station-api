@@ -8,6 +8,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/bay")]
     [AllowAnonymous]
+    /// <summary>
+    /// BayController class.
+    /// </summary>
     public class BayController : ControllerBase
     {
         private readonly BayService _service;
@@ -40,7 +43,7 @@ namespace Api.Controllers
             {
                 var result = await _service.AddBayAsync(dto);
                 if (!result.success) return BadRequest(result.message);
-                
+
                 return CreatedAtAction(nameof(GetBays), new { message = result.message });
             }
             catch (Exception ex)
@@ -53,12 +56,12 @@ namespace Api.Controllers
         public async Task<IActionResult> UpdateBay([FromBody] UpdateBayDto dto)
         {
              if (!ModelState.IsValid) return BadRequest("Invalid details");
- 
+
              try
              {
                 var result = await _service.UpdateBayAsync(dto);
                 if (!result.success) return BadRequest(result.message);
-    
+
                 return Ok(result.message);
              }
              catch (Exception ex)
@@ -74,7 +77,7 @@ namespace Api.Controllers
             {
                 var result = await _service.DeleteBayAsync(bayKy);
                 if (!result.success) return BadRequest(result.message);
-    
+
                 return Ok(result.message);
             }
             catch (Exception ex)

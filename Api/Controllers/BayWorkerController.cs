@@ -8,6 +8,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/bayworker")]
     [Authorize]
+    /// <summary>
+    /// BayWorkerController class.
+    /// </summary>
     public class BayWorkerController : ControllerBase
     {
         private readonly BayWorkerService _service;

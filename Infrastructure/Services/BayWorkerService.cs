@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// BayWorkerService class.
+    /// </summary>
     public class BayWorkerService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -39,7 +42,7 @@ namespace Infrastructure.Services
                 // Check if already assigned and active
                 var existing = await db.BayWorkers
                     .FirstOrDefaultAsync(w => w.BayKy == dto.BayKy && w.UsrKy == dto.UsrKy && !w.fInAct);
-                
+
                 if (existing != null)
                     return (false, "Worker is already assigned to this bay", existing.BayWorkerKy);
 
@@ -70,7 +73,7 @@ namespace Infrastructure.Services
         public async Task<List<BayWorkerDto>> GetAllWorkersAsync()
         {
             using var db = await _factory.CreateDbContextAsync();
-            
+
             var query = from w in db.BayWorkers
                         join b in db.Bays on w.BayKy equals b.BayKy
                         join u in db.UsrMas on w.UsrKy equals u.UsrKy

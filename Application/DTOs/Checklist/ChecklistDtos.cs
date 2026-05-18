@@ -2,6 +2,9 @@ using System;
 
 namespace Application.DTOs.Checklist
 {
+    /// <summary>
+    /// ChecklistItemDto class.
+    /// </summary>
     public class ChecklistItemDto
     {
         public short CdKy { get; set; }

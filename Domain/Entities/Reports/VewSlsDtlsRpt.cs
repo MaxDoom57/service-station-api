@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace POS.Core.Entities.Reports
 {
     [Table("vewSlsDtlsRpt")]
+    /// <summary>
+    /// VewSlsDtlsRpt class.
+    /// </summary>
     public class VewSlsDtlsRpt
     {
         [Key]

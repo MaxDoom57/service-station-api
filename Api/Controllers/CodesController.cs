@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Codes;
+using Application.DTOs.Codes;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +8,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/code")]
     [Authorize]
+    /// <summary>
+    /// CodesController class.
+    /// </summary>
     public class CodesController : ControllerBase
     {
         private readonly CodeService _service;

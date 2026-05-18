@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// ChecklistService class.
+    /// </summary>
     public class ChecklistService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -20,7 +23,7 @@ namespace Infrastructure.Services
         public async Task<List<ChecklistItemDto>> GetChecklistItemsAsync()
         {
             using var db = await _factory.CreateDbContextAsync();
-            
+
             var items = await db.CdMas
                 .Where(c => c.ConCd == "SvsList" && !c.fInAct)
                 .Select(c => new ChecklistItemDto

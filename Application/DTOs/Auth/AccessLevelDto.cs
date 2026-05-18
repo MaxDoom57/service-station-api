@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Auth
 {
+    /// <summary>
+    /// AccessLevelDto class.
+    /// </summary>
     public class AccessLevelDto
     {
         public bool fAcs { get; set; }

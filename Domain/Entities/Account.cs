@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class Account
+    /// <summary>
+    /// Account class.
+    /// </summary>
+    public class Account
 {
     [Key]
     public int AccKy { get; set; }

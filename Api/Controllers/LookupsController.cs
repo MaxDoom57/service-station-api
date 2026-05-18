@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Lookups;
+using Application.DTOs.Lookups;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +8,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/lookups")]
     [Authorize]
+    /// <summary>
+    /// LookupsController class.
+    /// </summary>
     public class LookupsController : ControllerBase
     {
         private readonly LookupService _service;

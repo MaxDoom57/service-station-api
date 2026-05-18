@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// OrdNoLst class.
+    /// </summary>
     public class OrdNoLst
     {
         [Key]

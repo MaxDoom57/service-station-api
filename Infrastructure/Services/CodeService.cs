@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Codes;
+using Application.DTOs.Codes;
 using Application.DTOs.Lookups;
 using Application.Interfaces;
 using Domain.Entities;
@@ -9,6 +9,9 @@ using System.Data;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// CodeService class.
+    /// </summary>
     public class CodeService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -59,7 +62,7 @@ namespace Infrastructure.Services
             short conKy = await _lookup.GetCodeTypeKeyAsync(request.ConCd);
             using var cmd = conn.CreateCommand();
             cmd.CommandText = @"
-                Select 
+                Select
                     Code,
                     CdNm,
                     CdKy,
@@ -119,7 +122,7 @@ namespace Infrastructure.Services
                     throw new InvalidOperationException("Code already exists for this code type.");
             }
 
-            // 3️⃣ Insert
+            // 3?? Insert
             using var cmd = conn.CreateCommand();
             cmd.CommandText = @"
                 INSERT INTO CdMas (CKy, Code, CdNm, ConCd, ConKy)
@@ -148,7 +151,7 @@ namespace Infrastructure.Services
             using var conn = db.Database.GetDbConnection();
             await conn.OpenAsync();
 
-            // 1️⃣ Check record exists
+            // 1?? Check record exists
             short conKy;
             using (var getCmd = conn.CreateCommand())
             {
@@ -162,7 +165,7 @@ namespace Infrastructure.Services
                 conKy = Convert.ToInt16(result);
             }
 
-            // 2️⃣ Check duplicate Code (exclude current)
+            // 2?? Check duplicate Code (exclude current)
             using (var chkCmd = conn.CreateCommand())
             {
                 chkCmd.CommandText = @"
@@ -182,11 +185,11 @@ namespace Infrastructure.Services
                     throw new InvalidOperationException("Another code with the same value already exists.");
             }
 
-            // 3️⃣ Update
+            // 3?? Update
             using var cmd = conn.CreateCommand();
             cmd.CommandText = @"
                 UPDATE CdMas
-                SET 
+                SET
                     Code = @Code,
                     CdNm = @CdNm,
                     fInAct = @fInAct

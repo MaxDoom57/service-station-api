@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// SvschkList class.
+    /// </summary>
     public class SvschkList
     {
         [Key]

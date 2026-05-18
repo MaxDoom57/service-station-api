@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// vewStkDedHdr class.
+    /// </summary>
     public class vewStkDedHdr
     {
         public short LocKy { get; set; }

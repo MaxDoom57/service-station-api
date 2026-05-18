@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// vewPOHdr class.
+    /// </summary>
     public class vewPOHdr
     {
         [MaxLength(15)]

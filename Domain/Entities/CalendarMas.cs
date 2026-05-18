@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Domain.Entities
 {
     [Table("CalendarMas")]
+    /// <summary>
+    /// CalendarMas class.
+    /// </summary>
     public class CalendarMas
     {
         [Key]

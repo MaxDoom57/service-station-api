@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// UserKeyService class.
+    /// </summary>
     public class UserKeyService : IUserKeyService
     {
         private readonly IDynamicDbContextFactory _factory;

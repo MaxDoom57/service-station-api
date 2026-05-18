@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// vewOrdNo class.
+    /// </summary>
     public class vewOrdNo
     {
         public short CKy { get; set; }

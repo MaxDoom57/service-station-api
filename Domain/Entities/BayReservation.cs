@@ -4,15 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// BayReservation class.
+    /// </summary>
     public class BayReservation
     {
         [Key]
         public int ResKy { get; set; }
 
         public int BayKy { get; set; } // FK to Bay
-        
+
         public int? ReservationMasKy { get; set; } // FK to ReservationMas (optional)
-        
+
         public int? VehicleKy { get; set; } // FK to Vehicle
 
         public DateTime FromDtm { get; set; } // Start Time
@@ -23,7 +26,7 @@ namespace Domain.Entities
 
         // Status: 'Pending', 'Approved', 'Cancelled', 'Completed'
         [MaxLength(20)]
-        public string ResStatus { get; set; } 
+        public string ResStatus { get; set; }
 
         public bool fInAct { get; set; } // Soft Delete
 

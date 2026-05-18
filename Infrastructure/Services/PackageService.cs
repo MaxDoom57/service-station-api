@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// PackageService class.
+    /// </summary>
     public class PackageService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -25,10 +28,10 @@ namespace Infrastructure.Services
         public async Task<List<PackageDto>> GetPackagesAsync()
         {
             using var db = await _factory.CreateDbContextAsync();
-            
+
             // Get CKy from context or assume logic
             // Assuming we filter by Current Company and ConCd='OrdTyp' and only active
-            
+
             return await db.CdMas
                 .Where(x => x.ConCd == "OrdTyp" && !x.fInAct)
                 .Select(x => new PackageDto
@@ -46,32 +49,32 @@ namespace Infrastructure.Services
             try
             {
                 using var db = await _factory.CreateDbContextAsync();
-                
+
                 // Validation: Check if Code exists
                 if (await db.CdMas.AnyAsync(x => x.ConCd == "OrdTyp" && x.Code == dto.Code && !x.fInAct))
                      return (false, "Package Code already exists");
-                     
+
                 var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, 1);
                 if (userKey == null) return (false, "User key not found");
 
                 // We need to determine ConKy for "OrdTyp". Usually this is a constant or looked up from another table (Control or similar).
                 // user request says "use cdMas table and return items which conCd='OrdTyp'".
-                // Assuming for insertion we just set ConCd = "OrdTyp". 
+                // Assuming for insertion we just set ConCd = "OrdTyp".
                 // BUT ConKy is NOT NULL in table definition. We must find the ConKy for "OrdTyp".
-                // Typically "OrdTyp" concept itself might be in CdMas or another table. 
+                // Typically "OrdTyp" concept itself might be in CdMas or another table.
                 // If I look at existing records (conceptually), they share the same ConKy.
                 // I'll try to find an existing record with ConCd="OrdTyp" to copy its ConKy.
-                
+
                 var existingOrdTyp = await db.CdMas.FirstOrDefaultAsync(x => x.ConCd == "OrdTyp");
                 short conKy = existingOrdTyp?.ConKy ?? 1; // Fallback to 1 if not string. Ideally should fail or look up properly.
-                
-                // Or maybe ConKy IS related to "OrdTyp" key itself if "OrdTyp" is a concept. 
+
+                // Or maybe ConKy IS related to "OrdTyp" key itself if "OrdTyp" is a concept.
                 // For now, I will use logic to find existing ConKy.
 
                 var package = new CdMas
                 {
                     CKy = (short)_userContext.CompanyKey,
-                    ConKy = conKy, 
+                    ConKy = conKy,
                     Code = dto.Code,
                     CdNm = dto.CdNm,
                     ConCd = "OrdTyp",
@@ -79,7 +82,7 @@ namespace Infrastructure.Services
                     fApr = 1,
                     EntUsrKy = userKey.Value,
                     EntDtm = AppTime.Now,
-                    // Defaulting mandatory fields based on schema 
+                    // Defaulting mandatory fields based on schema
                     // Many fields are NO null. I should set defaults.
                     fCtrlCd = false,
                     CtrlCdKy = 1, // Default?
@@ -115,13 +118,13 @@ namespace Infrastructure.Services
             {
                 using var db = await _factory.CreateDbContextAsync();
                 var package = await db.CdMas.FindAsync((short)dto.CdKy.Value);
-                
+
                 if (package == null) return (false, "Package not found");
 
                 package.Code = dto.Code;
                 package.CdNm = dto.CdNm;
                  // Update other fields if necessary
-                 
+
                 await db.SaveChangesAsync();
                 return (true, "Package updated successfully");
             }
@@ -137,12 +140,12 @@ namespace Infrastructure.Services
             {
                 using var db = await _factory.CreateDbContextAsync();
                 var package = await db.CdMas.FindAsync((short)cdKy);
-                 
+
                 if (package == null) return (false, "Package not found");
-                 
+
                 package.fInAct = true;
                 await db.SaveChangesAsync();
-                
+
                 return (true, "Package deleted successfully");
             }
             catch (Exception ex)
@@ -201,7 +204,7 @@ namespace Infrastructure.Services
                             ItmNm = i.ItmNm,
                             Time = i.Des,
                             // Casting handled safely
-                            SlsPri = (decimal?)i.SlsPri 
+                            SlsPri = (decimal?)i.SlsPri
                         }).ToList()
                 })
                 .ToListAsync();

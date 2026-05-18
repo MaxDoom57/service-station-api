@@ -1,5 +1,8 @@
 namespace Application.DTOs.Agent
 {
+    /// <summary>
+    /// AgentJobDto class.
+    /// </summary>
     public class AgentJobDto
     {
         public Guid JobId { get; set; }

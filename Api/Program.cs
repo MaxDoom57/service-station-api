@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+using System.Threading;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -110,6 +110,34 @@ builder.Services.AddAuthentication("Bearer")
 
 var app = builder.Build();
 
+// --- QUICK REQUEST COUNTER (Can be removed easily) ---
+app.Use(async (context, next) =>
+{
+    if (!context.Request.Path.StartsWithSegments("/api/request-count"))
+    {
+        Interlocked.Increment(ref RequestCounter.Count);
+    }
+    await next(context);
+});
+
+app.MapGet("/api/request-count", () => 
+{
+    return Results.Ok(new 
+    { 
+        TotalRequests = RequestCounter.Count, 
+        StartedAt = RequestCounter.StartTime,
+        RunningTime = DateTime.UtcNow - RequestCounter.StartTime
+    });
+});
+
+app.MapPost("/api/request-count/reset", () => 
+{
+    Interlocked.Exchange(ref RequestCounter.Count, 0);
+    RequestCounter.StartTime = DateTime.UtcNow;
+    return Results.Ok("Counter reset successfully.");
+});
+// -----------------------------------------------------
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -136,3 +164,11 @@ app.MapControllers();
 app.Run();
 
 public partial class Program { }
+
+// --- QUICK REQUEST COUNTER CLASS (Can be removed easily) ---
+public static class RequestCounter
+{
+    public static int Count = 0;
+    public static DateTime StartTime = DateTime.UtcNow;
+}
+// -----------------------------------------------------------

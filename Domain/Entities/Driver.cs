@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// Driver class.
+    /// </summary>
     public class Driver
     {
         [Key]

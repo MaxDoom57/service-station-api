@@ -1,5 +1,8 @@
 namespace Application.DTOs.Vehicle
 {
+    /// <summary>
+    /// VehicleOwnerDto class.
+    /// </summary>
     public class VehicleOwnerDto
     {
         public int VehicleKy { get; set; }

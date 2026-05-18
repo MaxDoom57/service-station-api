@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Application.DTOs.Invoice
 {
+    /// <summary>
+    /// InvoiceDto class.
+    /// </summary>
     public class InvoiceDto
     {
         public string? DocNo { get; set; }

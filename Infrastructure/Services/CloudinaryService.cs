@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// CloudinaryService class.
+    /// </summary>
     public class CloudinaryService : ICloudinaryService
     {
         private readonly Cloudinary _cloudinary;
@@ -29,8 +32,8 @@ namespace Infrastructure.Services
                 return (null, null);
 
             // Ensure the base64 string has the correct Data URI scheme prefix required by Cloudinary
-            string dataUri = base64Image.StartsWith("data:image") 
-                ? base64Image 
+            string dataUri = base64Image.StartsWith("data:image")
+                ? base64Image
                 : $"data:image/png;base64,{base64Image}";
 
             var uploadParams = new ImageUploadParams()

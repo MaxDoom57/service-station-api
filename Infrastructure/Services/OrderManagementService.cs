@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// OrderManagementService class.
+    /// </summary>
     public class OrderManagementService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -288,7 +291,7 @@ namespace Infrastructure.Services
         public async Task<(bool success, string message)> DeleteOrderAsync(int ordKy)
         {
             using var db = await _factory.CreateDbContextAsync();
-            
+
             try
             {
                 var order = await db.OrdMas.FindAsync(ordKy);

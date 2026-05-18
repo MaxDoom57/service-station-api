@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Auth;
+using Application.DTOs.Auth;
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Context;
@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// LoginService class.
+    /// </summary>
     public class LoginService : ILoginService
     {
         private readonly IUserRepository _userRepository;

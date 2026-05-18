@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// VehicleTypeService class.
+    /// </summary>
     public class VehicleTypeService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -26,7 +29,7 @@ namespace Infrastructure.Services
         public async Task<List<VehicleTypeDto>> GetVehicleTypesAsync()
         {
             using var db = await _factory.CreateDbContextAsync();
-            
+
             return await db.CdMas
                 .Where(x =>  x.ConCd == ConCd && !x.fInAct)
                 .Select(x => new VehicleTypeDto
@@ -41,13 +44,13 @@ namespace Infrastructure.Services
         public async Task<(bool success, string message)> AddVehicleTypeAsync(CreateVehicleTypeDto dto)
         {
             using var db = await _factory.CreateDbContextAsync();
-            
+
             try
             {
                 // Validation
                 if (await db.CdMas.AnyAsync(x => x.CKy == _userContext.CompanyKey && x.ConCd == ConCd && x.Code == dto.Code && !x.fInAct))
                      return (false, "Vehicle Type Code already exists");
-                     
+
                 var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
                 if (userKey == null) return (false, "User key not found");
 
@@ -60,7 +63,7 @@ namespace Infrastructure.Services
                 var vehicleType = new CdMas
                 {
                     CKy = (short)_userContext.CompanyKey,
-                    ConKy = conKy, 
+                    ConKy = conKy,
                     Code = dto.Code,
                     CdNm = dto.CdNm,
                     ConCd = ConCd,
@@ -96,12 +99,12 @@ namespace Infrastructure.Services
             {
                 using var db = await _factory.CreateDbContextAsync();
                 var vt = await db.CdMas.FindAsync((short)dto.CdKy.Value);
-                
+
                 if (vt == null) return (false, "Vehicle Type not found");
 
                 vt.Code = dto.Code;
                 vt.CdNm = dto.CdNm;
-                 
+
                 await db.SaveChangesAsync();
                 return (true, "Vehicle Type updated successfully");
             }
@@ -117,12 +120,12 @@ namespace Infrastructure.Services
             {
                 using var db = await _factory.CreateDbContextAsync();
                 var vt = await db.CdMas.FindAsync((short)cdKy);
-                 
+
                 if (vt == null) return (false, "Vehicle Type not found");
-                 
+
                 vt.fInAct = true;
                 await db.SaveChangesAsync();
-                
+
                 return (true, "Vehicle Type deleted successfully");
             }
             catch (Exception ex)

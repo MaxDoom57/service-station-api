@@ -1,4 +1,4 @@
-﻿using Infrastructure.Services;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +7,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/[controller]")]
     [Authorize]
+    /// <summary>
+    /// SalesAccountController class.
+    /// </summary>
     public class SalesAccountController : ControllerBase
     {
         private readonly SalesAccountService _service;

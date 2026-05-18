@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace POS.Core.Entities.Reports
 {
     [Table("SetOffViewQry")]
+    /// <summary>
+    /// SetOffViewQry class.
+    /// </summary>
     public class SetOffViewQry
     {
         public DateTime? SetOffDt { get; set; }

@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// BnkMas class.
+    /// </summary>
     public class BnkMas
     {
         [Key]

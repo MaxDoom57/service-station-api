@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.Reports
 {
+    /// <summary>
+    /// vewItmMasVsf class.
+    /// </summary>
     public class vewItmMasVsf
     {
         public int Edited { get; set; }
 
         public int ItmKy { get; set; }
-        
+
         public string? Des { get; set; }
 
         public string ItmCd { get; set; } = null!;

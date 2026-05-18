@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Helpers
 {
+    /// <summary>
+    /// DynamicDbContextFactory class.
+    /// </summary>
     public class DynamicDbContextFactory : IDynamicDbContextFactory
     {
         private readonly IConfiguration _config;

@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// Units class.
+    /// </summary>
     public class Units
     {
         [Key]

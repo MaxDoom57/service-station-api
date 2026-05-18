@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs.Vehicle
 {
+    /// <summary>
+    /// CreateVehicleDto class.
+    /// </summary>
     public class CreateVehicleDto
     {
         [Required]

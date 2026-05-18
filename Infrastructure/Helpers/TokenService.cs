@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Helpers
 {
+    /// <summary>
+    /// TokenService class.
+    /// </summary>
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _config;

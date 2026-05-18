@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// AccTrn class.
+    /// </summary>
     public class AccTrn
     {
         [Key]

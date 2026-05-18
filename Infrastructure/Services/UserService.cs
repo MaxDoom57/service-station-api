@@ -1,4 +1,4 @@
-﻿using Application.DTOs.User;
+using Application.DTOs.User;
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Context;
@@ -8,6 +8,9 @@ using System.Security.Cryptography;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// UserService class.
+    /// </summary>
     public class UserService
     {
         private readonly IDynamicDbContextFactory _factory;

@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Invoice;
+using Application.DTOs.Invoice;
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Context;
@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// CustomerAccountService class.
+    /// </summary>
     public class CustomerAccountService
     {
         private readonly IDynamicDbContextFactory _factory;

@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Reports;
+using Application.DTOs.Reports;
 using Application.DTOs.Reports.Report_Account_Balance_As_At;
 using Application.DTOs.Reports.Report_Account_Ledger;
 using Application.DTOs.Reports.Report_Account_Transaction_Details;
@@ -34,6 +34,9 @@ using System.Data;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// ReportService class.
+    /// </summary>
     public class ReportService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -42,7 +45,7 @@ namespace Infrastructure.Services
         private readonly IUserKeyService _userKeyService;
         public ReportService(
             IDynamicDbContextFactory factory,
-            IUserRequestContext userContext, 
+            IUserRequestContext userContext,
             CommonLookupService lookup,
             IUserKeyService userKeyService)
         {
@@ -1839,7 +1842,7 @@ namespace Infrastructure.Services
                     x.ReOrdLvl >= x.ItmLocQty);
 
             // --------------------------------------------------
-            // Filters (Crystal RecordSelectionFormula → LINQ)
+            // Filters (Crystal RecordSelectionFormula ? LINQ)
             // --------------------------------------------------
             if (request.ItmKy.HasValue)
                 query = query.Where(x => x.ItmKy == request.ItmKy.Value);

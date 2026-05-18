@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// OtpService class.
+    /// </summary>
     public class OtpService
     {
         private readonly IMemoryCache _cache;

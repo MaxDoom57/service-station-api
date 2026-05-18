@@ -1,7 +1,10 @@
-﻿using System;
+using System;
 
 namespace Infrastructure.Context.Entities
 {
+    /// <summary>
+    /// vewObjPropDet class.
+    /// </summary>
     public class vewObjPropDet
     {
         public short CKy { get; set; }

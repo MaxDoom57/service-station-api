@@ -1,4 +1,4 @@
-﻿using Application.DTOs.ItemBatch;
+using Application.DTOs.ItemBatch;
 using Application.DTOs.Items;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +10,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/items")]
     [AllowAnonymous]
+    /// <summary>
+    /// ItemsController class.
+    /// </summary>
     public class ItemsController : ControllerBase
     {
         private readonly ItemService _service;

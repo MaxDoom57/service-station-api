@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Codes
 {
+    /// <summary>
+    /// CodeTypes class.
+    /// </summary>
     public class CodeTypes
     {
         public int ConKy { get; set; }

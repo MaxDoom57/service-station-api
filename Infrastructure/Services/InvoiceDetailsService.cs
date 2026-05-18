@@ -1,7 +1,10 @@
-﻿using Application.DTOs.Invoice;
+using Application.DTOs.Invoice;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// InvoiceDetailsService class.
+    /// </summary>
     public class InvoiceDetailsService
     {
         private readonly CustomerAccountService _customerAccountService;

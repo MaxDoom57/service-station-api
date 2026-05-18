@@ -1,4 +1,4 @@
-﻿
+
 using Application.DTOs.Package;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -10,15 +10,18 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/package")]
     [AllowAnonymous]
+    /// <summary>
+    /// PackageController class.
+    /// </summary>
     public class PackageController : ControllerBase
     {
         private readonly PackageService _service;
-        private readonly ILogger<PackageController> _logger;  
+        private readonly ILogger<PackageController> _logger;
 
-        public PackageController(PackageService service, ILogger<PackageController> logger)  
+        public PackageController(PackageService service, ILogger<PackageController> logger)
         {
             _service = service;
-            _logger = logger;  
+            _logger = logger;
         }
 
         [HttpGet]

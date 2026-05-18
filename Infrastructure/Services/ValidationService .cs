@@ -1,9 +1,12 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
+    /// <summary>
+    /// ValidationService class.
+    /// </summary>
     public class ValidationService : IValidationService
     {
         private readonly IDynamicDbContextFactory _factory;

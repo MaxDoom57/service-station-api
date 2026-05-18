@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Infrastructure.Context;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
+    /// <summary>
+    /// UserRepository class.
+    /// </summary>
     public class UserRepository : IUserRepository
     {
         private readonly MainDbContext _db;

@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace POS.Core.Entities.Reports
 {
     [Table("TransactionsQry")]
+    /// <summary>
+    /// TransactionsQry class.
+    /// </summary>
     public class TransactionsQry
     {
         public short CKy { get; set; }

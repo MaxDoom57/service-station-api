@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Stock_Addition;
+using Application.DTOs.Stock_Addition;
 using Application.DTOs.StockDeduction;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +9,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/[controller]")]
     [Authorize]
+    /// <summary>
+    /// StockController class.
+    /// </summary>
     public class StockController : ControllerBase
     {
         private readonly StockService _service;

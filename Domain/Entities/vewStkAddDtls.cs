@@ -1,37 +1,40 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// vewStkAddDtls class.
+    /// </summary>
     public class vewStkAddDtls
     {
-        public int ItmKy { get; set; }                     
+        public int ItmKy { get; set; }
 
         [MaxLength(15)]
-        public string? ItmCd { get; set; }       
+        public string? ItmCd { get; set; }
 
         [MaxLength(60)]
-        public string? ItmNm { get; set; }    
+        public string? ItmNm { get; set; }
 
         [MaxLength(15)]
-        public string? Unit { get; set; }     
+        public string? Unit { get; set; }
 
         [Column(TypeName = "money")]
-        public decimal? CosPri { get; set; }   
+        public decimal? CosPri { get; set; }
 
         [Column(TypeName = "money")]
-        public decimal? SlsPri { get; set; } 
+        public decimal? SlsPri { get; set; }
 
         [Column(TypeName = "money")]
-        public decimal? TrnPri { get; set; }  
+        public decimal? TrnPri { get; set; }
 
-        public int ItmTrnKy { get; set; }  
+        public int ItmTrnKy { get; set; }
 
-        public short UnitKy { get; set; }        
+        public short UnitKy { get; set; }
 
-        public int TrnKy { get; set; }      
+        public int TrnKy { get; set; }
 
-        public double? Qty { get; set; }     
+        public double? Qty { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.Lookups
 {
+    /// <summary>
+    /// vewItmCat1Cd class.
+    /// </summary>
     public class vewItmCat1Cd
     {
         public short ItmCat1Ky { get; set; }

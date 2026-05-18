@@ -11,6 +11,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/checklist")]
     [AllowAnonymous]
+    /// <summary>
+    /// ChecklistController class.
+    /// </summary>
     public class ChecklistController : ControllerBase
     {
         private readonly ChecklistService _service;

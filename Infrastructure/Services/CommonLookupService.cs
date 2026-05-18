@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Auth;
+using Application.DTOs.Auth;
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Context;
@@ -8,6 +8,9 @@ using System.Data;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// CommonLookupService class.
+    /// </summary>
     public class CommonLookupService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -49,7 +52,7 @@ namespace Infrastructure.Services
             if (cdMas != null)
                 return cdMas.CdKy;
 
-            // Creating a default entry for testing if not found (Only for InMemory/Test scenarios preferably, 
+            // Creating a default entry for testing if not found (Only for InMemory/Test scenarios preferably,
             // but helpful here to unblock tests where seed data might be missing)
             if (!db.Database.IsRelational())
             {
@@ -282,7 +285,7 @@ namespace Infrastructure.Services
                 Value = ourCd
             });
 
-            // @pObjNm 
+            // @pObjNm
             cmd.Parameters.Add(new SqlParameter("@pObjNm", SqlDbType.VarChar, 60)
             {
                 Value = "Amt1"

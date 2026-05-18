@@ -11,6 +11,9 @@ using System.Data;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// ItemService class.
+    /// </summary>
     public class ItemService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -20,8 +23,8 @@ namespace Infrastructure.Services
         private readonly CommonLookupService _lookup;
 
         public ItemService(
-            IDynamicDbContextFactory factory, 
-            IValidationService validator, 
+            IDynamicDbContextFactory factory,
+            IValidationService validator,
             IUserRequestContext userContext,
             IUserKeyService userKeyService,
             CommonLookupService lookup)
@@ -39,7 +42,7 @@ namespace Infrastructure.Services
         public async Task<List<ItemDto>> GetAllItemsAsync()
         {
             using var db = await _factory.CreateDbContextAsync();
-            
+
             // Join Items view with ItmMas table to get Des (Time)
             var query = from v in db.Items
                         join m in db.ItmMas on v.ItmKy equals m.ItmKy into mGroup
@@ -271,10 +274,10 @@ namespace Infrastructure.Services
                         SupAdrKy = 0,
                         PrftMrgn = 0
                     };
-                    
+
                     db.ItmMas.Add(newItem);
                     await db.SaveChangesAsync();
-                    
+
                     return (true, $"Item added successfully. ItemKey = {newItem.ItmKy}", 201);
                 }
             }

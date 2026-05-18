@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// ServiceOrderService class.
+    /// </summary>
     public class ServiceOrderService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -162,7 +165,7 @@ namespace Infrastructure.Services
 
                     // 6. Sync to OrdMas/OrdDet
                     int ordMasKy = await CreateOrdMasAndDetSync(db, order, userKey);
-                    
+
                     // Update ServiceOrder with OrdKy
                     order.OrdKy = ordMasKy;
                     await db.SaveChangesAsync();
@@ -348,7 +351,7 @@ namespace Infrastructure.Services
                     ApprovedDtm = AppTime.Now
                 };
                 db.ServiceOrderApproval.Add(approval);
-                
+
                 await db.SaveChangesAsync();
 
                 // Sync Sync to OrdDet
@@ -409,7 +412,7 @@ namespace Infrastructure.Services
             try
             {
                 order.Status = dto.Status;
-                
+
                 var userId = !string.IsNullOrEmpty(dto.UserId) ? dto.UserId : _userContext.UserId;
                 var userKey = await _userKeyService.GetUserKeyAsync(userId, 1) ?? 0;
                 order.EntUsrKy = userKey;
@@ -613,7 +616,7 @@ namespace Infrastructure.Services
                 Adrky = adrKy,
                 AccKy = so.AccKy,
                 PmtTrmKy = 1,
-                SlsPri = 0, 
+                SlsPri = 0,
                 fInAct = false,
                 fApr = 1,
                 fInv = false,
@@ -667,7 +670,7 @@ namespace Infrastructure.Services
             // Resolve Item Codes
             string itmCd = "CUSTOM";
             string des = item.ItemName;
-            
+
             if (item.ItemKy.HasValue)
             {
                 var itm = await db.ItmMas.FindAsync(item.ItemKy.Value);
@@ -707,7 +710,7 @@ namespace Infrastructure.Services
                 fVirtItm = false,
                 EntUsrKy = userKey,
                 EntDtm = AppTime.Now,
-                AdrKy = 1, 
+                AdrKy = 1,
                 BUKy = 1,
                 CdKy1 = 1,
                 Amt1 = 0,

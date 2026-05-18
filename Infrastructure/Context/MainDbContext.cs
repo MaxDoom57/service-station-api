@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Context
 {
+    /// <summary>
+    /// MainDbContext class.
+    /// </summary>
     public class MainDbContext : DbContext
     {
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)

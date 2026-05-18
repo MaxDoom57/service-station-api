@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.ItemBatch
 {
+    /// <summary>
+    /// AddItemBatchDTO class.
+    /// </summary>
     public class AddItemBatchDTO
     {
         public required int itemKey { get; set; }

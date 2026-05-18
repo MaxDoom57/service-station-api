@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Domain.Entities
 {
     [Table("ServiceStatus")]
+    /// <summary>
+    /// ServiceStatus class.
+    /// </summary>
     public class ServiceStatus
     {
         [Key]

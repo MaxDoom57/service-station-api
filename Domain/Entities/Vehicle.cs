@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// Vehicle class.
+    /// </summary>
     public class Vehicle
     {
         [Key]

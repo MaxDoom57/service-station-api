@@ -2,6 +2,9 @@ using System.Text.Json;
 
 namespace Application.DTOs.Agent
 {
+    /// <summary>
+    /// AgentJobResult class.
+    /// </summary>
     public class AgentJobResult
     {
         public bool Success { get; set; }

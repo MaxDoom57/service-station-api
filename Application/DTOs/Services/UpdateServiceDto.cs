@@ -1,5 +1,8 @@
 namespace Application.DTOs.Services
 {
+    /// <summary>
+    /// UpdateServiceDto class.
+    /// </summary>
     public class UpdateServiceDto
     {
         public int CKy { get; set; }

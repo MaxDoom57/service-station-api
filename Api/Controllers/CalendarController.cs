@@ -9,6 +9,9 @@ namespace Api.Controllers
 {
     [Route("api/ssms/v0.1/calendar")]
     [AllowAnonymous]
+    /// <summary>
+    /// CalendarController class.
+    /// </summary>
     public class CalendarController : ControllerBase
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -28,7 +31,7 @@ namespace Api.Controllers
 
                 var dates = await db.CalendarMas
                     .Where(c => c.CalDt >= today && !c.fInAct)
-                    .Select(c => new 
+                    .Select(c => new
                     {
                         Date = c.CalDt,
                         Description = c.CalDesc

@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Stock_Addition
 {
+    /// <summary>
+    /// StkAddFullResponseDTO class.
+    /// </summary>
     public class StkAddFullResponseDTO
     {
         public StkAddHeaderDTO Header { get; set; }

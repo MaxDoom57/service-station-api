@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Reports.Report_Item_Cat1_Wise_Transaction_Summary
 {
+    /// <summary>
+    /// ItmCat1WiseTrnSumRequestDto class.
+    /// </summary>
     public class ItmCat1WiseTrnSumRequestDto
     {
         public DateOnly FromDate { get; set; }

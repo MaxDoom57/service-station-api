@@ -2,6 +2,9 @@ using System;
 
 namespace Application.DTOs.Items
 {
+    /// <summary>
+    /// ItemDto class.
+    /// </summary>
     public class ItemDto
     {
         public int CKy { get; set; }

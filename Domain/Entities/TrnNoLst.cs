@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// TrnNoLst class.
+    /// </summary>
     public class TrnNoLst
     {
         [Key]

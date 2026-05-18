@@ -1,4 +1,4 @@
-﻿using Application.DTOs.User;
+using Application.DTOs.User;
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// OrderService class.
+    /// </summary>
     public class OrderService
     {
 

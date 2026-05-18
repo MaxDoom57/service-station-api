@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.Reports
 {
+    /// <summary>
+    /// LSSvewInvRpt class.
+    /// </summary>
     public class LSSvewInvRpt
     {
         public int TrnKy { get; set; }

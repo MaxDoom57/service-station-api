@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Middleware
 {
+    /// <summary>
+    /// RequestLoggingMiddleware class.
+    /// </summary>
     public class RequestLoggingMiddleware
     {
         private readonly RequestDelegate _next;
@@ -48,12 +51,12 @@ namespace Infrastructure.Middleware
                 context.Response.Body.Seek(0, SeekOrigin.Begin);
                 var responseBody = await new StreamReader(context.Response.Body).ReadToEndAsync();
                 context.Response.Body.Seek(0, SeekOrigin.Begin);
-                
+
                 await responseBodyStream.CopyToAsync(originalBodyStream);
 
-                // Log to Database using a NEW scope because the original context might be disposed or problematic in some async flows, 
+                // Log to Database using a NEW scope because the original context might be disposed or problematic in some async flows,
                 // but usually inside middleware 'Invoke', we can use the passed 'serviceProvider' to create a scope.
-                // However, we want to catch errors in logging without failing the request if possible, 
+                // However, we want to catch errors in logging without failing the request if possible,
                 // though user asked not to change logic, logging failure shouldn't crash app.
                 try
                 {
@@ -61,11 +64,11 @@ namespace Infrastructure.Middleware
                     // Middleware is singleton, dependency injection in Invoke is the way to get scoped services.
                     // But 'IDynamicDbContextFactory' might differ. Let's see how 'ReservationService' gets it.
                     // ReservationService gets 'IDynamicDbContextFactory' injected.
-                    // It seems IDynamicDbContextFactory is Singleton or Scoped. 
+                    // It seems IDynamicDbContextFactory is Singleton or Scoped.
                     // Let's resolve 'IDynamicDbContextFactory' and 'IUserRequestContext'.
 
-                    /* 
-                       Wait, to get the User Context which is likely filled during the request, 
+                    /*
+                       Wait, to get the User Context which is likely filled during the request,
                        we should use the current request services.
                     */
 

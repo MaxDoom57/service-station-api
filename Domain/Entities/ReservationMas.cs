@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// ReservationMas class.
+    /// </summary>
     public class ReservationMas
     {
         [Key]

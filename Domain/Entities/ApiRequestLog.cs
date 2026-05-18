@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Domain.Entities
 {
     [Table("ApiRequestLog")]
+    /// <summary>
+    /// ApiRequestLog class.
+    /// </summary>
     public class ApiRequestLog
     {
         [Key]
@@ -18,7 +21,7 @@ namespace Domain.Entities
         public string? ResponseBody { get; set; } // Optional, "what done"
         public DateTime RequestTime { get; set; }
         public long DurationMs { get; set; }
-        public int? UserId { get; set; } 
+        public int? UserId { get; set; }
         public int? CompanyKey { get; set; }
     }
 }

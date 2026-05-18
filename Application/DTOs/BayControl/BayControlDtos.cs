@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs.BayControl
 {
+    /// <summary>
+    /// AvailableBayDto class.
+    /// </summary>
     public class AvailableBayDto
     {
         public int BayKy { get; set; }
@@ -39,7 +42,7 @@ namespace Application.DTOs.BayControl
         public int BayKy { get; set; }
         public string BayNm { get; set; }
         public int? VehicleKy { get; set; }
-        
+
         // Let's add VehicleId if possible, but basic DTO first
         public DateTime FromDtm { get; set; }
         public DateTime ToDtm { get; set; }

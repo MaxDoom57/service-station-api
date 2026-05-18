@@ -1,11 +1,14 @@
-﻿using Application.DTOs.Customers;
+using Application.DTOs.Customers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
     [Route("api/ssms/v0.1/[controller]")]
 [Authorize]
-public class CustomerController : ControllerBase
+    /// <summary>
+    /// CustomerController class.
+    /// </summary>
+    public class CustomerController : ControllerBase
 {
     private readonly CustomerService _service;
 

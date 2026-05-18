@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Reports.Report_Stock_Movement
 {
+    /// <summary>
+    /// StockMovementSummaryRowDto class.
+    /// </summary>
     public class StockMovementSummaryRowDto
     {
         public int ItmKy { get; set; }

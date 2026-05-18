@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Reports.Report_Stock_As_At
 {
+    /// <summary>
+    /// StockAsAtRowDto class.
+    /// </summary>
     public class StockAsAtRowDto
     {
         public string ItmCd { get; set; } = "";

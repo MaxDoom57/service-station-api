@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs.Bay
 {
+    /// <summary>
+    /// BayDto class.
+    /// </summary>
     public class BayDto
     {
         public int BayKy { get; set; }

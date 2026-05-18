@@ -4,13 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// ServiceOrder class.
+    /// </summary>
     public class ServiceOrder
     {
         [Key]
         public int ServiceOrdKy { get; set; }
 
         [MaxLength(20)]
-        public string ServiceOrdNo { get; set; } 
+        public string ServiceOrdNo { get; set; }
 
         public int VehicleKy { get; set; }
         public int AccKy { get; set; } // Customer Account
@@ -18,10 +21,10 @@ namespace Domain.Entities
         public int BayKy { get; set; }
 
         public float? CurrentMileage { get; set; }
-        
+
         [MaxLength(500)]
         public string? DamageNote { get; set; }
-        
+
         [MaxLength(500)]
         public string? Remarks { get; set; }
 
@@ -35,6 +38,9 @@ namespace Domain.Entities
         public int? OrdKy { get; set; }
     }
 
+    /// <summary>
+    /// ServiceOrder class.
+    /// </summary>
     public class ServiceOrderDetail
     {
         [Key]
@@ -64,6 +70,9 @@ namespace Domain.Entities
         public DateTime EntDtm { get; set; }
     }
 
+    /// <summary>
+    /// ServiceOrder class.
+    /// </summary>
     public class ServiceOrderApproval
     {
         [Key]

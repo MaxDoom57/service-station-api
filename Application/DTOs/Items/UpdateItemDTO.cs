@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Items
 {
+    /// <summary>
+    /// UpdateItemDTO class.
+    /// </summary>
     public class UpdateItemDTO
     {
-        public int itemKey { get; set; }                     
+        public int itemKey { get; set; }
         public string? itemCode { get; set; }
         public string? itemType { get; set; }
         public string? partNo { get; set; }

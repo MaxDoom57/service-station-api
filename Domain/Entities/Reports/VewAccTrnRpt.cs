@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace POS.Core.Entities.Reports
 {
     [Table("vewAccTrnRpt")]
+    /// <summary>
+    /// VewAccTrnRpt class.
+    /// </summary>
     public class VewAccTrnRpt
     {
         public DateTime TrnDt { get; set; }

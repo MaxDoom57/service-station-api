@@ -1,0 +1,316 @@
+﻿# Commenting Guidelines
+
+1. **Avoid Commenting Obvious Code:** Don't explain what the code does if it's clear. Explain *why*.
+2. **Use XML Documentation for Public APIs:** Provide <summary>, <param>, and <returns> tags for all public controllers and services.
+3. **Comment Business Rules:** If there is a rule like InAct = false, explain why it's there.
+4. **Explain Non-Obvious Decisions:** Why a left join? Why a specific where clause?
+5. **Use TODO / FIXME Carefully:** Mark things that actually need future work, but keep it clean.
+6. **Keep Controllers Clean:** Controllers should stay simple, minimal comments.
+7. **Comment Complex LINQ Queries:** Explain joins and groupings.
+8. **Prefer Good Naming Over Comments:** Refactor if a name is confusing rather than commenting it.
+
+## Progress Checklist
+- [x] E:\Programming\Github\service-station-api\Api\Program.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\AuthController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\BayControlController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\BayController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\BayWorkerController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\CalendarController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\ChecklistController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\CodesController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\CustomerAccountController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\CustomerController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\InvoiceDetailsController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\ItemsController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\LookupsController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\OrderManagementController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\PackageController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\PaymentTermController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\ReportsController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\ReservationController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\SalesAccountController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\ServiceOrderController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\StockController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\UserController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\VehicleController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Controllers\VehicleTypeController.cs
+- [x] E:\Programming\Github\service-station-api\Api\Middlewares\JwtSessionMiddleware.cs
+- [x] E:\Programming\Github\service-station-api\Api\Middlewares\MockResponseMiddleware.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Agent\AgentJobDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Agent\AgentJobResult.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Agent\JobResultDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Auth\AccessLevelDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Auth\LoginRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Auth\LoginResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Bay\BayDtos.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\BayControl\BayControlDtos.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\BayWorker\BayWorkerDtos.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Checklist\ChecklistDtos.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Codes\ClUpdateCodeDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Codes\CodeByTypeDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Codes\CodeResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Codes\CodeTypes.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Codes\CreateCodeDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Codes\DeleteCodeRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Codes\GetCodesByTypeRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Customers\AddCustomerAddressDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Customers\CustomerDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Customers\UpdateCustomerAddressDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Invoice\CustomerAccountDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Invoice\GetInvoiceByIdRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Invoice\InvoiceDetailsDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Invoice\InvoiceDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Invoice\PaymentTermDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Invoice\SalesAccountDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Invoice\UpdateInvoiceDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\ItemBatch\AddItemBatchDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\ItemBatch\UpdateItemBatchDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Items\AddItemDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Items\ItemDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Items\ItemsWithoutFInActDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Items\UpdateItemDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Lookups\GetLastTrnNoRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Lookups\ItemCategory1Dto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Lookups\ItemCategory2Dto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Lookups\ItemCategory3Dto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Lookups\ItemCategory4Dto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Order\OrderDtos.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Orders\ActiveOrdersDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Package\CreatePackageDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Package\PackageDetailDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Package\PackageDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\PurchaseOrder\PurchaseOrderDetailDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\PurchaseOrder\PurchaseOrderHeaderDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\PurchaseOrder\PurchaseOrderItemDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\PurchaseOrder\PurchaseOrderResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\PurchaseOrder\PurchaseOrderSaveDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\ReportContextDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Account Balance As At\AccBalanceAsAtRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Account Balance As At\AccBalanceAsAtResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Account Balance As At\AccBalanceAsAtRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Account Ledger\AccLedgerReportRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Account Ledger\AccLedgerReportResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Account Ledger\AccLedgerReportRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Account Transaction Details\AccTrnDetailsReportRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Account Transaction Details\AccTrnDetailsReportResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Account Transaction Details\AccTrnDetailsRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Credit Sales Summary\LssCreditInvoiceSummaryRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Credit Sales Summary\LssCreditInvoiceSummaryResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Credit Sales Summary\LssCreditInvoiceSummaryRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Creditor Age Analysis\AgeAnalysisRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Creditor Age Analysis\AgeAnalysisResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Creditor Age Analysis\AgeAnalysisRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Creditors Due Statement\AgeAnalysisRow.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Creditors Due Statement\DebtorsDueStatementRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Creditors Due Statement\DebtorsDueStatementResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Creditors Due Statement\DebtorsDueStatementRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Customer Address Label\AccountAddressDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Gross Profit\GrossProfitItemLocationRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Gross Profit\GrossProfitItemLocationResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Gross Profit\GrossProfitItemLocationRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Item Batch Details\ItemBatchReportRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Item Batch Details\ItemBatchReportResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Item Batch Details\ItemBatchReportRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Item Cat1 Wise Transaction Summary\ItmCat1WiseTrnSumRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Item Cat1 Wise Transaction Summary\ItmCat1WiseTrnSumResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Item Cat1 Wise Transaction Summary\ItmCat1WiseTrnSumRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Non-Active Customer List\NonPerformedCustomerRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Non-Active Customer List\NonPerformedCustomerResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Non-Active Customer List\NonPerformedCustomerRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Non-Moving Item List\NonPerformedItemRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Non-Moving Item List\NonPerformedItemResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Non-Moving Item List\NonPerformedItemRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report ReOrder Details\ReOrderItemsRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report ReOrder Details\ReOrderItemsResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report ReOrder Details\ReOrderItemsRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Return Cheque Details\ChqReturnReportRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Return Cheque Details\ChqReturnReportResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Return Cheque Details\ChqReturnReportRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Details\SalesRepWiseCustomerRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Details\SalesRepWiseCustomerResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Details\SalesRepWiseCustomerRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Details By Item\SalesItemReportRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Details By Item\SalesItemReportResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Details By Item\SalesItemRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Details by Payment Mode\SalesDetailsByPaymentModeRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Details by Payment Mode\SalesDetailsByPaymentModeResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Details by Payment Mode\SalesDetailsByPaymentModeRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Summary By Rep\ReportSalesByRepRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Summary By Rep\ReportSalesByRepResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Summary By Rep\SalesByRepItemDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Sales Summary By Rep\SalesByRepTransactionDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report SetOff Details Report\SetOffDetailsReportRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report SetOff Details Report\SetOffDetailsReportResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report SetOff Details Report\SetOffDetailsReportRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Stock As At\StockAsAtRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Stock As At\StockAsAtResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Stock As At\StockAsAtRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Stock Ledger\StockLedgerRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Stock Ledger\StockLedgerResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Stock Ledger\StockLedgerRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Stock Movement\StockMovementSummaryRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Stock Movement\StockMovementSummaryResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Stock Movement\StockMovementSummaryRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Transaction Details\TrnDetReportRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Transaction Details\TrnDetReportResponseDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reports\Report Transaction Details\TrnDetReportRowDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reservation\OtpDtos.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Reservation\ReservationDtos.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\ServiceOrder\ServiceOrderDtos.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Services\CreateServiceDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Services\UpdateServiceDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Stock Addition\StkAddDetailDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Stock Addition\StkAddFullResponseDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Stock Addition\StkAddHeaderDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Stock Addition\StockAddPostDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\StockDeduction\StockDeductionPostDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\StockDeduction\StockDeductionUpdateDTO.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\User\ChangePasswordDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\User\CreateUserDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\User\UserLookupDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Vehicle\CreateVehicleDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Vehicle\CreateVehicleRequestDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Vehicle\DriverDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Vehicle\OwnerDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Vehicle\VehicleDetailDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Vehicle\VehicleDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Vehicle\VehicleListItemDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\Vehicle\VehicleOwnerDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\VehicleType\CreateVehicleTypeDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\DTOs\VehicleType\VehicleTypeDto.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\IAgentJobDispatcher.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\ICloudinaryService.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\ILoginService.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\ISmsService.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\ITokenActivityService.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\ITokenBlacklistService.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\ITokenService.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\IUserKeyService.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\IUserRepository.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\IUserRequestContext.cs
+- [x] E:\Programming\Github\service-station-api\Application\Interfaces\IValidationService.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Common\AgentJobStatus.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\AccAdr.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Account.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\AccTrn.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Address.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\AgentJob.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\ApiRequestLog.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Bay.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\BayControl.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\BayReservation.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\BayWorker.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\BnkMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\CalendarMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\CdMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Company.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Control.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\CusItm.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Customer.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\CustomerAccount.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\DbCredential.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Driver.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Item.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\ItmBatch.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\ItmMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\ItmTrn.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\ObjMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\OrdDet.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\OrdImg.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\OrdMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\OrdNoLst.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\PaymentTerm.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\ReservationMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\SalesAccount.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\ServiceOrderEntities.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\ServiceStatus.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\SvschkList.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\TrnMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\TrnNoLst.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Units.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\UserMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\UsrObj.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Vehicle.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\VehicleDriver.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewCdMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewGRNDtls.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewGRNHdr.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewItmBatch.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewOrdNo.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewPmtTrmToPrmMode.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewPODtls.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewPOHdr.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewPURRTNDtls.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewPURRTNHdr.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewStkAddDtls.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewStkAddHdr.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewStkDedDtls.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewStkDedHdr.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewTrnMas.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewTrnNo.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\vewTrnTypCd.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Lookups\vewItmCat1Cd.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Lookups\vewItmCat2Cd.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Lookups\vewItmCat3Cd.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Lookups\vewItmCat4Cd.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\LSSvewInvRpt.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\SetOffViewQry.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\TransactionsQry.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\TrnDetQry.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\vewAccAdrDet.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\VewAccTrnRpt.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\vewAdrDet.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\VewChqRtnDet.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\vewItmBatchRpt.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\vewItmMasVsf.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\vewObjPropDet.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\vewReOrdDet.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\vewSlsDetByPmtTrm.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\vewSlsDtls.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\VewSlsDtlsRpt.cs
+- [x] E:\Programming\Github\service-station-api\Domain\Entities\Reports\vewStkCurQtyRpt.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Context\DynamicDbContext.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Context\MainDbContext.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Helpers\DynamicDbContextFactory.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Helpers\TokenService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Helpers\UserRequestContext.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Interfaces\IDynamicDbContextFactory.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Middleware\RequestLoggingMiddleware.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Repository\UserRepository.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\AgentTokenService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\BayControlService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\BayService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\BayWorkerService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\ChecklistService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\CloudinaryService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\CodeService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\CommonLookupService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\CustomerAccountService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\CustomerService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\InvoiceDetailsService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\ItemService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\LoginService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\LookupService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\OrderManagementService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\OrderService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\OtpService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\PackageService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\PaymentTermService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\PurchaseOrderService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\ReportService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\ReservationService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\SalesAccountService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\ServiceOrderService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\SmsService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\StockService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\TokenActivityService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\TokenBlacklistService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\UserKeyService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\UserService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\ValidationService .cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\VehicleService.cs
+- [x] E:\Programming\Github\service-station-api\Infrastructure\Services\VehicleTypeService.cs
+- [x] E:\Programming\Github\service-station-api\Shared\AppTime.cs
+- [x] E:\Programming\Github\service-station-api\Shared\Constants\AgentJobTypes.cs
+- [x] E:\Programming\Github\service-station-api\Shared\Utilities\PasswordHasher.cs
+

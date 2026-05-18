@@ -8,6 +8,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/vehicletype")]
     [AllowAnonymous]
+    /// <summary>
+    /// VehicleTypeController class.
+    /// </summary>
     public class VehicleTypeController : ControllerBase
     {
         private readonly VehicleTypeService _service;
@@ -38,7 +41,7 @@ namespace Api.Controllers
 
             var result = await _service.AddVehicleTypeAsync(dto);
             if (!result.success) return BadRequest(result.message);
-            
+
             return CreatedAtAction(nameof(GetVehicleTypes), new { message = result.message });
         }
 

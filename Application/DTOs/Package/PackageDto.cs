@@ -1,5 +1,8 @@
 namespace Application.DTOs.Package
 {
+    /// <summary>
+    /// PackageDto class.
+    /// </summary>
     public class PackageDto
     {
         public int CdKy { get; set; }

@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace POS.Core.Entities.Reports
 {
     [Table("vewChqRtnDet")]
+    /// <summary>
+    /// VewChqRtnDet class.
+    /// </summary>
     public class VewChqRtnDet
     {
         public int TrnKy { get; set; }

@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// BayService class.
+    /// </summary>
     public class BayService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -49,15 +52,15 @@ namespace Infrastructure.Services
         public async Task<(bool success, string message)> AddBayAsync(CreateBayDto dto)
         {
             using var db = await _factory.CreateDbContextAsync();
-            
+
             try
             {
                 if (await db.Bays.AnyAsync(x => x.BayCd == dto.BayCd && !x.fInAct))
                      return (false, "Bay Code already exists");
-                     
+
                 var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
                 if (userKey == null) return (false, "User key not found");
-    
+
                 var bay = new Bay
                 {
                     CKy = (short)_userContext.CompanyKey,
@@ -69,7 +72,7 @@ namespace Infrastructure.Services
                     EntUsrKy = userKey.Value,
                     EntDtm = AppTime.Now
                 };
-    
+
                 db.Bays.Add(bay);
                 await db.SaveChangesAsync();
                 return (true, "Bay added successfully");
@@ -86,15 +89,15 @@ namespace Infrastructure.Services
             try
             {
                 var bay = await db.Bays.FindAsync(dto.BayKy);
-                
+
                 if (bay == null) return (false, "Bay not found");
                 //if (bay.CKy != _userContext.CompanyKey) return (false, "Unauthorized access to this Bay");
-    
+
                 bay.BayCd = dto.BayCd;
                 bay.BayNm = dto.BayNm;
                 bay.IsReservationAvailable = dto.IsReservationAvailable;
                 bay.Description = dto.Description;
-                 
+
                 await db.SaveChangesAsync();
                 return (true, "Bay updated successfully");
             }
@@ -110,13 +113,13 @@ namespace Infrastructure.Services
             try
             {
                 var bay = await db.Bays.FindAsync(bayKy);
-                 
+
                 if (bay == null) return (false, "Bay not found");
                 //if (bay.CKy != _userContext.CompanyKey) return (false, "Unauthorized access to this Bay");
-    
+
                 bay.fInAct = true;
                 await db.SaveChangesAsync();
-                
+
                 return (true, "Bay deleted successfully");
             }
             catch (Exception ex)

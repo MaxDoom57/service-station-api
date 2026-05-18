@@ -8,6 +8,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/reservation")]
     [AllowAnonymous]
+    /// <summary>
+    /// ReservationController class.
+    /// </summary>
     public class ReservationController : ControllerBase
     {
         private readonly ReservationService _service;

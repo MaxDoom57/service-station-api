@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace Api.Middlewares
 {
+    /// <summary>
+    /// JwtSessionMiddleware class.
+    /// </summary>
     public class JwtSessionMiddleware
     {
         private readonly RequestDelegate _next;

@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs.Package
 {
+    /// <summary>
+    /// CreatePackageDto class.
+    /// </summary>
     public class CreatePackageDto
     {
         public int? CdKy { get; set; } // For Update

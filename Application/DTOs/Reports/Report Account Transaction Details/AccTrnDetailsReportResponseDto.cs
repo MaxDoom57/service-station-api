@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Reports.Report_Account_Transaction_Details
 {
+    /// <summary>
+    /// AccTrnDetailsReportResponseDto class.
+    /// </summary>
     public class AccTrnDetailsReportResponseDto
     {
         public ReportContextDto Context { get; set; } = new();

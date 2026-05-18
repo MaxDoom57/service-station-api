@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Customers;
+using Application.DTOs.Customers;
 using Application.Interfaces;
 using Domain.Entities;
 using Infrastructure.Context;
@@ -14,7 +14,10 @@ using System.Net.Sockets;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 
-public class CustomerService
+    /// <summary>
+    /// CustomerService class.
+    /// </summary>
+    public class CustomerService
 {
     private readonly IDynamicDbContextFactory _factory;
     private readonly IUserRequestContext _userContext;
@@ -148,7 +151,7 @@ public class CustomerService
     }
 
     // -------------------------------------------------------
-    // Helpers — add these inside the CustomerService class
+    // Helpers � add these inside the CustomerService class
     // -------------------------------------------------------
 
     private async Task TestTcpConnectionAsync(string connectionString, string callerMethod)
@@ -278,7 +281,7 @@ public class CustomerService
             // -------------------------------------------------------------
             // Get AccTypKy for "CUS"
             short accTypKy = await _lookup.GetAccountTypeKeyAsync(ourCd);
-            
+
             // Generate unique AccCd with datetime format
             string accCd = await GenerateUniqueAccCdAsync(conn, tx);
 
@@ -408,7 +411,7 @@ public class CustomerService
 
             if (count == 0)
                 return accCd;
-            
+
             // If collision, wait 10ms and try again
             await Task.Delay(10);
         }

@@ -8,6 +8,9 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/baycontrol")]
     [AllowAnonymous]
+    /// <summary>
+    /// BayControlController class.
+    /// </summary>
     public class BayControlController : ControllerBase
     {
         private readonly BayControlService _service;
@@ -84,7 +87,7 @@ namespace Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-    
+
         [HttpDelete("reservation/{resKy}")]
         public async Task<IActionResult> DeleteReservation(int resKy)
         {

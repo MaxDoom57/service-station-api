@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// AgentTokenService class.
+    /// </summary>
     public class AgentTokenService
     {
         private readonly IConfiguration _config;

@@ -4,20 +4,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// BayControl class.
+    /// </summary>
     public class BayControl
     {
         [Key]
         public int BayControlKy { get; set; }
 
         public int BayKy { get; set; } // FK to Bay
-        
+
         [MaxLength(20)]
-        public string BayCd { get; set; } 
+        public string BayCd { get; set; }
 
         public bool IsBayOccupied { get; set; } // 1 = Occupied, 0 = Available
 
         public int? CurrentVehicleKy { get; set; } // Active Vehicle on Bay
-        
+
         [MaxLength(100)]
         public string? CurrentActivity { get; set; } // e.g. "Oil Change", "Washing"
 

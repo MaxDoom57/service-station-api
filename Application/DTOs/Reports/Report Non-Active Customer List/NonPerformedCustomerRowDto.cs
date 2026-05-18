@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Reports.Report_Non_Active_Customer_List
 {
+    /// <summary>
+    /// NonPerformedCustomerRowDto class.
+    /// </summary>
     public class NonPerformedCustomerRowDto
     {
         public int AdrKy { get; set; }

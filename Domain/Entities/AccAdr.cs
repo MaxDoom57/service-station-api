@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// AccAdr class.
+    /// </summary>
     public class AccAdr
     {
         public int AccKy { get; set; }

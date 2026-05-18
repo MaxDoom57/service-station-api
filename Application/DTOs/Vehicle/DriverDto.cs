@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs.Vehicle
 {
+    /// <summary>
+    /// DriverDto class.
+    /// </summary>
     public class DriverDto
     {
         public int? DriverKy { get; set; } // Optional for updates if new driver

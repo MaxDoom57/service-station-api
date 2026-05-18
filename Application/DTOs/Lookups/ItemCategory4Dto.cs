@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Lookups
 {
+    /// <summary>
+    /// ItemCategory4Dto class.
+    /// </summary>
     public class ItemCategory4Dto
     {
         public int ItmCat4Ky { get; set; }

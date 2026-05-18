@@ -1,4 +1,4 @@
-﻿using Application.DTOs.PurchaseOrder;
+using Application.DTOs.PurchaseOrder;
 using Application.Interfaces;
 using Infrastructure.Context;
 using Microsoft.Data.SqlClient;
@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// PurchaseOrderService class.
+    /// </summary>
     public class PurchaseOrderService
     {
         private readonly IDynamicDbContextFactory _factory;

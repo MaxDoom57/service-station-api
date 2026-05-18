@@ -1,10 +1,13 @@
-﻿using Application.DTOs.Invoice;
+using Application.DTOs.Invoice;
 using Application.Interfaces;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// PaymentTermService class.
+    /// </summary>
     public class PaymentTermService
     {
         private readonly IDynamicDbContextFactory _factory;

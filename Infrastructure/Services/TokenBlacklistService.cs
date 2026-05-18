@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,9 @@ using Application.Interfaces;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// TokenBlacklistService class.
+    /// </summary>
     public class TokenBlacklistService : ITokenBlacklistService
     {
         private readonly IMemoryCache _cache;

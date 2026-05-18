@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// Service for managing reservations and bay assignments.
+    /// </summary>
     public class ReservationService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -33,6 +36,12 @@ namespace Infrastructure.Services
             _smsService = smsService;
         }
 
+        /// <summary>
+        /// Creates a new reservation, registers the vehicle if necessary, and assigns an initial bay slot.
+        /// Includes validation for unavailable dates and bay slot overlap constraints.
+        /// </summary>
+        /// <param name="dto">The full reservation details including vehicle and requested time slots.</param>
+        /// <returns>A tuple containing success status, result message, and the generated reservation key.</returns>
         public async Task<(bool success, string message, int resKy)> CreateReservationAsync(CreateFullReservationDto dto)
         {
             using var db = await _factory.CreateDbContextAsync();
@@ -112,6 +121,7 @@ namespace Infrastructure.Services
                     }
 
                     // 4. Overlap Check
+                    // Ensure that a single bay slot cannot have more than 3 overlapping bookings to prevent physical overallocation.
                     int overlapCount = await db.BayReservations.CountAsync(r =>
                         !r.fInAct && r.ResStatus != "Cancelled" &&
                         ((dto.BookingFrom >= r.FromDtm && dto.BookingFrom < r.ToDtm) ||
@@ -159,6 +169,13 @@ namespace Infrastructure.Services
             return result;
         }
 
+        /// <summary>
+        /// Updates an existing reservation, applying changes to package, remarks, and time slots.
+        /// Re-evaluates bay overlap constraints if the booking time changes.
+        /// </summary>
+        /// <param name="resKy">The reservation key to update.</param>
+        /// <param name="dto">The updated reservation details.</param>
+        /// <returns>A tuple indicating success or failure and a corresponding message.</returns>
         public async Task<(bool success, string message)> UpdateReservationAsync(int resKy, CreateFullReservationDto dto)
         {
              using var db = await _factory.CreateDbContextAsync();
@@ -171,7 +188,7 @@ namespace Infrastructure.Services
                  res.PackageKy = dto.PackageKy;
                  res.Remarks = dto.Remarks;
                  // Vehicle update? complicated. Assume vehicle doesn't change for a reservation usually.
-                 
+
                  // Update Bay Reservation Slot?
                  var bayRes = await db.BayReservations.FirstOrDefaultAsync(r => r.ReservationMasKy == resKy && !r.fInAct);
                  if (bayRes != null)
@@ -179,13 +196,13 @@ namespace Infrastructure.Services
                      // Check if times changed, validate overlap again
                      if (bayRes.FromDtm != dto.BookingFrom || bayRes.ToDtm != dto.BookingTo || bayRes.BayKy != dto.BayKy)
                      {
-                        int overlapCount = await db.BayReservations.CountAsync(r => 
+                        int overlapCount = await db.BayReservations.CountAsync(r =>
                             r.ReservationMasKy != resKy && // Exclude self
                             !r.fInAct && r.ResStatus != "Cancelled" &&
                             ((dto.BookingFrom >= r.FromDtm && dto.BookingFrom < r.ToDtm) ||
                              (dto.BookingTo > r.FromDtm && dto.BookingTo <= r.ToDtm) ||
                              (dto.BookingFrom <= r.FromDtm && dto.BookingTo >= r.ToDtm)));
-                        
+
                         if (overlapCount >= 3) return (false, "Validation Failed: Selected time period already has the maximum number of reservations (3).");
 
                         bayRes.BayKy = dto.BayKy;
@@ -193,7 +210,7 @@ namespace Infrastructure.Services
                         bayRes.ToDtm = dto.BookingTo;
                      }
                  }
-                 
+
                  await db.SaveChangesAsync();
                  return (true, "Reservation updated");
              }
@@ -203,6 +220,11 @@ namespace Infrastructure.Services
              }
         }
 
+        /// <summary>
+        /// Soft deletes a reservation and its active bay assignment by setting the fInAct flag.
+        /// </summary>
+        /// <param name="resKy">The reservation key to delete.</param>
+        /// <returns>A tuple indicating success or failure and a corresponding message.</returns>
         public async Task<(bool success, string message)> DeleteReservationAsync(int resKy)
         {
              using var db = await _factory.CreateDbContextAsync();
@@ -212,7 +234,7 @@ namespace Infrastructure.Services
                  if (res == null) return (false, "Not found");
 
                  res.fInAct = true;
-                 
+
                  var bayRes = await db.BayReservations.FirstOrDefaultAsync(r => r.ReservationMasKy == resKy && !r.fInAct);
                  if (bayRes != null)
                  {
@@ -229,6 +251,12 @@ namespace Infrastructure.Services
              }
         }
 
+        /// <summary>
+        /// Updates the status of a reservation and its associated active bay assignment.
+        /// </summary>
+        /// <param name="resKy">The primary key of the reservation (ReservationMas).</param>
+        /// <param name="status">The new status to apply (e.g., "Approved", "Job", "Cancelled").</param>
+        /// <returns>A tuple indicating success or failure along with a result message.</returns>
         public async Task<(bool success, string message)> ApproveReservationAsync(int resKy, string status)
         {
              using var db = await _factory.CreateDbContextAsync();
@@ -236,9 +264,10 @@ namespace Infrastructure.Services
              {
                  var res = await db.ReservationMas.FindAsync(resKy);
                  if (res == null) return (false, "Not found");
-                 
+
                  res.ResStatus = status;
 
+                 // Only update the active bay reservation (fInAct = false) linked to this booking
                  var bayRes = await db.BayReservations.FirstOrDefaultAsync(r => r.ReservationMasKy == resKy && !r.fInAct);
                  if (bayRes != null)
                  {
@@ -250,14 +279,22 @@ namespace Infrastructure.Services
              }
              catch (Exception ex)
              {
+                 // TODO: Integrate proper ILogger logging here to track database exceptions
                  return (false, "Error processing approval: " + ex.Message);
              }
         }
 
+        /// <summary>
+        /// Retrieves a detailed list of reservations, optionally filtered by vehicle ID and specific date.
+        /// Uses left joins to safely fetch related vehicle, account, and package information even if some links are missing.
+        /// </summary>
+        /// <param name="vehicleId">Optional vehicle ID to filter by.</param>
+        /// <param name="date">Optional specific date to filter by.</param>
+        /// <returns>A list of detailed reservation DTOs.</returns>
         public async Task<List<ReservationDetailDto>> GetReservationsAsync(string? vehicleId, DateTime? date)
         {
             using var db = await _factory.CreateDbContextAsync();
-            
+
             var query = from r in db.ReservationMas
                         join br in db.BayReservations on r.ResKy equals br.ReservationMasKy into brGroup
                         from br in brGroup.DefaultIfEmpty()

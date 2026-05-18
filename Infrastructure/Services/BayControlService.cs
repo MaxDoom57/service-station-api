@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// BayControlService class.
+    /// </summary>
     public class BayControlService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -45,14 +48,14 @@ namespace Infrastructure.Services
                     // Check BayControl (Real-time)
                     var control = await db.BayControls
                         .FirstOrDefaultAsync(c => c.BayKy == bay.BayKy);
-                    
+
                     bool isPhysicallyOccupied = control != null && control.IsBayOccupied;
 
                     // Check Reservations (Scheduled for NOW and Approved)
-                    bool isReservedNow = await db.BayReservations.AnyAsync(r => 
-                        r.BayKy == bay.BayKy && 
-                        !r.fInAct && 
-                        r.ResStatus == "Approved" && 
+                    bool isReservedNow = await db.BayReservations.AnyAsync(r =>
+                        r.BayKy == bay.BayKy &&
+                        !r.fInAct &&
+                        r.ResStatus == "Approved" &&
                         r.FromDtm <= now && r.ToDtm >= now
                     );
 
@@ -112,20 +115,20 @@ namespace Infrastructure.Services
         public async Task<(bool success, string message, int resKy)> CreateReservationAsync(CreateReservationDto dto)
         {
             using var db = await _factory.CreateDbContextAsync();
-            
+
             try
             {
                 // Simple overlap check
-                bool overlap = await db.BayReservations.AnyAsync(r => 
+                bool overlap = await db.BayReservations.AnyAsync(r =>
                     r.BayKy == dto.BayKy && !r.fInAct && r.ResStatus != "Cancelled" &&
                     ((dto.FromDtm >= r.FromDtm && dto.FromDtm < r.ToDtm) ||
                      (dto.ToDtm > r.FromDtm && dto.ToDtm <= r.ToDtm) ||
                      (dto.FromDtm <= r.FromDtm && dto.ToDtm >= r.ToDtm)));
-    
+
                 if (overlap) return (false, "Slot already reserved/requested", 0);
-    
+
                 var userKey = await _userKeyService.GetUserKeyAsync(_userContext.UserId, _userContext.CompanyKey);
-                
+
                 var res = new BayReservation
                 {
                     BayKy = dto.BayKy,
@@ -139,7 +142,7 @@ namespace Infrastructure.Services
                     EntUsrKy = userKey ?? 0,
                     EntDtm = AppTime.Now
                 };
-    
+
                 db.BayReservations.Add(res);
                 await db.SaveChangesAsync();
                 return (true, "Reservation created successfully, pending approval", res.ResKy);
@@ -158,7 +161,7 @@ namespace Infrastructure.Services
             {
                 var res = await db.BayReservations.FindAsync(resKy);
                 if (res == null) return (false, "Reservation not found");
-                
+
                 res.ResStatus = status; // e.g. Approved, Cancelled
                 await db.SaveChangesAsync();
                 return (true, "Status updated");
@@ -178,7 +181,7 @@ namespace Infrastructure.Services
             {
                 var control = await db.BayControls.FirstOrDefaultAsync(c => c.BayKy == dto.BayKy); // One-to-one
                 var bay = await db.Bays.FindAsync(dto.BayKy);
-    
+
                 if (control == null)
                 {
                     if (bay == null) return (false, "Bay not found");
@@ -190,13 +193,13 @@ namespace Infrastructure.Services
                     };
                     db.BayControls.Add(control);
                 }
-    
+
                 control.IsBayOccupied = dto.IsOccupied;
                 control.CurrentVehicleKy = dto.VehicleKy;
                 control.CurrentActivity = dto.CurrentActivity;
                 control.EstimatedFinishDtm = dto.EstimatedFinishDtm;
                 control.LastUpdDtm = AppTime.Now;
-    
+
                 await db.SaveChangesAsync();
                 return (true, "Bay status updated");
             }
@@ -214,7 +217,7 @@ namespace Infrastructure.Services
              {
                  return await db.Bays
                      .Where(b => !b.fInAct && b.IsReservationAvailable)
-                     .Select(b => new BayDto 
+                     .Select(b => new BayDto
                      {
                          BayKy = b.BayKy,
                          BayCd = b.BayCd,
@@ -236,13 +239,13 @@ namespace Infrastructure.Services
             try
             {
                 var query = db.BayReservations.Where(r => !r.fInAct);
-    
+
                 if (!string.IsNullOrEmpty(status))
                     query = query.Where(r => r.ResStatus == status);
-    
+
                 if (date.HasValue)
                     query = query.Where(r => r.FromDtm.Date == date.Value.Date);
-    
+
                 return await query.Select(r => new ReservationDto
                 {
                     ResKy = r.ResKy,
@@ -269,7 +272,7 @@ namespace Infrastructure.Services
             {
                 var res = await db.BayReservations.FindAsync(resKy);
                 if (res == null) return (false, "Reservation not found");
-                
+
                 res.fInAct = true;
                 await db.SaveChangesAsync();
                 return (true, "Reservation deleted");

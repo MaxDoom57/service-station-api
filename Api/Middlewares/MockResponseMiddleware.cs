@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Api.Middlewares
 {
+    /// <summary>
+    /// MockResponseMiddleware class.
+    /// </summary>
     public class MockResponseMiddleware
     {
         private readonly RequestDelegate _next;
@@ -34,10 +37,10 @@ namespace Api.Middlewares
             // Replace / with _ to make it a valid filename.
             // Example Request: GET /api/ssms/v0.1/calendar/unavailable-dates
             // Mock File: GET_api_ssms_v0.1_calendar_unavailable-dates.json
-            
+
             var method = context.Request.Method.ToUpper();
             var path = context.Request.Path.Value?.Trim('/').Replace('/', '_');
-            
+
             if (string.IsNullOrEmpty(path))
             {
                 path = "root";

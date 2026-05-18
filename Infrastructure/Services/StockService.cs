@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+using Application.DTOs;
 using Application.DTOs.Stock_Addition;
 using Application.DTOs.StockDeduction;
 using Application.Interfaces;
@@ -9,6 +9,9 @@ using System.Data;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// StockService class.
+    /// </summary>
     public class StockService
     {
         private readonly IDynamicDbContextFactory _factory;
@@ -17,9 +20,9 @@ namespace Infrastructure.Services
         private readonly IValidationService _validator;
 
         public StockService(
-            IDynamicDbContextFactory factory, 
-            IUserRequestContext userContext, 
-            IUserKeyService userKeyService, 
+            IDynamicDbContextFactory factory,
+            IUserRequestContext userContext,
+            IUserKeyService userKeyService,
             IValidationService validator)
         {
             _factory = factory;
@@ -303,8 +306,8 @@ namespace Infrastructure.Services
                 var cmdGetKy = conn.CreateCommand();
                 cmdGetKy.Transaction = tx;
                 cmdGetKy.CommandText = @"
-                    SELECT TrnKy 
-                    FROM vewTrnNo 
+                    SELECT TrnKy
+                    FROM vewTrnNo
                     WHERE OurCd='STKADD' AND TrnNo=@TrnNo";
 
                 cmdGetKy.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
@@ -318,7 +321,7 @@ namespace Infrastructure.Services
 
                 cmdUpdate.CommandText = @"
                     UPDATE TrnMas
-                    SET TrnDt=@TrnDt, LocKy=@LocKy, Des=@Des, 
+                    SET TrnDt=@TrnDt, LocKy=@LocKy, Des=@Des,
                         EntUsrKy=@UsrKy, EntDtm=GETDATE(), Status='U'
                     WHERE TrnKy=@TrnKy";
 
@@ -508,8 +511,8 @@ namespace Infrastructure.Services
                 // ---------------------------------------------------------
                 var cmdGetTrnKy = conn.CreateCommand();
                 cmdGetTrnKy.CommandText = @"
-                            SELECT TrnKy 
-                            FROM vewTrnNo 
+                            SELECT TrnKy
+                            FROM vewTrnNo
                             WHERE OurCd='STKDED' AND TrnNo=@TrnNo";
 
                 cmdGetTrnKy.Parameters.Add(new SqlParameter("@TrnNo", trnNo));
@@ -527,8 +530,8 @@ namespace Infrastructure.Services
                 // ---------------------------------------------------------
                 var cmdHdr = conn.CreateCommand();
                 cmdHdr.CommandText = @"
-                            SELECT TrnDt, Des, LocKy, TrnKy 
-                            FROM vewStkDedHdr 
+                            SELECT TrnDt, Des, LocKy, TrnKy
+                            FROM vewStkDedHdr
                             WHERE TrnNo=@TrnNo;
                         ";
 
@@ -560,7 +563,7 @@ namespace Infrastructure.Services
                 // ---------------------------------------------------------
                 var cmdDtl = conn.CreateCommand();
                 cmdDtl.CommandText = @"
-                            SELECT 
+                            SELECT
                                 ItmKy, ItmCd, ItmNm, Unit, CosPri, SlsPri, TrnPri, Qty, ItmTrnKy
                             FROM vewStkDedDtls
                             WHERE TrnKy = @TrnKy;
@@ -640,8 +643,8 @@ namespace Infrastructure.Services
                 var cmdGetTrnNo = conn.CreateCommand();
                 cmdGetTrnNo.Transaction = tx;
                 cmdGetTrnNo.CommandText = @"
-                            SELECT ISNULL(MAX(TrnNo), 0) + 1 
-                            FROM TrnMas 
+                            SELECT ISNULL(MAX(TrnNo), 0) + 1
+                            FROM TrnMas
                             WHERE OurCd='STKDED'";
 
                 //cmdGetTrnNo.Parameters.Add(new SqlParameter("@CKy", _userContext.CompanyKey));
@@ -686,7 +689,7 @@ namespace Infrastructure.Services
                 cmdGetTrnKy.Transaction = tx;
 
                 cmdGetTrnKy.CommandText = @"
-                                SELECT TrnKy 
+                                SELECT TrnKy
                                 FROM vewTrnNo
                                 WHERE OurCd='STKDED' AND TrnNo=@TrnNo";
 
@@ -775,8 +778,8 @@ namespace Infrastructure.Services
                 cmdFind.Transaction = tx;
 
                 cmdFind.CommandText = @"
-                            SELECT TrnKy 
-                            FROM TrnMas 
+                            SELECT TrnKy
+                            FROM TrnMas
                             WHERE OurCd='STKDED' AND TrnNo=@TrnNo AND fInAct=0
                         ";
 
@@ -798,7 +801,7 @@ namespace Infrastructure.Services
 
                 cmdUpdateMas.CommandText = @"
                             UPDATE TrnMas
-                            SET 
+                            SET
                                 TrnDt=@TrnDt,
                                 LocKy=@LocKy,
                                 Des=@Des,

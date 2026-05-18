@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// vewTrnTypCd class.
+    /// </summary>
     public class vewTrnTypCd
     {
         public short TrnTypKy { get; set; }

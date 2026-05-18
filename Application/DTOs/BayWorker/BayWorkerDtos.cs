@@ -1,5 +1,8 @@
 namespace Application.DTOs.BayWorker
 {
+    /// <summary>
+    /// CreateBayWorkerDto class.
+    /// </summary>
     public class CreateBayWorkerDto
     {
         public int BayKy { get; set; }

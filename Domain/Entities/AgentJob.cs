@@ -1,5 +1,8 @@
 namespace Domain.Entities
 {
+    /// <summary>
+    /// AgentJob class.
+    /// </summary>
     public class AgentJob
     {
         public Guid JobId { get; set; }

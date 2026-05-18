@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Application.DTOs.Order
 {
+    /// <summary>
+    /// CreateOrderDto class.
+    /// </summary>
     public class CreateOrderDto
     {
         // Order Master Fields

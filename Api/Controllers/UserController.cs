@@ -1,4 +1,4 @@
-﻿using Application.DTOs.User;
+using Application.DTOs.User;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +8,9 @@ namespace API.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/users")]
     [AllowAnonymous]
+    /// <summary>
+    /// UserController class.
+    /// </summary>
     public class UserController : ControllerBase
     {
         private readonly UserService _service;

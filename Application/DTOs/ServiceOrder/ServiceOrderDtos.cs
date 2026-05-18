@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Application.DTOs.ServiceOrder
 {
+    /// <summary>
+    /// CreateServiceOrderDto class.
+    /// </summary>
     public class CreateServiceOrderDto
     {
         // Customer Details (If new, simplified. If existing, we lookup by Vehicle usually, but here explicit details requested)
@@ -11,19 +14,19 @@ namespace Application.DTOs.ServiceOrder
         public string? CustomerPhone { get; set; }
         // If system needs to link to existing account, we might need Account ID, but prompt says "with customer details(name, id...)"
         // I'll assume we try to match or use existing Account from Vehicle if available.
-        
+
         // Vehicle Details
         public string VehicleId { get; set; }
         public float? CurrentMileage { get; set; }
         public string? DamageNote { get; set; }
         public string? AdditionalNotes { get; set; } // Remarks
-        
+
         // Service Details
         public int? PackageKy { get; set; }                              // Optional
         public List<ServiceOrderItemInputDto>? Items { get; set; }       // Used when no PackageKy
         public int BayKy { get; set; }
         public string? UserId { get; set; } // Not required
-        
+
         // Image Details
         public string? SignatureImage { get; set; } // Base64
         public List<string>? VehicleImages { get; set; } // List of Base64
@@ -48,7 +51,7 @@ namespace Application.DTOs.ServiceOrder
     {
         public int ServiceOrdDetKy { get; set; }
         public bool IsApproved { get; set; } // If false, maybe reject/delete?
-        
+
         // Approval Details
         public string CustName { get; set; }
         public string IpAddress { get; set; }
@@ -66,7 +69,7 @@ namespace Application.DTOs.ServiceOrder
     public class UpdateServiceOrderStatusDto
     {
         public int ServiceOrdKy { get; set; }
-        public string Status { get; set; } 
+        public string Status { get; set; }
         public string? UserId { get; set; } // Not required
     }
 

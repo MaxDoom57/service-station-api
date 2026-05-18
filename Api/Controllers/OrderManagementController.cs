@@ -45,7 +45,7 @@ namespace Api.Controllers
                 var order = await _service.GetOrderByOrderNoAsync(ordNo);
                 if (order == null)
                     return NotFound("Order not found");
-                
+
                 return Ok(order);
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace Api.Controllers
                 var order = await _service.GetOrderByKeyAsync(ordKy);
                 if (order == null)
                     return NotFound("Order not found");
-                
+
                 return Ok(order);
             }
             catch (Exception ex)
@@ -85,7 +85,7 @@ namespace Api.Controllers
                 var result = await _service.CreateOrderAsync(dto);
                 if (!result.success)
                     return BadRequest(result.message);
-    
+
                 return Ok(new { result.message, result.ordKy });
             }
             catch (Exception ex)
@@ -134,11 +134,11 @@ namespace Api.Controllers
                     OrdRem = dto.OrdRem,
                     OrderDetails = dto.OrderDetails
                 };
-    
+
                 var result = await _service.UpdateOrderAsync(updateDto);
                 if (!result.success)
                     return BadRequest(result.message);
-    
+
                 return Ok(result.message);
             }
             catch (Exception ex)
@@ -158,7 +158,7 @@ namespace Api.Controllers
                 var result = await _service.DeleteOrderAsync(ordKy);
                 if (!result.success)
                     return BadRequest(result.message);
-    
+
                 return Ok(result.message);
             }
             catch (Exception ex)

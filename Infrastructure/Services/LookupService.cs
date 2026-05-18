@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// LookupService class.
+    /// </summary>
     public class LookupService
     {
         private readonly IDynamicDbContextFactory _factory;

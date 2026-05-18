@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// vewPODtls class.
+    /// </summary>
     public class vewPODtls
     {
         public int? ItmKy { get; set; }

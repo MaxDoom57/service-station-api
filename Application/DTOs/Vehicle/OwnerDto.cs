@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs.Vehicle
 {
+    /// <summary>
+    /// OwnerDto class.
+    /// </summary>
     public class OwnerDto
     {
         // Address Details

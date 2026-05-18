@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Reports;
+using Application.DTOs.Reports;
 using Application.DTOs.Reports.Report_Account_Balance_As_At;
 using Application.DTOs.Reports.Report_Account_Ledger;
 using Application.DTOs.Reports.Report_Account_Transaction_Details;
@@ -29,6 +29,9 @@ namespace POS.API.Controllers
     [ApiController]
     [Route("api/ssms/v0.1/Reports")]
     [Authorize]
+    /// <summary>
+    /// ReportsController class.
+    /// </summary>
     public class ReportsController : ControllerBase
     {
         private readonly ReportService _service;

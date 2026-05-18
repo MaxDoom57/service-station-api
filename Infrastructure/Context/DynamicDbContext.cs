@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Context
 {
+    /// <summary>
+    /// DynamicDbContext class.
+    /// </summary>
     public class DynamicDbContext : DbContext
     {
         public DynamicDbContext(DbContextOptions<DynamicDbContext> options) : base(options)

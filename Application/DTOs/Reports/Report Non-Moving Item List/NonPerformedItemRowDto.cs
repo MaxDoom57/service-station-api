@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Reports.Report_Non_Moving_Item_List
 {
+    /// <summary>
+    /// NonPerformedItemRowDto class.
+    /// </summary>
     public class NonPerformedItemRowDto
     {
         public int ItmKy { get; set; }

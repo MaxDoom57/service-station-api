@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Application.DTOs.Invoice
 {
+    /// <summary>
+    /// UpdateInvoiceDto class.
+    /// </summary>
     public class UpdateInvoiceDto
     {
         public int TrnKy { get; set; }          // invoice key to update

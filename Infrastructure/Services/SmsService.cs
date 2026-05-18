@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
+    /// <summary>
+    /// SmsService class.
+    /// </summary>
     public class SmsService : ISmsService
     {
         private readonly IHttpClientFactory _httpClientFactory;

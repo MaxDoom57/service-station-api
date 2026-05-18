@@ -1,5 +1,8 @@
 namespace Application.DTOs.Reservation
 {
+    /// <summary>
+    /// OtpInitDto class.
+    /// </summary>
     public class OtpInitDto
     {
         public CreateFullReservationDto ReservationDetails { get; set; }

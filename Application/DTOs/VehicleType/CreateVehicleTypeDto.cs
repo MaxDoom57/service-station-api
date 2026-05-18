@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs.VehicleType
 {
+    /// <summary>
+    /// CreateVehicleTypeDto class.
+    /// </summary>
     public class CreateVehicleTypeDto
     {
         public int? CdKy { get; set; } // For Update

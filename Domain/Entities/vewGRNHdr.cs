@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
+    /// <summary>
+    /// vewGRNHdr class.
+    /// </summary>
     public class vewGRNHdr
     {
         public int TrnNo { get; set; }
