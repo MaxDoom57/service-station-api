@@ -139,11 +139,22 @@ namespace Api.Controllers
         }
 
         [HttpPut("{resKy}/approval")]
-        public async Task<IActionResult> ApproveReservation(int resKy, [FromQuery] bool approve)
+        public async Task<IActionResult> ApproveReservation(int resKy, [FromQuery] bool? approve, [FromQuery] string? status)
         {
              try
              {
-                 var result = await _service.ApproveReservationAsync(resKy, approve);
+                 string finalStatus = status;
+                 if (string.IsNullOrEmpty(finalStatus) && approve.HasValue)
+                 {
+                     finalStatus = approve.Value ? "Approved" : "Cancelled";
+                 }
+
+                 if (string.IsNullOrEmpty(finalStatus))
+                 {
+                     return BadRequest("Status or Approve parameter is required");
+                 }
+
+                 var result = await _service.ApproveReservationAsync(resKy, finalStatus);
                  return Ok(result.message);
              }
              catch (Exception ex)

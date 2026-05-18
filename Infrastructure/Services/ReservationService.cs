@@ -229,7 +229,7 @@ namespace Infrastructure.Services
              }
         }
 
-        public async Task<(bool success, string message)> ApproveReservationAsync(int resKy, bool approve)
+        public async Task<(bool success, string message)> ApproveReservationAsync(int resKy, string status)
         {
              using var db = await _factory.CreateDbContextAsync();
              try
@@ -237,8 +237,6 @@ namespace Infrastructure.Services
                  var res = await db.ReservationMas.FindAsync(resKy);
                  if (res == null) return (false, "Not found");
                  
-                 string status = approve ? "Approved" : "Cancelled"; // Or Rejected
-
                  res.ResStatus = status;
 
                  var bayRes = await db.BayReservations.FirstOrDefaultAsync(r => r.ReservationMasKy == resKy && !r.fInAct);
